@@ -1,7 +1,6 @@
 #ifndef HAND_H
 #define HAND_H
-#include"Card.cpp"
-#include"Deck.cpp"
+#include"Deck.h"
 using namespace std;
 
 class Hand {

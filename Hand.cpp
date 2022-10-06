@@ -23,12 +23,12 @@ using namespace std;
 
 	void Hand::drawFrom(Deck& d) {
 		if (d.list.size() == 0) {
-			cout << "There is no more cards remain in the deck.";
+			cout << "\nThere is no more cards remain in the deck.";
 		}
 		else {
 			Card c = d.draw();
 			cards.push_back(c);
-			cout << "Player " << name << " drew card: " << cards[cards.size() - 1].type;
+			cout << "\nPlayer " << name << " drew card: " << cards[cards.size() - 1].type;
 		}
 	}
 

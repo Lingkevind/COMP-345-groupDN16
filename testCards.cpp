@@ -1,4 +1,4 @@
-#include "Hand.cpp"
+#include "Hand.h"
 #include<stdexcept>
 using namespace std;
 int main() {

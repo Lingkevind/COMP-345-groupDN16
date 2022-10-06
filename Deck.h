@@ -1,6 +1,6 @@
 #ifndef DECK_H
 #define DECK_H
-#include"Card.cpp"
+#include"Card.h"
 #include<vector>
 #include<random>
 using namespace std;
