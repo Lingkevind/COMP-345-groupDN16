@@ -19,6 +19,7 @@ public:
 	*/
 	Territory(string name);
 	Territory();
+	Territory(const Territory& t);
 
 	/**
 	* Gets the name of the territory.

@@ -12,6 +12,7 @@ using std::vector;
 class MapLoader {
 public:
 	MapLoader();
+	MapLoader(const MapLoader& ml);
 	Map* loadMap(string);
 
 private:

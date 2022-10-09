@@ -11,6 +11,15 @@ Territory::Territory(string name) : name(name), adjacentTerritories()  {
 
 Territory::Territory() {}
 
+Territory::Territory(const Territory& t) {
+	name = t.name;
+	controllingPlayer = t.controllingPlayer;
+	continent = t.continent;
+	armySize = t.armySize;
+	adjacentTerritories = t.adjacentTerritories;
+	coordinates = t.coordinates;
+}
+
 string Territory::getName() {
 	return name;
 }

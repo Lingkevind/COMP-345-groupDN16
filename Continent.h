@@ -19,6 +19,8 @@ public:
 	* @param territoryCount Number of territories in the continent.
 	*/
 	Continent(string name, int territoryCount);
+	Continent(const Continent& c);
+
 
 	/**
 	* Gets the name of the continent.

@@ -5,6 +5,12 @@
 
 Continent::Continent(string name, int territoryCount) : name(name), territoryCount(territoryCount) { }
 
+Continent::Continent(const Continent& c) {
+	name = c.name;
+	territoryCount = c.territoryCount;
+	territories = c.territories;
+}
+
 string Continent::getName() {
 	return name;
 }

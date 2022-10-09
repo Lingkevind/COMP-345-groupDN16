@@ -12,6 +12,7 @@ struct Coord {
 		* @param y x coordinates.
 		*/
 		Coord(int x, int y);
+		Coord(const Coord& c);
 		int x;
 		int y;
 };

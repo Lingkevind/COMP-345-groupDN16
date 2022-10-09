@@ -11,6 +11,7 @@ public:
 	*
 	*/
 	Map();
+	Map(const Map& m);
 
 	/*
 	* Adds the given continent to the Map.

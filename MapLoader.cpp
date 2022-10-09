@@ -10,6 +10,11 @@ MapLoader::MapLoader() {
 	this->map = new Map();
 }
 
+MapLoader::MapLoader(const MapLoader& ml) {
+	map = ml.map;
+	mapFile = ml.mapFile;
+}
+
 enum Section { None, MapSection, ContinentSection, TerritorySection };
 
 Map* MapLoader::loadMap(string fileName) {
