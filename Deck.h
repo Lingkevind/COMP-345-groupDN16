@@ -11,6 +11,8 @@ public:
 	Deck();
 	Deck(vector<Card> l);
 	Deck(const Deck& d);
+	Deck& operator=(const Deck& d);
+	friend ostream& operator<<(ostream& os, const Deck& d);
 	void initialize();
 	void shuffleOnce();
 	void randomShuffle();

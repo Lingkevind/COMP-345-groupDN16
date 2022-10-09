@@ -9,9 +9,13 @@ public:
 	string name;
 	Hand(string n);
 	Hand(vector<Card> c, string n);
-	Hand(const Hand& c);
+	Hand(const Hand& h);
+	Hand& operator=(const Hand& h);
+	friend ostream& operator<<(ostream& os, const Hand& h);
 	void display();
 	void drawFrom(Deck& d);
 	void playCards(int i, string target, Deck& d);
 };
+
+void testCards();
 #endif

@@ -10,7 +10,17 @@ using namespace std;
 		type = c.type;
 	}
 
+	Card& Card::operator=(const Card &c) {
+		type = c.type;
+		return *this;
+	};
+
 	string Card::play(string target) {
 		string s = type + " on " + target;
 		return s;
+	}
+
+	ostream& operator<<(ostream& os, const Card& c) {
+		os <<"Type:" << c.type;
+		return os;
 	}

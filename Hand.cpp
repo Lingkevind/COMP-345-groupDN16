@@ -9,10 +9,16 @@ using namespace std;
 		cards = c;
 		name = n;
 	}
-	Hand::Hand(const Hand& c) {
-		cards = c.cards;
-		name = c.name;
+	Hand::Hand(const Hand& h) {
+		cards = h.cards;
+		name = h.name;
 	}
+
+	Hand& Hand::operator=(const Hand& h) {
+		cards = h.cards;
+		name = h.name;
+		return *this;
+	};
 
 	void Hand::display() {
 		cout << "\ncards amount:" << cards.size();
@@ -37,10 +43,66 @@ using namespace std;
 			cout << "Player " << name << " does not have card with this index";
 		}
 		else {
-				string s = "Player " + name + " played " + cards[i].play(target);
+				string s = name + " played " + cards[i].play(target);
 				d.list.push_back(cards[i]);
 				d.randomShuffle();
 				cards.erase(cards.begin()+i);
-				cout << s;
+				cout << s<<"\n";
 		}
 	}
+
+	ostream& operator<<(ostream& os, const Hand& h) {
+		os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
+		return os;
+	}
+
+	void testCards() {
+		cout << "Welcome to Warzone card system tester 1.1!\n=========================================";
+		int option = 0;
+		while (option == 0) {
+			cout << "\nInput 1 to create deck ";
+			cin >> option;
+			while (option != 1) {
+				cout << "\nThat's not a valid input";
+				cout << "\nInput 1 to create deck ";
+				cin >> option;
+			}
+			Deck d = Deck();
+			d.initialize();
+			d.randomShuffle();
+			cout << "\nDeck created\n=========================================";
+			d.display();
+			cout << "\n=========================================\nInput 2 to create hand ";
+			cin >> option;
+			while (option != 2) {
+				cout << "\nThat's not a valid input";
+				cout << "\nInput 2 to create hand ";
+				cin >> option;
+			}
+			Hand player = Hand("AI");
+			cout << "\nHand created\n";
+			cout << player;
+			cout <<"\n=========================================";
+			cout << "\nInput the amount of cards to draw ";
+			cin >> option;
+			for (int i = 0; i < option; i++) {
+				player.drawFrom(d);
+			}
+			cout << "\n" << player.cards.size() << " cards drawn\n";
+			player.display();
+			cout << "\n=========================================\nInput 3 to play all cards in player's hand ";
+			cin >> option;
+			while (option != 3) {
+				cout << "\nThat's not a valid input";
+				cout << "\nInput 3 to play all cards in player's hand ";
+				cin >> option;
+			}
+			while (player.cards.size() > 0) {
+				player.playCards(0, "defaultMap", d);
+			}
+			cout << "\n=========================================\nProgress has finished, input 0 to rerun, input any other int to exit ";
+			cin >> option;
+		}
+
+		cout << "Terminating the program, thanks for using.";
+	};

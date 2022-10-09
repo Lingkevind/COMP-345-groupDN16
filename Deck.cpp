@@ -10,6 +10,11 @@ using namespace std;
 		list = d.list;
 	}
 
+	Deck& Deck::operator=(const Deck& d) {
+		list = d.list;
+		return *this;
+	};
+
 	void Deck::initialize() {
 		vector<Card> newList;
 		int i = 0;
@@ -81,4 +86,9 @@ using namespace std;
 		for (int i = 0; i < list.size(); i++) {
 			cout << list[i].type << "\n";
 		}
+	}
+
+	ostream& operator<<(ostream& os, const Deck& d) {
+		os << typeid(d).name()<<", Card remain:"<<d.list.size();
+		return os;
 	}
