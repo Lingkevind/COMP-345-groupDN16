@@ -1,5 +1,4 @@
 #include"Hand.h"
-using namespace std;
 
 	Hand::Hand(string n) {
 		cards = vector<Card>();
@@ -51,10 +50,10 @@ using namespace std;
 		}
 	}
 
-	ostream& operator<<(ostream& os, const Hand& h) {
-		os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
-		return os;
-	}
+	//ostream& operator<<(ostream& os, const Hand& h) {
+	//	os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
+	//	return os;
+	//}
 
 	void testCards() {
 		cout << "Welcome to Warzone card system tester 1.1!\n=========================================";
@@ -81,7 +80,7 @@ using namespace std;
 			}
 			Hand player = Hand("AI");
 			cout << "\nHand created\n";
-			cout << player;
+			cout << player.name;
 			cout <<"\n=========================================";
 			cout << "\nInput the amount of cards to draw ";
 			cin >> option;

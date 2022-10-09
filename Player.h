@@ -3,10 +3,13 @@
 #include <string>
 #include <vector>
 #include "Territory.h"
-#include "p4/Hand.h"
-#include "OrdersList/Orders.h"
+#include "Hand.h"
+#include "Orders.h"
 
 static int playerNum = 0;
+
+class Territory;
+
 class Player
 {
 	std::vector <Territory> playerOccupied;

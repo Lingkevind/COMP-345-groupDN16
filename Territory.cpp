@@ -3,8 +3,7 @@
 #include "Territory.h"
 #include "Coord.h"
 #include <vector>
-
-using namespace std;
+#include "Player.h"
 
 Territory::Territory(string name) : name(name), adjacentTerritories()  { 
 	this->coordinates = new Coord(-1, -1);
@@ -16,8 +15,8 @@ string Territory::getName() {
 	return name;
 }
 
-string Territory::getControllingPlayerName() {
-	return controllingPlayerName;
+Player* Territory::getControllingPlayer() {
+	return controllingPlayer;
 }
 
 string Territory::getContinent() {
@@ -44,8 +43,8 @@ void Territory::setName(string name) {
 	this->name = name;
 }
 
-void Territory::setControllingPlayerName(string playerName) {
-	this->controllingPlayerName = playerName;
+void Territory::setControllingPlayer(Player* player) {
+	this->controllingPlayer = player;
 }
 
 void Territory::setContinent(string continent) {
@@ -63,3 +62,11 @@ void Territory::setCoordY(int y) {
 void Territory::setArmySize(int newArmySize) {
 	this->armySize = newArmySize;
 }
+
+Territory& Territory::operator=(const Territory& t) {
+	name = t.name;
+	controllingPlayer = t.controllingPlayer;
+	continent = t.continent;
+
+	return *this;
+};

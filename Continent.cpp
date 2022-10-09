@@ -3,8 +3,6 @@
 #include "Continent.h"
 #include <vector>
 
-using namespace std;
-
 Continent::Continent(string name, int territoryCount) : name(name), territoryCount(territoryCount) { }
 
 string Continent::getName() {
@@ -24,12 +22,19 @@ void Continent::addTerritory(Territory* territory) {
 }
 
 ostream& operator<<(ostream& os, Continent& continent) {
-	os << continent.getName() << " : owned countries are : " << endl;
+	os << continent.getName() << " : owned territories are : " << endl;
 	for (Territory* t : continent.getTerritories())
 		os << t;
 	cout << endl;
 	return os;
 }
+
+Continent& Continent::operator=(const Continent& c) {
+	name = c.name;
+	territories = c.territories;
+	territoryCount = c.territoryCount;
+	return *this;
+};
 
 
 

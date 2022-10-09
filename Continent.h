@@ -27,6 +27,11 @@ public:
 	*/
 	string getName();
 
+	// free operator declaration
+	friend ostream& operator<<(ostream& os, const Continent& continent);
+
+	Continent& operator= (const Continent& c);
+
 	/**
 	* Gets the number of territories in the continent.
 	*
@@ -43,11 +48,10 @@ public:
 	*/
 	void addTerritory(Territory* territory);
 
+
 private:
 	string name;
 	int territoryCount;
 	vector<Territory*> territories;
 };
 
-// free operator declaration
-ostream& operator<<(ostream& os, const Continent& continent);

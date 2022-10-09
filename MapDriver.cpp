@@ -10,7 +10,6 @@
 #include "MapDriver.h";
 #include <windows.h> 
 
-using namespace std;
 
 // Main code & entry point of the program
 int main()

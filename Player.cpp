@@ -1,5 +1,6 @@
 #include "Player.h"
-
+#include "Orders.h"
+#include "Hand.h"
 
 	Player::Player() {
 		std::string playerName = "default";

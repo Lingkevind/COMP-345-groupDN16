@@ -9,6 +9,3 @@ struct Coord {
 		int x;
 		int y;
 };
-
-// free operator declaration
-ostream& operator<<(ostream& os, const Coord& coord);

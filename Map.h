@@ -16,7 +16,7 @@ public:
 
 	/*
 	* Adds the given continent to the Map.
-	* 
+	*
 	* @param continent The continent to be added to the map.
 	*/
 	void addContinent(Continent* continent);
@@ -39,7 +39,7 @@ private:
 	string imageFile;
 
 	/**
-	* Checks if the map is a connected subgraph by using a Depth First Traversal. 
+	* Checks if the map is a connected subgraph by using a Depth First Traversal.
 	* The success of this check indicates that both the territories and continents are a connected subgraph.
 	*/
 	bool isMapConnectedSubgraph();
@@ -56,5 +56,5 @@ private:
 };
 
 // free operator declaration
-ostream& operator<<(ostream& os, const Map& map);
+//ostream& operator<<(ostream& os, const Map& map);
 

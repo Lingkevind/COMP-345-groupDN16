@@ -1,5 +1,5 @@
 #include"Deck.h"
-using namespace std;
+
 	Deck::Deck() {
 		list = vector<Card>();
 	}
@@ -88,7 +88,7 @@ using namespace std;
 		}
 	}
 
-	ostream& operator<<(ostream& os, const Deck& d) {
+	/*ostream& operator<<(ostream& os, const Deck& d) {
 		os << typeid(d).name()<<", Card remain:"<<d.list.size();
 		return os;
-	}
+	}*/

@@ -25,5 +25,5 @@ public:
 };
 
 // free operator declaration
-ostream& operator<<(ostream& os, const MapDriver& mapDriver);
+//ostream& operator<<(ostream& os, const MapDriver& mapDriver);
 

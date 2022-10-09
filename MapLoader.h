@@ -63,4 +63,4 @@ private:
 };
 
 // free operator declaration
-ostream& operator<<(ostream& os, const MapLoader& mapLoader);
+// ostream& operator<<(ostream& os, const MapLoader& mapLoader);

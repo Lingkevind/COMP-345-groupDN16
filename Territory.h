@@ -5,20 +5,23 @@ using std::string;
 #include <vector>
 using std::vector;
 #include "Coord.h"
+#include "Player.h"
+
+class Player;
 
 class Territory {
 public:
 	Territory(string name);
 	Territory();
 	string getName();
-	string getControllingPlayerName();
+	Player* getControllingPlayer();
 	string getContinent();
 	vector<Territory*> getAdjacentTerritories();
 	void addAjacentTerritory(Territory* territory);
 
 	int getArmySize();
 	void setName(string name);
-	void setControllingPlayerName(string playerName);
+	void setControllingPlayer(Player* player);
 	void setContinent(string continent);
 	void setCoordX(int x);
 	void setCoordY(int y);
@@ -26,14 +29,14 @@ public:
 	void setArmySize(int newArmySize);
 	Coord* getCoordinates();
 
+	Territory& operator=(const Territory& t);
+
 private:
 	string name;
-	string controllingPlayerName;			//@TODO Change type to Player*
+	Player* controllingPlayer;		
 	string continent;
 	vector<Territory*> adjacentTerritories;
 	int armySize;
 	Coord* coordinates;
 };
 
-// free operator declaration
-ostream& operator<<(ostream& os, const Territory& territory);
