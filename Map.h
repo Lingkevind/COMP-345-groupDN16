@@ -3,8 +3,6 @@
 #include "Continent.h"
 #include <map>
 
-
-// Class Declaration 
 class Map {
 
 public:
@@ -21,12 +19,39 @@ public:
 	*/
 	void addContinent(Continent* continent);
 
+	/*
+	* Gets the continents of the map
+	*
+	* @return the continents of the map.
+	*/
 	vector<Continent*> getContinents();
 
+	/*
+	* Gets the author of the map
+	*
+	* @return the author of the map.
+	*/
 	string getAuthor();
-	void setAuthor(string);
 
+	/*
+	* Sets the author of the map
+	*
+	* @param author The author of the map.
+	*/
+	void setAuthor(string author);
+
+	/*
+	* Gets the image file of the map
+	*
+	* @return the imagefile of the map.
+	*/
 	string getImageFile();
+
+	/*
+	* Sets the image file of the map
+	*
+	* @param imageFile the image file of the map.
+	*/
 	void setImageFile(string imageFile);
 
 	/**
