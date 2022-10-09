@@ -4,6 +4,7 @@
 #include <vector>
 #include "Territory.h"
 #include "p4/Hand.h"
+#include "OrdersList/Orders.h"
 
 static int playerNum = 0;
 class Player
@@ -12,7 +13,7 @@ class Player
 	//pointer
 	std::vector <Player>* playerOrderVector;
 	Hand* playerHand = nullptr;
-	vector <Player>* playerOrderPtr = nullptr;
+	vector<Order>* playerOrderPtr = nullptr;
 public:
 	int pid = -1;
 	Player();
@@ -21,6 +22,7 @@ public:
 	Player(std::string newName, int newPid, std::vector <Territory> newplayerOccupied, Hand h);
 	std::vector <Territory>toDefend();
 	std::vector <Territory>toAttack();
+	void subissueOrder();
 	std::vector <Player> issueOrder();
 	void attack(Player pd); 
 	void occupy(Territory t);

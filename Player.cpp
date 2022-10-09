@@ -51,15 +51,19 @@
 		toAttackVector.push_back(t8);
 		return toAttackVector;
 	}
+	void Player::subissueOrder() {
+		 playerOrderPtr = nullptr;
 
-	std::vector <Player> Player::issueOrder()
-	{
-		std::vector <Player> playerOrder;
-		//Order playerOrder;
-		
-		playerOrderPtr = &playerOrder;
-		return playerOrder;
 	}
+
+	vector <Order> *IssueOrder()
+	{
+		vector <Order> orderVector;
+		Order newPlayerOrder;
+		orderVector.push_back(newPlayerOrder);
+		return &orderVector;
+	}
+
 
 	void Player::attack(Player pd) {
 	std::cout << playerName << "\tattack\t" << pd.playerName <<"\n";
