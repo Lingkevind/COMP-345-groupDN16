@@ -22,6 +22,7 @@
 		pid = playerNum++;
 		playerOccupied = newplayerOccupied;
 		*playerHand = h;
+		Order playerOrderlist(2);
 	}
 	
 		
@@ -51,21 +52,16 @@
 		toAttackVector.push_back(t8);
 		return toAttackVector;
 	}
-	void Player::subissueOrder() {
-		 playerOrderPtr = nullptr;
-
-	}
-
-	vector <Order> *IssueOrder()
+	
+	void Player::issueOrder()
 	{
-		vector <Order> orderVector;
-		Order newPlayerOrder;
-		orderVector.push_back(newPlayerOrder);
-		return &orderVector;
+		Order newPlayerOrder(1);
+		playerOrderlist=(playerOrderlist, newPlayerOrder);
+		
 	}
 
-
-	void Player::attack(Player pd) {
+	void Player::attack(Player pd)
+	{
 	std::cout << playerName << "\tattack\t" << pd.playerName <<"\n";
 	}
 	

@@ -69,9 +69,9 @@ int main()
            player.displayOcc(player.toAttack());
         cout << "\nplayer.toDefend()" << "\n";
       player.displayOcc(player.toDefend());
+      player.issueOrder();
 
-        player.issueOrder();
-
+     
     }
 
 
