@@ -60,6 +60,7 @@ Deploy::~Deploy(){	//Deploy destructor
 }
 bool Deploy::validate(){
     // logic for validation	//Deploy validate function
+	cout<<"Validate function running."<<endl;
     return true;
 }
 
@@ -154,6 +155,7 @@ Bomb::~Bomb(){
 }				//Bomb destructor
 bool Bomb::validate(){
     // logic for validation	//Bomb validate function
+	cout<<"Validate function running."<<endl;
     return true;
 }
 
@@ -201,6 +203,7 @@ Blockade::~Blockade(){		//Blockade destructor
 }
 bool Blockade::validate(){
     // logic for validation	//Blockade validate function
+	cout<<"Validate function running."<<endl;
     return true;
 }
 
@@ -248,6 +251,7 @@ Airlift::~Airlift(){		//Blockade destructor
 }
 bool Airlift::validate(){
     // logic for validation	//Blockade validate function
+	cout<<"Validate function running."<<endl;
     return true;
 }
 
@@ -295,6 +299,7 @@ Negotiate& Negotiate::operator=(const Negotiate &order){
  }				
 bool Negotiate::validate(){
     // logic for validation	//Negotiate validate function
+	cout<<"Validate function running."<<endl;
     return true;
 }
 
