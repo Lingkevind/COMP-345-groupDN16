@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<string>
+
 using namespace std;
 
 #ifndef ORDERS_H
@@ -16,33 +17,18 @@ class Order{
         Order& operator=(const Order& order);
 
         friend ostream& operator<<(ostream& os, const Order& order);
-        string getOrderName(){
+        virtual string getOrderName(){
             return orderName;
         }
     private:
         string orderName="unknown order";
 };
 
-// class OrderList{
-//     public:
-//         OrderList();
-//         ~OrderList();
-//         OrderList (const OrderList& list);
-//         void add();
-//         void remove();
-//         void move();
-//         int listSize();
-//         const std::vector<Order*> getOrderList(){
-//             return orderList;
-//         }
-    
-//     private:
-//         std::vector<Order*> orderList;
-// };
+//Below arxe the six orders mentioned in the assignemnt. Each subclass publicly inherits Order.
 
-// //Below arxe the six orders mentioned in the assignemnt. Each subclass publicly inherits Order.
-// //All the functions are the same except A parameterised is added in the subclasses which takes an Order.
-
+/***
+ Deploy
+ * **/
 class Deploy:public Order{
     public:
         Deploy();
@@ -58,6 +44,10 @@ class Deploy:public Order{
     private:
         string orderName="Deploy";
 };
+
+/***
+Advance
+ * **/
 
 class Advance: public Order{
     public:
@@ -75,6 +65,10 @@ class Advance: public Order{
         string orderName="Advance";
 };
 
+/***
+ Bomb
+ * **/
+
 class Bomb: public Order{
     public:
         Bomb();
@@ -90,6 +84,10 @@ class Bomb: public Order{
     private:
         string orderName="Bomb";
 };
+
+/***
+ Blockade
+ * **/
 
 class Blockade: public Order{
     public:
@@ -107,6 +105,10 @@ class Blockade: public Order{
         string orderName="Blockade";
 };
 
+/***
+ Airlift
+ * **/
+
 class Airlift: public Order{
     public:
         Airlift();
@@ -122,6 +124,10 @@ class Airlift: public Order{
     private:
         string orderName="Airlift";
 };
+
+/***
+ Negotiate
+ * **/
 
 class Negotiate:public Order{
     public:
@@ -140,4 +146,29 @@ class Negotiate:public Order{
     private:
         string orderName="Negotiate";
 };
+
+/***
+ OrderList
+ * **/
+
+class OrderList{
+    public:
+        OrderList();
+        ~OrderList();
+        OrderList (const OrderList& list);
+        OrderList& operator=(const OrderList& list);
+
+        void add(Order *order);
+        void remove(int position);
+        void move(int intialPosition, int finalPosition);
+        int listSize();
+        const std::vector<Order*> getOrderList(){
+            return orderList;
+        }
+        friend ostream& operator<<(ostream& os, OrderList& list);
+    
+    private:
+        std::vector<Order*> orderList;
+};
+
 #endif
