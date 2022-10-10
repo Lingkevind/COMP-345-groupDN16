@@ -16,6 +16,7 @@ class Player
 	vector<Order>* playerOrderPtr = nullptr;
 	
 public:
+	friend ostream& operator<<(ostream& os, const Player& d);
 	int pid = -1;
 	Order playerOrderlist;
 	Player();
@@ -32,9 +33,7 @@ public:
 	static void displayOcc(vector <Territory> occVector);
 	void setPlayerName(string newName);
 	std::string getPlayerName();
-	
-private:
-	std::string playerName = "default";
+	std::string playerName;
 };
 
 

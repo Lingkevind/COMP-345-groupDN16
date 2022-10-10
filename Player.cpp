@@ -1,23 +1,46 @@
 #include "Player.h"
 
-
-	Player::Player() {
+	/// <summary>
+	/// default player
+	/// </summary>
+	Player::Player() 
+	{
 		std::string playerName = "default";
 		pid = -1;
 	};
-
-	Player::Player(std::string newName, int newPid) {
+	/// <summary>
+	/// at begin
+	/// </summary>
+	/// <param name="newName">at the begin of the game player must type their name</param>
+	/// <param name="newPid">
+	/// each player have their own pid
+	/// so icreate static int playerNum = 0; for pid,
+	///  when new player created playernum +1 and newplayer's pid = new playerNum
+	/// </param>
+	Player::Player(std::string newName, int newPid) 
+	{
 		playerName = newName;
 		pid = playerNum++;
 	
 	}
-	Player::Player(const Player &copyPlayer) {
+
+	/// <param name="copyPlayer">copy constructer</param>
+	Player::Player(const Player &copyPlayer)
+	{
 		playerName = copyPlayer.playerName;
 		pid = playerNum++;
 		playerOccupied = copyPlayer.playerOccupied;
 		*playerHand = *(copyPlayer.playerHand);
 	}
-	Player::Player(std::string newName, int newPid, std::vector <Territory> newplayerOccupied, Hand h) {
+	/// <summary>
+	/// player playing the game
+	/// </summary>
+	/// playerOccupied show Territory occupyed by player
+	/// 
+	/// playerHand is a pointer point to player's hand
+	/// 
+	Player::Player(std::string newName, int newPid, std::vector <Territory> newplayerOccupied, Hand h)
+	{
 		playerName = newName;
 		pid = playerNum++;
 		playerOccupied = newplayerOccupied;
@@ -25,8 +48,14 @@
 		Order playerOrderlist(2);
 	}
 	
-		
-	vector <Territory> Player::toDefend() {
+	/// <summary>
+	/// method toDefend return a list of territories that are to be 
+	/// defendedand to be attacked, respectively.
+	/// will improve later
+	/// </summary>
+	/// <returns>a list of Territory that are owned by player</returns>
+	vector <Territory> Player::toDefend()
+	{
 
 		std::vector <Territory>  toDefendVector;
 		//toDefendVector = playerOccupied;
@@ -40,7 +69,14 @@
 		toDefendVector.push_back(t4);
 		return toDefendVector;
 	}
-	vector <Territory>Player::toAttack () {
+	/// <summary>
+	/// method toAttack return a list of territories that are to be 
+	/// defendedand to be attacked, respectively.
+	/// will improve later
+	/// </summary>
+	/// <returns>a list of Territory player can attack</returns>
+	vector <Territory>Player::toAttack () 
+	{
 		std::vector <Territory> toAttackVector;
 		Territory t5("t05");
 		Territory t6("t06");
@@ -52,24 +88,30 @@
 		toAttackVector.push_back(t8);
 		return toAttackVector;
 	}
-	
+	/// <summary>
+	/// creat a order and add it to player's playerOrderlist
+	/// </summary>
 	void Player::issueOrder()
 	{
 		Order newPlayerOrder(1);
 		playerOrderlist=(playerOrderlist, newPlayerOrder);
 		
 	}
+	
 
 	void Player::attack(Player pd)
 	{
 	std::cout << playerName << "\tattack\t" << pd.playerName <<"\n";
 	}
 	
-	void Player::occupy(Territory t) {
+	void Player::occupy(Territory t) 
+	{
 		playerOccupied.push_back(t);
 		std::cout << playerName << " occupyed " << t.getName() << "!\n";
 	}
-	void Player::occupy(Player p) {
+	void Player::occupy(Player p) 
+	
+	{
 		int occNum = p.playerOccupied.size();
 		for (size_t i = 0; i <occNum; i++)
 		{
@@ -78,13 +120,20 @@
 		}
 		//p.playerOccupied.swap(playerOccupied);
 	}
+	/// <summary>
+	/// displayer player's info 
+	/// will be delete later
+	/// </summary>
 
 	void Player::displayerOcc() {
 		//int playerSize = playerOccupied.size();<< playerplSize
 		std::cout << "Player " << getPlayerName() << " territory incoulding: \n";
 		displayOcc(playerOccupied);
 	}
-
+	 /// <summary>
+	 /// used to display Territory list
+	 /// </summary>
+	 /// <returns></returns>
 	 void Player::displayOcc(vector <Territory> occVector) {
 		//vector <Territory> newplayerOccupied to cout string
 		//int occSize = occVector.size();
@@ -94,6 +143,7 @@
 			std::cout << tName << "\n";
 		}
 	}
+	// getter setter
 	void Player::setPlayerName(string newName) {
 		if (newName.empty()) {
 			std::cout << "emptyname";
@@ -105,5 +155,8 @@
 		//std::cout << "player name: " << str << "\n";
 		return str;
 	}
-
+	ostream& operator<<(ostream& os, const Player& d) {
+		os << typeid(d).name() << ", Player info: pid" << d.pid<< "playername:" << d.playerName<<"player order list" << d.playerOrderlist;
+		return os;
+	}
 //
