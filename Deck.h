@@ -1,12 +1,15 @@
 #ifndef DECK_H
 #define DECK_H
 #include"Card.h"
+//using vector type for storing objects
 #include<vector>
+//using random to generate random value for shuffle
 #include<random>
 using namespace std;
 
 class Deck {
 public:
+	//the vector storing cards
 	vector<Card> list;
 	Deck();
 	Deck(vector<Card> l);
