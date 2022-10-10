@@ -33,36 +33,6 @@ ostream& operator<<(ostream& os, const Order& order){
     return os;
 }
 
-// /****
-//  Order List functions
-// ****/
-
-
-// // OrderList::OrderList(){
-// //     /*
-// //     Default constructor
-// //     Nothing to code for now.
-// //     */
-// // }
-// // OrderList::~OrderList(){
-// //     for(Order* order: orderList){
-// //         order=nullptr;
-// //         delete order;
-// //     }
-// //     orderList.clear();
-// // }
-
-// // OrderList::OrderList(const OrderList& OriginalList){
-
-// //     std::vector<Order*> newList= OriginalList.getOrderList();
-// //     for(int i=0;i<newList.size();i++){
-// //         switch((*newList.at(i)).getOrderName()){
-// //             case "Deploy": 
-// //             case "Advance":
-// //             case "
-// //         }
-// //     }
-// // }
 
 
 // /******
@@ -345,3 +315,70 @@ ostream& operator<<(ostream& os, const Negotiate& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
+
+/****
+ Order List functions
+****/
+
+
+OrderList::OrderList(){
+    /*
+    Default constructor
+    Nothing to code for now.
+    */
+}
+OrderList::~OrderList(){
+    for(Order* order: orderList){
+        delete order;
+        order=nullptr;      
+    }
+    orderList.clear();
+}
+
+OrderList::OrderList(const OrderList& OriginalList){
+    this->orderList=OriginalList.orderList;
+}
+
+OrderList& OrderList::operator=(const OrderList& OriginalList){
+    this->orderList=OriginalList.orderList;
+    return *this;
+}
+
+void OrderList::add(Order *order){
+    this->orderList.push_back(order);
+    cout<<order->getOrderName()<<"Order added"<<endl;
+}
+
+void OrderList::remove(int position){
+    if(position<0 || position>=getOrderList().size()){
+        cout<<"Invalid remove order"<<endl;
+    }
+    else{
+        Order *removeOrder=getOrderList().at(position);
+        delete removeOrder;
+        removeOrder=nullptr;
+        this->orderList.erase(orderList.begin()+position);
+        cout<<"Order removed"<<endl;
+    }
+}
+
+void OrderList::move(int initialPosition, int finalPosition){
+    if(initialPosition<0 ||  initialPosition>=getOrderList().size() ||
+         finalPosition<0 ||  finalPosition>=getOrderList().size()){
+            cout<<"invalid move Order"<<endl;
+         }
+    else{
+        Order *moveOrder=getOrderList().at(initialPosition);
+        this->orderList.erase(orderList.begin()+initialPosition);
+        this->orderList.insert(orderList.begin()+finalPosition, moveOrder);
+        cout<<"Order moved"<<endl;
+    }
+}
+
+ostream& operator<<(ostream& os, OrderList& OriginalList) {
+	 vector<Order*> temp = OriginalList.getOrderList();
+	 for (int i = 0; i < temp.size(); i++) {
+	 	os << temp.at(i)->orderId << temp.at(i)->getOrderName() << endl;
+	 }
+	return os;
+};
