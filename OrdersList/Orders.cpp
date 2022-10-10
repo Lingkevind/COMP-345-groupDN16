@@ -10,27 +10,27 @@ using namespace std;
 Order Class
 ***/
 Order::Order(){
-    orderId=0;
+    orderId=0;		//Order default constructor
 }
 
 Order::Order(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Order Parameterised constructor
 }
 
 Order::Order(const Order& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;	//Order copy constructor
 }
 
 Order& Order::operator=(const Order& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;	//Order assignment operator
     return *this;
 }
-Order::~Order(){
+Order::~Order(){	//Order destructor
 }
 
 ostream& operator<<(ostream& os, const Order& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;				//Order output stream function
 }
 
 
@@ -40,31 +40,31 @@ ostream& operator<<(ostream& os, const Order& order){
 // ******/
 
 Deploy::Deploy():Order(){ 
-    orderId=0;
+    orderId=0;		//Deploy default constructor
 }
 
 Deploy::Deploy(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Deploy parameterised constructor
 }
 
 Deploy::Deploy(const Deploy& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Deploy copy constructor
 }
 
 Deploy& Deploy::operator=(const Deploy &order){
     this->orderId=order.orderId;
-    return *this;
+    return *this;		//Deploy assignment operator
 }
 
-Deploy::~Deploy(){
+Deploy::~Deploy(){	//Deploy destructor
 }
 bool Deploy::validate(){
-    // logic for validation
+    // logic for validation	//Deploy validate function
     return true;
 }
 
 void Deploy::execute(){
-    bool canExecute=validate();
+    bool canExecute=validate();	 //Deploy execute function
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
 
@@ -78,7 +78,7 @@ void Deploy::execute(){
 
 ostream& operator<<(ostream& os, const Deploy& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Deploy output stream function
 }
 
 /******
@@ -86,32 +86,32 @@ ostream& operator<<(ostream& os, const Deploy& order){
 ******/
 
 Advance::Advance():Order(){ 
-    orderId=0;
+    orderId=0;		//Advance default constructor
 }
 
 Advance::Advance(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Advance parameterised constructor
 }
 
 Advance::Advance(const Advance& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId; // Advance copy constructor
 }
 
 Advance& Advance::operator=(const Advance &order){
     this->orderId=order.orderId;
-    return *this;
+    return *this;		//Advance assignment operator
 }
 
-Advance::~Advance(){
+Advance::~Advance(){		//Advance destructor
 }
 bool Advance::validate(){
-    // logic for validation
+    // logic for validation	//Advance validation function
 
     return true;
 }
 
 void Advance::execute(){
-    bool canExecute=validate();
+    bool canExecute=validate();	//Advance execute function
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
 
@@ -125,7 +125,7 @@ void Advance::execute(){
 
 ostream& operator<<(ostream& os, const Advance& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Advance output stream operator
 }
 
 
@@ -133,31 +133,31 @@ ostream& operator<<(ostream& os, const Advance& order){
     Bomb functions
 ******/
 
-Bomb::Bomb():Order(){ 
+Bomb::Bomb():Order(){ 		//Bomb default constructor
     orderId=0;    
 }
 
-Bomb::Bomb(int orderId){
+Bomb::Bomb(int orderId){	//Bomb parameterised constructor
     this->orderId=orderId;
 }
 
-Bomb::Bomb(const Bomb& order){
+Bomb::Bomb(const Bomb& order){	//Bomb copy constructor
     this->orderId=order.orderId;
 }
 
 Bomb& Bomb::operator=(const Bomb &order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Bomb assignment operator
     return *this;
 }
 
 Bomb::~Bomb(){
-}
+}				//Bomb destructor
 bool Bomb::validate(){
-    // logic for validation
+    // logic for validation	//Bomb validate function
     return true;
 }
 
-void Bomb::execute(){
+void Bomb::execute(){		// Bomb execute function
     bool canExecute=validate();
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
@@ -172,7 +172,7 @@ void Bomb::execute(){
 
 ostream& operator<<(ostream& os, const Bomb& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Bomb output stream function
 }
 
 
@@ -181,30 +181,30 @@ ostream& operator<<(ostream& os, const Bomb& order){
 ******/
 
 Blockade::Blockade():Order(){ 
-   orderId=0;   
+   orderId=0;   		//Blockade default constructor
 }
 
 Blockade::Blockade(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Blockade parameterised constructor
 }
 
 Blockade::Blockade(const Blockade& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Blockade copy constructor
 }
 
 Blockade& Blockade::operator=(const Blockade &order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Blockade assignment operator
     return *this;
 }
 
-Blockade::~Blockade(){
+Blockade::~Blockade(){		//Blockade destructor 
 }
 bool Blockade::validate(){
-    // logic for validation
+    // logic for validation	//Blockade validate function
     return true;
 }
 
-void Blockade::execute(){
+void Blockade::execute(){	//Blockade execute function
     bool canExecute=validate();
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
@@ -219,7 +219,7 @@ void Blockade::execute(){
 
 ostream& operator<<(ostream& os, const Blockade& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Blockade output stream function
 }
 
 
@@ -228,30 +228,30 @@ ostream& operator<<(ostream& os, const Blockade& order){
 ******/
 
 Airlift::Airlift():Order(){ 
-    orderId=0;  
+    orderId=0;  		//Airlift default constructor
 }
 
 Airlift::Airlift(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Airlift parameterised constructor
 }
 
 Airlift::Airlift(const Airlift& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Airlift copy constructor
 }
 
 Airlift& Airlift::operator=(const Airlift &order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Airlift assignment operator
     return *this;
 }
 
-Airlift::~Airlift(){
+Airlift::~Airlift(){		//Blockade destructor
 }
 bool Airlift::validate(){
-    // logic for validation
+    // logic for validation	//Blockade validate function
     return true;
 }
 
-void Airlift::execute(){
+void Airlift::execute(){	//Blockade execute function
     bool canExecute=validate();
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
@@ -266,7 +266,7 @@ void Airlift::execute(){
 
 ostream& operator<<(ostream& os, const Airlift& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Blockade output stream operator function
 }
 
 
@@ -275,30 +275,30 @@ ostream& operator<<(ostream& os, const Airlift& order){
 ******/
 
 Negotiate::Negotiate():Order() {
-   orderId=0;    
+   orderId=0;    		//Negotiate default constructore
 }
 
 Negotiate::Negotiate(int orderId){
-    this->orderId=orderId;
+    this->orderId=orderId;	//Negotiate parameterised constructor
 }
 
 Negotiate::Negotiate(const Negotiate& order){
-    this->orderId=order.orderId;
+    this->orderId=order.orderId;  //Negotiate copy contructor
 }
 
 Negotiate& Negotiate::operator=(const Negotiate &order){
     this->orderId=order.orderId;
-    return *this;
+    return *this;		// Negotiate assignment operator
 }
 
- Negotiate::~Negotiate(){
- }
+ Negotiate::~Negotiate(){	//Negotiate destructor 
+ }				
 bool Negotiate::validate(){
-    // logic for validation
+    // logic for validation	//Negotiate validate function
     return true;
 }
 
-void Negotiate::execute(){
+void Negotiate::execute(){	//Negotiate execute function
     bool canExecute=validate();
 
     cout<<"Execute function of "<<this->getOrderName()<<endl;
@@ -313,7 +313,7 @@ void Negotiate::execute(){
 
 ostream& operator<<(ostream& os, const Negotiate& order){
     os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
-    return os;
+    return os;			//Negotiate output stream function
 }
 
 /****
@@ -321,13 +321,13 @@ ostream& operator<<(ostream& os, const Negotiate& order){
 ****/
 
 
-OrderList::OrderList(){
+OrderList::OrderList(){		//OrderList default constructor
     /*
-    Default constructor
+    Default constructor	
     Nothing to code for now.
     */
 }
-OrderList::~OrderList(){
+OrderList::~OrderList(){	//OrderList destructor
     for(Order* order: orderList){
         delete order;
         order=nullptr;      
@@ -336,22 +336,22 @@ OrderList::~OrderList(){
 }
 
 OrderList::OrderList(const OrderList& OriginalList){
-    this->orderList=OriginalList.orderList;
-}
+    this->orderList=OriginalList.orderList; //OrderList copy constructor	
+}				
 
 OrderList& OrderList::operator=(const OrderList& OriginalList){
-    this->orderList=OriginalList.orderList;
+    this->orderList=OriginalList.orderList;	//OrderList assignment operator
     return *this;
 }
 
 void OrderList::add(Order *order){
-    this->orderList.push_back(order);
+    this->orderList.push_back(order);	//OrderList add function
     cout<<order->getOrderName()<<"Order added"<<endl;
 }
 
 void OrderList::remove(int position){
     if(position<0 || position>=getOrderList().size()){
-        cout<<"Invalid remove order"<<endl;
+        cout<<"Invalid remove order"<<endl;	//OrderList remove function
     }
     else{
         Order *removeOrder=getOrderList().at(position);
@@ -366,7 +366,7 @@ void OrderList::move(int initialPosition, int finalPosition){
     if(initialPosition<0 ||  initialPosition>=getOrderList().size() ||
          finalPosition<0 ||  finalPosition>=getOrderList().size()){
             cout<<"invalid move Order"<<endl;
-         }
+         }			//OrderList execute function
     else{
         Order *moveOrder=getOrderList().at(initialPosition);
         this->orderList.erase(orderList.begin()+initialPosition);
@@ -380,5 +380,5 @@ ostream& operator<<(ostream& os, OrderList& OriginalList) {
 	 for (int i = 0; i < temp.size(); i++) {
 	 	os << temp.at(i)->orderId << temp.at(i)->getOrderName() << endl;
 	 }
-	return os;
+	return os;		//OrderList output stream function
 };
