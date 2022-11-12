@@ -1,26 +1,33 @@
 #pragma once
 #ifndef   GameEngine
 #define   GameEngine
+#include <string>
+#include "CommandProcessing.h";
 
 
- class StateController;
+class StateController;
+class CommandProcessor;
 
 /*
-***SECTION 1***** 
+***SECTION 1*****
 Interface for different states of the game mode
 Keeps reference to context to allow for transitioning to different states
 *****************
 */
 
- class StateInterface 
+class StateInterface
 {
-  public:
+public:
 	StateController* context_;
 
-    void set_context(StateController* context);
+	void set_context(StateController* context);
 	virtual ~StateInterface();
-	virtual void UpdateState() = 0;
- };
+
+
+	virtual void enterState	 (CommandProcessor* cp)	= 0;
+	virtual void executeState(CommandProcessor* cp) = 0;
+	virtual void exitState	 (CommandProcessor* cp)	= 0;
+};
 
 
 /***SECTION 2****
@@ -28,33 +35,39 @@ Interface for users
 Keeps track of what subclass(state) we are currently in
 *****************
 */
- class StateController
- {
+class StateController
+{
 
- public:
-	 StateInterface* currentState;
-
-	 //Calls the starting state of the game. 
-	 void Initialize();
-
-	 //Each game state will modify the game slightly. 
-	 void Update();
-
-	 //Once a state has completed execution, it will change its state 
-	 void TransitionTo(StateInterface* state);
-
-	 //Destructor
-	 ~StateController();
-
-	 //Holds a reference to whichever state we are currently in
-	 StateController(StateInterface* state);
+public:
 
 
-	 /**
-     * The Context delegates part of its behavior to the current State object.
-     */
-	 void UpdateState();
- };
+	StateInterface* currentState;
+
+	std::string currentStateName;
+
+	//Once a state has completed execution, it will change its state 
+	void TransitionTo(StateInterface* state);
+
+	~StateController();
+
+	//Holds a reference to whichever state we are currently in
+	StateController(StateInterface* state);
+
+
+	/**
+	* The Context delegates part of its behavior to the current State object.
+	*/
+
+	void enterState(CommandProcessor* cp);
+	void executeState(CommandProcessor* cp);
+	void exitState(CommandProcessor* cp);
+
+	void setStateName(std::string s);
+	
+	std::string getStateName();
+
+	
+};
 
 
 /***SECTION 3****
@@ -63,49 +76,75 @@ StartState is the initial state
 *****************
 */
 
-class StartState : public StateInterface 
+class StartState : public StateInterface
 {
-  void UpdateState() override; 
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
 };
 
 
-class MapLoadState				: public StateInterface 
+class MapLoadState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
+
 };
 
 
-class MapValidatedState			: public StateInterface
+class MapValidatedState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
+
 };
 
 
-class PlayersAddedState			: public StateInterface 
+
+class PlayersAddedState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
+
 
 };
 
-class AssignReinforcementState	: public StateInterface 
+
+class AssignReinforcementState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
 };
 
-class IssueOrderState			: public StateInterface 
+
+
+class IssueOrderState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
+
 };
 
-class ExecuteOrderState			: public StateInterface 
+class ExecuteOrderState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
 };
 
-class WinState					: public StateInterface 
+
+class WinState : public StateInterface
 {
-	void UpdateState() override;
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
 };
+
 
 
 
