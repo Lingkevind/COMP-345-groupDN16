@@ -12,15 +12,7 @@
 
 
 // Main code & entry point of the program
-int main()
-{
-    // Sample of map files to be tested.
-    vector<string> mapFileSample{ "World 2007.map", "USA.map", "invalid map.map", "non-existent.map" };
-    
-    MapDriver* driver = new MapDriver();
 
-    driver->testLoadMaps(mapFileSample);
-}
 
 void MapDriver::testLoadMaps(vector<string> mapFileSample)
 {

@@ -7,6 +7,7 @@
 #ifndef   CommandProcessing
 #define   CommandProcessing
 #include "GameEngine.h";
+#include "LoggingObserver.h"
 
 
 
@@ -42,7 +43,7 @@ public:
 
 
 //SECTION 2 - HEADER OF CommandProcessor (TARGET)
-class CommandProcessor
+class CommandProcessor : Subject, ILoggable
 {
 protected:
 	virtual void readCommand();	 //get command from console
@@ -54,6 +55,7 @@ public:
 	CommandProcessor();							//constructor
 	bool validate(string currentState);			//checks if command is valid in state
 	void saveEffectOfLatestCommand(string e);
+	string StringToLog();
 };
 
 

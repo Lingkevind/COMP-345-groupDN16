@@ -6,9 +6,11 @@ using namespace std;
 
 inline void testCommandProcessor(int n) {
 
+	LoggingObserver* lg = new LoggingObserver();
 	CommandProcessor* cp = new CommandProcessor();
 	FileCommandProcessorAdapter* fcp = new FileCommandProcessorAdapter();
 	StateController* sc = new StateController(new StartState());
+	
 
 
 	//commands from console
@@ -48,16 +50,4 @@ inline void testCommandProcessor(int n) {
 
 	int x = 5;
 	cin >> x;
-
-	
-
 }
-
-
-int main() {
-
-	testCommandProcessor(1);
-
-
-}
-

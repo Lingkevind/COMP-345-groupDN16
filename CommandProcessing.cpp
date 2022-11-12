@@ -89,6 +89,7 @@ void CommandProcessor::saveCommand(string s) {
      //assign command type from input
 
     commandCollection.emplace_back(new Command(s)); //save the command to collection
+    this->notify(this);
 };
 
 
@@ -140,6 +141,17 @@ bool CommandProcessor::validate(string currentState)
     }
     return false;
 };
+
+string CommandProcessor::StringToLog() {
+    Command* latestCommand = this->commandCollection[this->commandCollection.size() - 1];
+    return "Command : " + latestCommand->commandName
+        + "\nCommand's effect : " + latestCommand->effectName;
+}
+
+string StateController::StringToLog() {
+    return "Game engine's new state : " + this->currentStateName;
+}
+
 
 
 int FileLineReader::lineCount = 1;

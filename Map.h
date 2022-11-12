@@ -2,8 +2,9 @@
 #include <iostream>
 #include "Continent.h"
 #include <map>
+#include "LoggingObserver.h"
 
-class Map {
+class Map : ILoggable, Subject {
 
 public:
 	/**
@@ -59,6 +60,8 @@ public:
 	* Validates the map to see if it meets the integrity requirement for a map.
 	*/
 	bool validate();
+
+	string StringToLog();
 private:
 	vector<Continent*> continents;
 	string author;

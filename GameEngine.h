@@ -3,6 +3,7 @@
 #define   GameEngine
 #include <string>
 #include "CommandProcessing.h";
+#include "LoggingObserver.h"
 
 
 class StateController;
@@ -15,7 +16,7 @@ Keeps reference to context to allow for transitioning to different states
 *****************
 */
 
-class StateInterface
+class StateInterface : Subject
 {
 public:
 	StateController* context_;
@@ -35,12 +36,10 @@ Interface for users
 Keeps track of what subclass(state) we are currently in
 *****************
 */
-class StateController
+class StateController : ILoggable, Subject
 {
 
 public:
-
-
 	StateInterface* currentState;
 
 	std::string currentStateName;
@@ -65,7 +64,7 @@ public:
 	void setStateName(std::string s);
 	
 	std::string getStateName();
-
+	string StringToLog();
 	
 };
 

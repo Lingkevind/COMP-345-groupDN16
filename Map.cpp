@@ -10,6 +10,7 @@ Map::Map() : continents() { }
 
 void Map::addContinent(Continent* continent) {
 	this->continents.push_back(continent);
+    this->notify(this);
 }
 
 vector<Continent*>  Map::getContinents() {
@@ -153,4 +154,8 @@ bool Map::eachCountryBelongsToOneAndOnlyContinent() {
             }
         }
     }
+}
+
+string Map::StringToLog() {
+    return "Added continent.";
 }

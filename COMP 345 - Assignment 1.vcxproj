@@ -24,6 +24,7 @@
     <ProjectGuid>{d58f7754-3dbe-4392-9409-318b0d7d1525}</ProjectGuid>
     <RootNamespace>COMP345Assignment1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>COMP 345 - Assignment 2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -130,10 +131,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CommandProcessing.cpp" />
     <ClCompile Include="Continent.cpp" />
     <ClCompile Include="Coord.cpp" />
     <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEnginerDriver.cpp" />
     <ClCompile Include="Hand.cpp" />
+    <ClCompile Include="LoggingObserver.cpp" />
+    <ClCompile Include="LoggingObserverDriver.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="MapLoader.cpp" />
@@ -146,10 +152,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Card.h" />
+    <ClInclude Include="CommandProcessing.h" />
     <ClInclude Include="Continent.h" />
     <ClInclude Include="Coord.h" />
     <ClInclude Include="Deck.h" />
+    <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Hand.h" />
+    <ClInclude Include="LoggingObserver.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapDriver.h" />
     <ClInclude Include="MapLoader.h" />
