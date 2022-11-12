@@ -1,7 +1,7 @@
 #include <iostream>;
 #include <cctype>;
 #include <cstdlib>;
-
+#include <string>
 
 using namespace std;
 #include "GameEngine.h";
@@ -25,24 +25,26 @@ Defining methods for the StateController Class
 **********************************************
 */
 
-void StateController::Initialize()
-{
-	currentState = new StartState();
-};
-
 StateController::StateController(StateInterface* state) : currentState(nullptr) {
 	this->TransitionTo(state);
-}
+};
 
 
-StateController:: ~StateController()
-{
+StateController:: ~StateController(){
 	delete currentState;
 };
 
 
+
+
+
 void StateController::TransitionTo(StateInterface* state)
 {
+	string stateName = typeid(*state).name();
+	stateName = stateName.substr(6);
+	//std::cout << stateName << endl;
+	setStateName(stateName);
+
 	std::cout << "Context: Transition to " << typeid(*state).name() << ".\n";
 	if (this->currentState != nullptr)
 	{
@@ -53,9 +55,30 @@ void StateController::TransitionTo(StateInterface* state)
 
 };
 
-void StateController::UpdateState() {
-	this->currentState->UpdateState();
-}
+
+
+void StateController::enterState(CommandProcessor* cp) {
+	this->currentState->enterState(cp);
+};
+
+void StateController::executeState(CommandProcessor* cp) {
+	this->currentState->executeState(cp);
+};
+
+void StateController::exitState(CommandProcessor* cp) {
+	this->currentState->exitState(cp);
+};
+
+
+
+void StateController::setStateName(std::string s) {
+	currentStateName = s;
+};
+
+std::string StateController::getStateName() {
+	return currentStateName;
+};
+
 
 /*
 ******************SECTION 3******************
@@ -63,235 +86,388 @@ Defining methods for the StartState Class
 **********************************************
 */
 
+/*
+	Each state class, has 3 state methods. enterState, executeState, exitState
 
-void StartState::UpdateState() 
+	The purpose of enterState is to greet the player with the current state we are in.
+	Afterwards, it will keep asking for a command from the user until it gets the valid command for the state.
+
+	The purpose of executeState is to perform the execution of the command. Some states do not perform any action but transition 
+	to the next state. Example, the StartState, it will get the mapload command and just transition to the mapload state(happens in exitState) 
+	Once a command has been executed, the effect of it is saved. 
+
+	The purpose of exitState is to perform the action that transitions to the next state. 
+
+*/
+
+
+
+void StartState::enterState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To Our VideoGame***" << std::endl;
-	std::string v_userInputLoadMap;
-	do
+	std::cout << "***Welcome To StartState***" << std::endl;
+
+	bool validCommand = false;
+
+	while (validCommand == false)
 	{
-		std::cout << "Type loadmap to enter to the MapLoad State" << std::endl;
-		std::cin >> v_userInputLoadMap;
+		cp->getCommand();
+		validCommand = cp->validate(this->context_->getStateName());
 
-	
-	} while (v_userInputLoadMap != "loadmap");
+		
 
-//Game switches state 
-	
-		this->context_->TransitionTo(new MapLoadState);
-	
+		int size = cp->commandCollection.size();
+
+		if (validCommand == false) {
+			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
+		}
+		else {
+			cout << "Entered a valid command" << endl;
+		}
+	}
+};
+
+void StartState::executeState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For StartState Is Being executed..."<<endl;
+};
+
+void StartState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For StartState Has Been executed... " << endl;
+
+	int size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+
+	this->context_->TransitionTo(new MapLoadState);
 };
 
 
-/*
-******************SECTION 4******************
-Defining methods for the MapLoadState Class
-**********************************************
-*/
 
-void MapLoadState::UpdateState()
+//******************SECTION 4******************
+//Defining methods for the MapLoadState Class
+//**********************************************
+
+
+void MapLoadState::enterState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To MapLoadState***" << std::endl;
-	std::string v_userInput = "";
+	cout << "***Welcome To MapLoadState***" << std::endl;
 
-//Determine which state to go to
-	do
+	bool validCommand = false;
+
+	while (validCommand == false)
 	{
-		std::cout << "Type loadmap to re-execute the MapLoad State OR Type validatemap to enter the MapValidated State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "loadmap" && v_userInput != "validatemap");
+		cp->getCommand();
+		validCommand = cp->validate(this->context_->getStateName());
+		int size = cp->commandCollection.size();
 
-//Go To MapLoadState
-	if (v_userInput == "loadmap")
+		if (validCommand == false) {
+			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
+		}
+		else {
+			cout << "Entered a valid command....Now executing command" << endl;
+		}
+	}
+};
+
+void MapLoadState::executeState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For MapLoadState Is Being executed..." << endl;
+	int size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+    //cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
+
+void MapLoadState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For MapLoadState Has Been executed... " << endl;
+
+	//Get last command to see if we are re-entering MapLoadState or entering MapValidatedState
+
+	int size			 = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+
+
+
+	cout << "the latest command was: " << commandString <<endl;
+
+	if (commandString == "loadmap")
 	{
 		this->context_->TransitionTo(new MapLoadState);
 	}
-//Go To ValidateMapState
-	else if (v_userInput == "validatemap")
-	{
+
+	else if (commandString == "validatemap") {
 		this->context_->TransitionTo(new MapValidatedState);
 	}
 
+
 };
 
-/*
-******************SECTION 5******************
-Defining methods for the MapValidateState Class
-**********************************************
-*/
 
 
-void MapValidatedState::UpdateState()
+
+//******************SECTION 5******************
+//Defining methods for the MapValidateState Class
+//**********************************************
+
+
+void MapValidatedState::enterState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To MapValidated State***" << std::endl;
-	std::string v_userInput = "";
+	cout << "***Welcome To MapValidatedState***" << std::endl;
 
-	//Determine which state to go to
-	do
+	bool validCommand = false;
+
+	while (validCommand == false)
 	{
-		std::cout << "Type addplayer to enter the PlayersAdded State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "addplayer" );
+		cp->getCommand();
+		validCommand = cp->validate(this->context_->getStateName());
+		int size = cp->commandCollection.size();
 
-	//Go To PlayersAddedState
-	this->context_->TransitionTo(new PlayersAddedState);
+		if (validCommand == false) {
+			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
+		}
+		else {
+			cout << "Entered a valid command....Now executing command" << endl;
+		}
+	}
 };
 
-/*
-******************SECTION 6******************
-Defining methods for the PlayersAddedState Class
-**********************************************
-*/
-
-void PlayersAddedState::UpdateState()
+void MapValidatedState::executeState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To The PlayersAdded State***" << std::endl;
-	std::string v_userInput = "";
+	cout << "The Valid Command For MapValidateState Is Being executed..." << endl;
 
-	//Determine which state to go to
-	do
+	int size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
+
+void MapValidatedState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For MapValidatedState Has Been executed... " << endl;
+	cout << "Transitioning to PlayersAddedState..." << endl;
+	this->context_->TransitionTo(new PlayersAddedState());
+
+};
+
+
+
+//******************SECTION 6******************
+//Defining methods for the PlayersAddedState Class
+//**********************************************
+
+
+
+void PlayersAddedState::enterState(CommandProcessor* cp)
+{
+	cout << "***Welcome To PlayersAddedState***" << std::endl;
+
+	bool validCommand = false;
+
+	while (validCommand == false)
 	{
-		std::cout << "Type addplayer to re-execute the PlayersAddedState State OR Type assigncountries to enter the AssignReinforcement State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "addplayer" && v_userInput != "assigncountries");
+		cp->getCommand();
+		validCommand = cp->validate(this->context_->getStateName());
+		int size = cp->commandCollection.size();
 
-	//Go To PlayersAddedState
-	if (v_userInput == "addplayer")
+		if (validCommand == false) {
+			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
+		}
+		else {
+			cout << "Entered a valid command....Now executing command" << endl;
+		}
+	}
+};
+
+void PlayersAddedState::executeState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For PlayersAdded Is Being executed..." << endl;
+
+	int size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
+
+void PlayersAddedState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For PlayersAdded Has Been executed... " << endl;
+
+
+
+	int size = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+
+	cout << "the latest command was: " << commandString << endl;
+
+	if (commandString == "addplayer")
 	{
 		this->context_->TransitionTo(new PlayersAddedState);
 	}
-	//Go To AssignReinforcementState
-	else if (v_userInput == "assigncountries")
-	{
+
+	else if (commandString == "gamestart") {
 		this->context_->TransitionTo(new AssignReinforcementState);
 	}
 
 };
 
 
-/*
-******************SECTION 7******************
-Defining methods for the AssignReinforcementState Class
-**********************************************
-*/
 
-void AssignReinforcementState::UpdateState()
+//******************SECTION 7******************
+//Defining methods for the AssignReinforcementState Class
+//**********************************************
+
+
+
+void AssignReinforcementState::enterState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To The AssignReinforcement State***" << std::endl;
-	std::string v_userInput = "";
-
-	//Determine which state to go to
-	do
-	{
-		std::cout << "Type issueorder to enter the IssueOrders State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "issueorder");
-
-	//Go To IssueOrder State
-	this->context_->TransitionTo(new IssueOrderState);
+	cout << "***Welcome To AssignReinforcementState***" << std::endl;
 };
 
-/*
-******************SECTION 8******************
-Defining methods for the IssueOrderState Class
-**********************************************
-*/
-
-void IssueOrderState::UpdateState()
+void AssignReinforcementState::executeState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To The IssueOrder State***" << std::endl;
-	std::string v_userInput = "";
+	cout << "The Valid Command For AssignReinforcementState Is Being executed..." << endl;
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
 
-	//Determine which state to go to
-	do
-	{
-		std::cout << "Type issueorder to re-execute the IssueOrders State OR Type endissueorders to enter ExecuteOrders State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "issueorder" && v_userInput!= "endissueorders");
+void AssignReinforcementState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For AssignReinforcementState Has Been executed... " << endl;
+	cout << "Transitioning to IssueOrderState..." << endl;
 
-	//Go To IssueOrderState
-	if (v_userInput == "issueOrder")
+
+	this->context_->TransitionTo(new IssueOrderState());
+
+};
+
+
+
+
+//******************SECTION 8******************
+//Defining methods for the IssueOrderState Class
+//**********************************************
+
+
+void IssueOrderState::enterState(CommandProcessor* cp)
+{
+	cout << "***Welcome To IssueOrderState***" << endl;
+};
+
+
+void IssueOrderState::executeState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For IssueOrderState Is Being executed..." << endl;
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
+
+void IssueOrderState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For IssueOrderState Has Been executed... " << endl;
+	this->context_->TransitionTo(new ExecuteOrderState());
+};
+
+
+
+//******************SECTION 9******************
+//Defining methods for the ExecuteOrderState Class
+//**********************************************
+
+void ExecuteOrderState::enterState(CommandProcessor* cp)
+{
+	cout << "***Welcome To ExecuteOrderState***" << std::endl;
+
+
+};
+
+void ExecuteOrderState::executeState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For ExecuteOrderState Is Being executed...";
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+};
+
+void ExecuteOrderState::exitState(CommandProcessor* cp)
+{
+	cout << "The Valid Command For ExecuteOrderState Has Been executed... " << endl;
+	this->context_->TransitionTo(new WinState);
+};
+
+
+
+//******************SECTION 10******************
+//Defining methods for the WinState Class
+//**********************************************
+
+void WinState::enterState(CommandProcessor* cp)
+{
+	cout << "***Welcome To WinState***" << std::endl;
+
+
+	bool validCommand = false;
+
+	while (validCommand == false)
 	{
-		this->context_->TransitionTo(new IssueOrderState);
-	}
-	//Go To ExecuteOrderState
-	else if (v_userInput == "endissueorders")
-	{
-		this->context_->TransitionTo(new ExecuteOrderState);
+		cp->getCommand();
+		validCommand = cp->validate(this->context_->getStateName());
+		int size = cp->commandCollection.size();
+
+		if (validCommand == false) {
+			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
+		}
+		else {
+			cout << "Entered a valid command....Now executing command" << endl;
+		}
 	}
 };
 
-/*
-******************SECTION 9******************
-Defining methods for the ExecuteOrderState Class
-**********************************************
-*/
-
-
-void ExecuteOrderState::UpdateState()
+void WinState::executeState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To The ExecuteOrder State***" << std::endl;
-	std::string v_userInput = "";
-
-	//Determine which state to go to
-	do
-	{
-		std::cout << "Type execorder to re-execute the ExecuteOrder State OR Type endexecorders to enter AssignReinforcement  State OR Type win to enter Win State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "execorder" && v_userInput != "endexecorders" && v_userInput != "win");
-
-	//Go To ExecuteOrderState
-	if (v_userInput == "execorder")
-	{
-		this->context_->TransitionTo(new ExecuteOrderState);
-	}
-	//Go To AssignReinforcementState
-	else if (v_userInput == "endexecorders")
-	{
-		this->context_->TransitionTo(new AssignReinforcementState);
-	}
-	//Go To WinState
-	else if (v_userInput == "win")
-	{
-		this->context_->TransitionTo(new WinState);
-	}
+	cout << "The Valid Command For WinState Is Being executed...";
+	int size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+	//PART 2 CODE HERE 
+	//SAVE EFFECT HERE 
+	//int size = cp->commandCollection.size();
+	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
 };
 
-/*
-******************SECTION 10******************
-Defining methods for the WinState Class
-**********************************************
-*/
-
-void WinState::UpdateState()
+void WinState::exitState(CommandProcessor* cp)
 {
-	std::cout << "***Welcome To The Win State***" << std::endl;
-	std::string v_userInput = "";
+	cout << "The Valid Command For WinState Has Been executed... " << endl;
 
-	//Determine which state to go to
-	do
-	{
-		std::cout << "Type win to end the game OR Type play to enter Start State" << std::endl;
-		std::cin >> v_userInput;
-	} while (v_userInput != "win" && v_userInput != "play");
+	int size = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
 
-	//End Game
-	if (v_userInput == "win")
+	cout << "the latest command was: " << commandString << endl;
+
+	if (commandString == "quit")
 	{
-		std::cout << "Congrats the game is over! System terminating!" << std::endl;
+		cout << "GAME OVER , EXITING...." << endl;
+		int x = 5;
+		cin >> x;
 	}
-	//Go to StartState
-	else if (v_userInput == "play")
-	{
+
+	else if (commandString == "replay") {
 		this->context_->TransitionTo(new StartState);
 	}
+
 };
-
-
-
-
-
-
 
 
 
