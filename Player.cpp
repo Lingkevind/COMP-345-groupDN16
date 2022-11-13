@@ -104,18 +104,10 @@
 	std::cout << playerName << "\tattack\t" << pd.playerName <<"\n";
 	}
 	
-	void Player::occupy(Territory t) 
+	void Player::occupy(Territory* t) 
 	{
-		vector <Territory>* p1 = nullptr;
-		p1->at(0) = t;
-		playerOccupied;
-		std::cout << playerName << " occupyed " << t.getName() << "!\n";
-	}
-	void Player::occupy(vector <Territory>* t)
-	{
-		vector <Territory*> t1;
-		playerOccupied.at(0);
-		
+		this->playerOccupied.push_back(t);
+		std::cout << playerName << " occupyed " << t->getName() << "!\n";
 	}
 	
 	//void Player::occupy(Player p) 
@@ -129,10 +121,10 @@
 	//	}
 	//	//p.playerOccupied.swap(playerOccupied);
 	//}
-	///// <summary>
-	///// displayer player's info 
-	///// will be delete later
-	///// </summary>
+	/// <summary>
+	/// displayer player's info 
+	/// will be delete later
+	/// </summary>
 
 	//void Player::displayerOcc() {
 	//	//int playerSize = playerOccupied.size();<< playerplSize

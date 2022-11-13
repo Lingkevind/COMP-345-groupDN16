@@ -43,7 +43,8 @@ int main()
     t5->setName("t5");
     Territory* t6 = new Territory;
     t6->setName("t6");
-
+    Player player("userInput");
+    player.occupy(t1);
 
     t1->addAjacentTerritory(t2);
     t1->addAjacentTerritory(t3);
@@ -115,11 +116,11 @@ int main()
 
 }
 
-string displayname(vector<Territory*> v) {
+string displayTerritoryname(vector<Territory*> v) {
     string str = v.at(1)->getName();
-    return displayname(v);
+    return displayTerritoryname(v);
 }
-string displayname(vector<Territory> v) {
+string displayTerritoryname(vector<Territory> v) {
     string str = v.at(1).getName();
     return str;
 }

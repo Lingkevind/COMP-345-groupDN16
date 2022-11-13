@@ -28,7 +28,7 @@ public:
 	std::vector <Territory>toAttack();
 	void issueOrder();
 	void attack(Player pd); 
-	void occupy(Territory t);
+	void occupy(Territory * t);
 	void occupy(vector <Territory>* t);
 	void occupy(Player p);
 	void displayerOcc();
