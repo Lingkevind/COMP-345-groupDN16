@@ -17,7 +17,7 @@
 	/// so icreate static int playerNum = 0; for pid,
 	///  when new player created playernum +1 and newplayer's pid = new playerNum
 	/// </param>
-	Player::Player(std::string newName, int newPid) 
+	Player::Player(std::string newName) 
 	{
 		playerName = newName;
 		pid = playerNum++;
@@ -39,13 +39,13 @@
 	/// 
 	/// playerHand is a pointer point to player's hand
 	/// 
-	Player::Player(std::string newName, int newPid, std::vector <Territory> newplayerOccupied, Hand h)
+	Player::Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h)
 	{
 		playerName = newName;
-		pid = playerNum++;
+		pid = newPid;
 		playerOccupied = newplayerOccupied;
 		*playerHand = h;
-		Order playerOrderlist(2);
+		Order *playerOrderlist = new Order;
 	}
 	
 	/// <summary>
@@ -106,57 +106,97 @@
 	
 	void Player::occupy(Territory t) 
 	{
-		playerOccupied.push_back(t);
+		vector <Territory>* p1 = nullptr;
+		p1->at(0) = t;
+		playerOccupied;
 		std::cout << playerName << " occupyed " << t.getName() << "!\n";
 	}
-	void Player::occupy(Player p) 
-	
+	void Player::occupy(vector <Territory>* t)
 	{
-		int occNum = p.playerOccupied.size();
-		for (size_t i = 0; i <occNum; i++)
-		{
-			Territory t = p.playerOccupied[i];
-			playerOccupied.push_back(t);
-		}
-		//p.playerOccupied.swap(playerOccupied);
+		vector <Territory*> t1;
+		playerOccupied.at(0);
+		
 	}
-	/// <summary>
-	/// displayer player's info 
-	/// will be delete later
-	/// </summary>
+	
+	//void Player::occupy(Player p) 
+	//
+	//{
+	//	int occNum = p.playerOccupied.size();
+	//	for (size_t i = 0; i <occNum; i++)
+	//	{
+	//		Territory t = p.playerOccupied[i];
+	//		playerOccupied.push_back(t);
+	//	}
+	//	//p.playerOccupied.swap(playerOccupied);
+	//}
+	///// <summary>
+	///// displayer player's info 
+	///// will be delete later
+	///// </summary>
 
-	void Player::displayerOcc() {
-		//int playerSize = playerOccupied.size();<< playerplSize
-		std::cout << "Player " << getPlayerName() << " territory incoulding: \n";
-		displayOcc(playerOccupied);
-	}
+	//void Player::displayerOcc() {
+	//	//int playerSize = playerOccupied.size();<< playerplSize
+	//	std::cout << "Player " << getPlayerName() << " territory incoulding: \n";
+	//	displayOcc(playerOccupied);
+	//}
 	 /// <summary>
 	 /// used to display Territory list
 	 /// </summary>
 	 /// <returns></returns>
-	 void Player::displayOcc(vector <Territory> occVector) {
-		//vector <Territory> newplayerOccupied to cout string
-		//int occSize = occVector.size();
-		for (size_t i = 0; i < occVector.size(); i++)
-		{
-			string tName = occVector[i].getName();
-			std::cout << tName << "\n";
-		}
-	}
+	// void Player::displayOcc(vector <Continent*> occVector) {
+	//	//vector <Territory> newplayerOccupied to cout string
+	//	//int occSize = occVector.size();
+	//	for (size_t i = 0; i < occVector.size(); i++)
+	//	{
+	//		string tName = "name blank";
+	//		std::cout << tName << "\n";
+	//	}
+	//}
 	// getter setter
 	void Player::setPlayerName(string newName) {
 		if (newName.empty()) {
 			std::cout << "emptyname";
 		}else  playerName = newName;
 	}
+	
 	std::string Player::getPlayerName() {
 		std::string str = "def";
 		str = playerName;
 		//std::cout << "player name: " << str << "\n";
 		return str;
 	}
+
+	std::vector <Territory*>Player:: getplayerOccupied() {
+		return playerOccupied;
+	}
+
+
 	ostream& operator<<(ostream& os, const Player& d) {
 		os << typeid(d).name() << ", Player info: pid" << d.pid<< "playername:" << d.playerName<<"player order list" << d.playerOrderlist;
 		return os;
 	}
-//
+
+
+	/// <summary>
+	/// testPlayer
+	/// </summary>
+
+	void testPlayer()
+	{
+		cout << "welcome!\n comp345 assiignment1 v2" << " now creat new player\n\tplease type your name\n";
+		string userName;
+		cin >> userName;
+		string *nameP = &userName;
+		Player player("userInput");
+		player.setPlayerName(*nameP);
+		cout << "hi!\t" << player.getPlayerName() << "  your player ID is:  " << player.pid;
+		player.getplayerOccupied();
+		//cout << "\nplayer.toAttack()" << "\n";
+
+		//player.displayOcc(player.toAttack());
+		//cout << "\nplayer.toDefend()" << "\n";
+		//player.displayOcc(player.toDefend());
+		player.issueOrder();
+		player.issueOrder();
+		player.issueOrder();
+	}

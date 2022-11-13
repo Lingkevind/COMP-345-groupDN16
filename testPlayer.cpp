@@ -1,12 +1,65 @@
 ﻿#include <iostream>
 #include "Player.h"
+#include "GameEngine/GameEngine.h"
+#include "GameEngine/GameEnginerDriver.cpp"
 
 //using namespace std;
 
 int main()
 {
 
+
+
+
+
+
+
+
+
+
+
+
     cout << "player\n";
+    
+
+
+    vector<Territory> territoriesV;
+    vector<Territory>* territoriesVptr;
+    territoriesVptr = &territoriesV;
+    vector<Territory*> territoriesVptrp;
+    territoriesVptrp;
+    vector<Continent*> c1ptr;
+    vector<Continent> c1;
+
+    Territory* t1 = new Territory;
+    t1->setName("t1");
+    Territory* t2 = new Territory;
+    t2->setName("t2");
+    Territory* t3 = new Territory;
+    t3->setName("t3");
+    Territory* t4 = new Territory;
+    t4->setName("t4");
+    Territory* t5 = new Territory;
+    t5->setName("t5");
+    Territory* t6 = new Territory;
+    t6->setName("t6");
+
+
+    t1->addAjacentTerritory(t2);
+    t1->addAjacentTerritory(t3);
+    vector<Territory*> tAdj1 = t1->getAdjacentTerritories();
+    string str = tAdj1.at(1)->getName();
+    cout << str;
+    t1->addAjacentTerritory(t2);
+    t1->addAjacentTerritory(t2);
+
+
+    testPlayer();
+
+
+    //testGameStates();
+    testCards();
+
 /*    {
         Player testPlayer("testPlayer", 0),
             a("Player a", 1),
@@ -56,24 +109,17 @@ int main()
 
 
     // defultPlayer.toAttack(playerVector);
-    {
-        cout << "welcome!\n comp345 assiignment1 v2" << " now creat new player\n\tplease type your name\n";
-        string userName;
-        cin >> userName;
-       string *nameP = &userName;
-        Player player("userInput",-1);
-        player.setPlayerName(*nameP);
-        cout << "hi!\t" << player.getPlayerName() << "  your player ID is:  " << player.pid;
-        cout << "\nplayer.toAttack()" << "\n";
-      
-           player.displayOcc(player.toAttack());
-        cout << "\nplayer.toDefend()" << "\n";
-      player.displayOcc(player.toDefend());
-      player.issueOrder();
-
-     
-    }
 
 
 
+
+}
+
+string displayname(vector<Territory*> v) {
+    string str = v.at(1)->getName();
+    return displayname(v);
+}
+string displayname(vector<Territory> v) {
+    string str = v.at(1).getName();
+    return str;
 }
