@@ -28,13 +28,13 @@ public:
 	std::vector <Territory>toAttack();
 	void issueOrder();
 	void attack(Player pd); 
-	void occupy(Territory * t);
-	void occupy(vector <Territory>* t);
-	void occupy(Player p);
+	void leaveTerritory(Territory* t);
+	string occupy(Territory * t);
+	string occupy(Territory* t, Player defeatedPlayer);
+	string annex( Player*p);
 	void displayerOcc();
-	static void displayOcc(vector <Territory*> occVector);
+	void displayOcc(vector <Territory*> occVector);
 	void setPlayerName(string newName);
-	
 	std::string getPlayerName();
 	std::vector <Territory*> getplayerOccupied();
 	std::string playerName;

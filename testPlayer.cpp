@@ -8,21 +8,8 @@
 int main()
 {
 
-
-
-
-
-
-
-
-
-
-
-
     cout << "player\n";
     
-
-
     vector<Territory> territoriesV;
     vector<Territory>* territoriesVptr;
     territoriesVptr = &territoriesV;
@@ -44,13 +31,24 @@ int main()
     Territory* t6 = new Territory;
     t6->setName("t6");
     Player player("userInput");
-    player.occupy(t1);
+    Player player2("player2");
+    Player player3("player3");
+    cout << player.occupy(t1);
+    cout << player.occupy(t2);
+    cout << player.occupy(t3);
+    cout << player2.occupy(t4);
+    cout << player2.occupy(t5);
+    player2.displayerOcc();
+    player.displayerOcc();
+    player.leaveTerritory(t1);
+    player.annex(&player2);
+    player2.displayerOcc();
+
 
     t1->addAjacentTerritory(t2);
     t1->addAjacentTerritory(t3);
     vector<Territory*> tAdj1 = t1->getAdjacentTerritories();
-    string str = tAdj1.at(1)->getName();
-    cout << str;
+    cout << tAdj1.at(1)->getName();
     t1->addAjacentTerritory(t2);
     t1->addAjacentTerritory(t2);
 
@@ -104,16 +102,9 @@ int main()
         vector<Territory>* ptr = &occVector;
         Player::displayOcc(*ptr);
         cout << a.pid << "\t" << b.pid << "\t" << c.pid << "\t" << a.pid << "\t" << d.pid;
-
     }
 */
-
-
     // defultPlayer.toAttack(playerVector);
-
-
-
-
 }
 
 string displayTerritoryname(vector<Territory*> v) {

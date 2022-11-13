@@ -21,16 +21,15 @@
 	{
 		playerName = newName;
 		pid = playerNum++;
-	
 	}
 
 	/// <param name="copyPlayer">copy constructer</param>
 	Player::Player(const Player &copyPlayer)
 	{
-		playerName = copyPlayer.playerName;
-		pid = playerNum++;
-		playerOccupied = copyPlayer.playerOccupied;
-		*playerHand = *(copyPlayer.playerHand);
+		this->playerName = copyPlayer.playerName;
+		this->pid = playerNum++;
+		this->playerOccupied = copyPlayer.playerOccupied;
+		this->playerHand = (copyPlayer.playerHand);
 	}
 	/// <summary>
 	/// player playing the game
@@ -98,52 +97,66 @@
 		
 	}
 	
-
 	void Player::attack(Player pd)
 	{
 	std::cout << playerName << "\tattack\t" << pd.playerName <<"\n";
 	}
-	
-	void Player::occupy(Territory* t) 
-	{
+
+	void Player::leaveTerritory(Territory* t) {
+		size_t occNum = playerOccupied.size();
+		for (size_t i = 0; i < occNum; i++)
+		{
+			if (playerOccupied.at(i) == t)
+			{
+				//cout << "player "+ playerName + "leave Territory: "+ t->getName() + "\n";
+				playerOccupied.erase(playerOccupied.begin()+i);
+				return;
+			} //else { cout << "not find t\n"; }
+		}
+		cout << "not find "+t->getName() + "in this player's playerOccupied\n";
+	}	
+
+	string Player::occupy(Territory* t) {
 		this->playerOccupied.push_back(t);
-		std::cout << playerName << " occupyed " << t->getName() << "!\n";
+		return playerName + " occupyed " + t->getName() + "!\n";
 	}
-	
-	//void Player::occupy(Player p) 
-	//
-	//{
-	//	int occNum = p.playerOccupied.size();
-	//	for (size_t i = 0; i <occNum; i++)
-	//	{
-	//		Territory t = p.playerOccupied[i];
-	//		playerOccupied.push_back(t);
-	//	}
-	//	//p.playerOccupied.swap(playerOccupied);
-	//}
+	string Player::occupy(Territory* defeatedPlayerT, Player defeatedPlayer) {
+		occupy(defeatedPlayerT);
+		defeatedPlayer.leaveTerritory(defeatedPlayerT);
+		return getPlayerName() + " occupyed " + defeatedPlayer.getPlayerName() + "!\n";
+	}
+
+	string Player::annex( Player *p){
+		int occNum = p->playerOccupied.size();
+		for (size_t i = 0; i <occNum; i++)
+		{
+			Territory* t = p->playerOccupied.at(i);
+			playerOccupied.push_back(t);
+		}
+		p->playerOccupied.clear();
+		return getPlayerName() + " annexation " + p->getPlayerName() + "!\n";
+	}
 	/// <summary>
 	/// displayer player's info 
 	/// will be delete later
 	/// </summary>
-
-	//void Player::displayerOcc() {
-	//	//int playerSize = playerOccupied.size();<< playerplSize
-	//	std::cout << "Player " << getPlayerName() << " territory incoulding: \n";
-	//	displayOcc(playerOccupied);
-	//}
+	void Player::displayerOcc() { displayOcc(getplayerOccupied());}
 	 /// <summary>
 	 /// used to display Territory list
 	 /// </summary>
 	 /// <returns></returns>
-	// void Player::displayOcc(vector <Continent*> occVector) {
-	//	//vector <Territory> newplayerOccupied to cout string
-	//	//int occSize = occVector.size();
-	//	for (size_t i = 0; i < occVector.size(); i++)
-	//	{
-	//		string tName = "name blank";
-	//		std::cout << tName << "\n";
-	//	}
-	//}
+	void Player::displayOcc(vector <Territory*> occVector) {
+		size_t territoryListSize = occVector.size();
+		cout << territoryListSize<< "t amount\n";
+		if (territoryListSize == 0) {
+			cout << "no territory for displayOcc\n";
+			return;
+		}
+		for (size_t i = 0; i < territoryListSize; i++)
+		{
+			std::cout << occVector.at(i)->getName() << "\n";
+		}
+	}
 	// getter setter
 	void Player::setPlayerName(string newName) {
 		if (newName.empty()) {
@@ -162,12 +175,10 @@
 		return playerOccupied;
 	}
 
-
 	ostream& operator<<(ostream& os, const Player& d) {
 		os << typeid(d).name() << ", Player info: pid" << d.pid<< "playername:" << d.playerName<<"player order list" << d.playerOrderlist;
 		return os;
 	}
-
 
 	/// <summary>
 	/// testPlayer
