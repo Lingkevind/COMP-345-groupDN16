@@ -7,6 +7,8 @@
 #ifndef   CommandProcessing
 #define   CommandProcessing
 #include "GameEngine.h";
+#include <regex>
+
 
 
 
@@ -91,4 +93,3 @@ class FileCommandProcessorAdapter : public CommandProcessor
 
 
 #endif 
-
