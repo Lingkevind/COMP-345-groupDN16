@@ -49,9 +49,9 @@ class OrderList{
         OrderList();
         ~OrderList();
         OrderList (const OrderList& list);
-        void add();
-        void remove();
-        void move();
+        void add(Order* order);
+        void remove(int position);
+        void move(int initialPosition, int finalPosition);
         int listSize();
         const std::vector<Order*> getOrderList(){
             return orderList;
