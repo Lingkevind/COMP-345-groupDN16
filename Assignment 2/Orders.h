@@ -70,7 +70,7 @@ class Deploy:public Order{
         Deploy(int orderId);
         Deploy(const Deploy &order);
         ~Deploy();
-        Deploy(Player* orderHolder);
+        Deploy(Player* orderHolder, int army, Territory* target);
         Deploy &operator=(const Deploy& order);
 
         void execute();
@@ -88,7 +88,7 @@ class Advance: public Order{
         Advance(int orderId);
         Advance(const Advance &order);
         ~Advance();
-        Advance(Player* orderHolder);
+        Advance(Player* orderHolder, int army, Territory* source, Territory* target);
         Advance &operator=(const Advance& order);
 
         void execute();
@@ -105,7 +105,7 @@ class Bomb: public Order{
         Bomb(int orderId);
         Bomb(const Bomb &order);
         ~Bomb();
-        Bomb(Player* orderHolder);
+        Bomb(Player* orderHolder, Territory* target);
         Bomb &operator=(const Bomb& order);
 
         void execute();
@@ -122,7 +122,7 @@ class Blockade: public Order{
         Blockade(int orderId);
         Blockade(const Blockade &order);
         ~Blockade();
-        Blockade(Player* orderHolder);
+        Blockade(Player* orderHolder, Territory* target);
         Blockade &operator=(const Blockade& order);
 
         void execute();
@@ -144,7 +144,7 @@ class Airlift: public Order{
         Airlift(int orderId);
         Airlift(const Airlift &order);
         ~Airlift();
-        Airlift(Player* orderHolder);
+        Airlift(Player* orderHolder, int army, Territory* source, Territory* target);
         Airlift &operator=(const Airlift& order);
 
         void execute();
@@ -161,7 +161,7 @@ class Negotiate:public Order{
         Negotiate(int orderId);
         Negotiate(const Negotiate &order);
         ~Negotiate();
-        Negotiate(Player* orderHolder);
+        Negotiate(Player* orderHolder, Player* negotiateWith);
         Negotiate& operator=(const Negotiate& order);
 
         void execute();
