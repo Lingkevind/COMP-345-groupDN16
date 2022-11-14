@@ -8,6 +8,8 @@
 #define   CommandProcessing
 #include "GameEngine.h";
 #include "LoggingObserver.h"
+#include <regex>
+
 
 
 
@@ -93,4 +95,3 @@ class FileCommandProcessorAdapter : public CommandProcessor
 
 
 #endif 
-

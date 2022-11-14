@@ -169,13 +169,39 @@ void MapLoadState::enterState(CommandProcessor* cp)
 void MapLoadState::executeState(CommandProcessor* cp)
 {
 	cout << "The Valid Command For MapLoadState Is Being executed..." << endl;
-	int size = cp->commandCollection.size();
-	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
 
-	//PART 2 CODE HERE 
-	//SAVE EFFECT HERE 
-	//int size = cp->commandCollection.size();
-	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+	int size = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+	string mapName = "default";
+
+
+	if ((regex_match(commandString, regex("(loadmap )(.*)"))))
+	{
+		 char spaceCharacter = ' ';
+		 // Find first occurrence of ' '
+		 size_t found = commandString.find(spaceCharacter);
+		 mapName	  = commandString.substr(found);
+		 mapName.erase(mapName.find_last_not_of(" ") + 1);
+		 mapName.erase(0, mapName.find_first_not_of(" "));
+
+		 cout << mapName << " IS GOING TO BE LOADED " << endl;
+		 
+
+		 //PART 2 CODE HERE 
+		 //SAVE EFFECT HERE 
+		 //int size = cp->commandCollection.size();
+		 //cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+		
+	}
+
+	if (commandString == "validatemap") 
+	{
+		cout << "YOU ARE HAPPY WITH THE MAP YOU LOADED " << endl;
+	}
+
+
+
+
 };
 
 void MapLoadState::exitState(CommandProcessor* cp)
@@ -191,7 +217,7 @@ void MapLoadState::exitState(CommandProcessor* cp)
 
 	cout << "the latest command was: " << commandString << endl;
 
-	if (commandString == "loadmap")
+	if ((regex_match(commandString, regex("(loadmap )(.*)"))))
 	{
 		this->context_->TransitionTo(new MapLoadState);
 	}
@@ -237,12 +263,13 @@ void MapValidatedState::executeState(CommandProcessor* cp)
 	cout << "The Valid Command For MapValidateState Is Being executed..." << endl;
 
 	int size = cp->commandCollection.size();
-	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
 
-	//PART 2 CODE HERE 
+
+	//PART2 CODE GOES HERE TO VALIDATE THE MAP
 	//SAVE EFFECT HERE 
-	//int size = cp->commandCollection.size();
 	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+	
 };
 
 void MapValidatedState::exitState(CommandProcessor* cp)
@@ -285,26 +312,36 @@ void PlayersAddedState::enterState(CommandProcessor* cp)
 void PlayersAddedState::executeState(CommandProcessor* cp)
 {
 	int size = cp->commandCollection.size();
-	string command = cp->commandCollection.at(size - 1)->getCommand();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+	string playerName = "default";
 
-	if (command == "addplayer")
+	if ((regex_match(commandString, regex("(addplayer )(.*)"))))
 	{
+		char spaceCharacter = ' ';
+		// Find first occurrence of ' '
+		size_t found = commandString.find(spaceCharacter);
+		playerName = commandString.substr(found);
+		playerName.erase(playerName.find_last_not_of(" \n\r\t") + 1);
+		playerName.erase(0, playerName.find_first_not_of(" \n\r\t"));
+
 		cout << "The Valid Command(addplayer) For PlayersAdded is being executed..." << endl;
 		//PART2 CODE HERE FOR ADD PLAYER
+		//Please put appropriate message here 
+		//cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
+
+		cout << playerName << " HAS BEEN ADDED" << endl;
+	
 
 	}
 
-	if (command == "gamestart")
+	if (commandString == "gamestart")
 	{
 		cout << "The Valid Command(gamsestart) For PlayersAdded is being executed..." << endl;
 		//PART2 CODE HERE FOR GAMESTART COMMAND
+		//Please put appropriate message here 
+		cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
 
 	}
-
-
-	//Please put appropriate message here 
-	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
-
 
 };
 
@@ -319,7 +356,7 @@ void PlayersAddedState::exitState(CommandProcessor* cp)
 
 	cout << "the latest command was: " << commandString << endl;
 
-	if (commandString == "addplayer")
+	if ((regex_match(commandString, regex("(addplayer )(.*)"))))
 	{
 		this->context_->TransitionTo(new PlayersAddedState);
 	}
