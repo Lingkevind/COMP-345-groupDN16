@@ -65,7 +65,7 @@ public:
 
 	std::string getStateName();
 	string StringToLog();
-	
+
 };
 
 
