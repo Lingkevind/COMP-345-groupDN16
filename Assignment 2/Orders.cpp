@@ -637,3 +637,36 @@ ostream& operator<<(ostream& os, const Negotiate& order){
     return os;
 }
 
+void testOrderExecution(){
+
+    Territory* t1= new Territory();
+    Territory* t2= new Territory();
+    Territory* t3= new Territory();
+
+    t1->setArmySize(10);
+    t2->setArmySize(13);
+    t3->setArmySize(28);
+
+
+    Player *p1=new Player();
+    Player *p2=new Player();
+
+    p1->occupy(t1);
+    p1->occupy(t2);
+    p2->occupy(t3);
+
+    t1->addAjacentTerritory(t2);
+    t2->addAjacentTerritory(t3);
+
+    Deploy *d1=new Deploy(p1, 4, t2);
+    Advance *a1= new Advance(p2, 25, t3, t1);
+    Bomb *b1=new Bomb(p1, t3);
+    Blockade *k1=new Blockade(p1, t2);
+    Airlift *l1=new Airlift(p1, 2, t2, t1);
+
+    d1->execute();
+    a1->execute();
+    b1->execute();
+    k1->execute();
+    l1->execute();
+}
