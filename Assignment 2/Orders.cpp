@@ -230,14 +230,54 @@ Advance& Advance::operator=(const Advance &order){
 Advance::~Advance(){
 }
 bool Advance::validate(){
-     if(getTargetTerritory()==NULL){
-        cout<<"Target territory is null."<<endl;
+     if(getTargetTerritory()==NULL || getSourceTerritory()==NULL){
+        cout<<"Target or source territory is null."<<endl;
         return false;
     }
-        // logic for validation
 
+   
+
+    //source belongs to player
+     bool sourceBelongsToPlayer=false;
+    vector <Territory*> isPresent  = getOrderHolder()->getplayerOccupied();
+    for(Territory* t: isPresent){
+        if(t==getSourceTerritory()){
+            sourceBelongsToPlayer=true;
+             break;
+        }
+    } 
+
+    //Adjacency test
+    bool isAdjacent=false;
+     vector <Territory* > adjacency= getTargetTerritory()->getAdjacentTerritories();
+    for(Territory* t: adjacency){
+        if(t==getSourceTerritory())
+            isAdjacent=true;
+            break;
+    }
+
+    //Are the armies enough to make an advance.
+    bool ArmiesEnough=(army<=getSourceTerritory()->getArmySize());
+    
+    if(!sourceBelongsToPlayer){
+        cout<<"Invalid advance order. Source does not belong to player."<<endl;
+        return false;
+    }
+
+    else if(!isAdjacent){
+         cout<<"Invalid advance order. Territories need to be adjacent."<<endl;
+        return false;
+    }
+    else if(!ArmiesEnough){
+         cout<<"Invalid advance order. Not enough armies."<<endl;
+        return false;
+    }
+    else {
+        cout<<"Valid order."<<endl;
         return true;
     }
+  }
+
 
     void Advance::execute(){
         bool isValid=validate();
@@ -245,6 +285,41 @@ bool Advance::validate(){
         cout<<"Execute function of "<<this->getOrderName()<<endl;
 
         if(isValid){
+            // If the target territory belongs to the player, you just move armies.
+            
+            if(getTargetTerritory()->getControllingPlayer()==getOrderHolder()){
+                int sourcearmies=getTargetTerritory()->getArmySize();
+                int targetarmies=getSourceTerritory()->getArmySize();
+                    getTargetTerritory()->setArmySize(targetarmies+ army);
+                    getSourceTerritory()->setArmySize(sourcearmies- army);
+                
+            }
+            else{
+                    while(army>0){
+                        if(getTargetTerritory()->getArmySize()<=0){
+                            cout<<" Territory conquered. Remaining armies will remove as it is.";
+                            int sourcearmies=getTargetTerritory()->getArmySize();
+                            int targetarmies=getSourceTerritory()->getArmySize();
+
+                             getTargetTerritory()->setArmySize(targetarmies+ army);
+                             getSourceTerritory()->setArmySize(sourcearmies- army);
+                             break;
+                        }
+
+                        int attackprobability= rand()%10 +1;
+                        int defendprobability= rand()%10 +1;
+
+                    if(attackprobability<=6)
+                        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize()-1);
+                    if(defendprobability<=7){
+                             army=army-1;
+                        getSourceTerritory()->setArmySize(getSourceTerritory()->getArmySize()-1);
+                    }
+                       
+                   } // while loop closes
+            } // else closses
+            
+
             cout<<"Execution was successful"<<endl;
         }
     else{
@@ -525,10 +600,6 @@ Negotiate& Negotiate::operator=(const Negotiate &order){
  Negotiate::~Negotiate(){
  }
 bool Negotiate::validate(){
-    if(getTargetTerritory()==NULL){
-        cout<<"Target territory is null."<<endl;
-        return false;
-    }
     // logic for validation
     Player* negotiateWith= this->getTargetTerritory()->getControllingPlayer();
 
