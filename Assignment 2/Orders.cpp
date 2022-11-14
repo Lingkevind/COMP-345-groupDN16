@@ -147,8 +147,10 @@ Deploy::Deploy(const Deploy& order){
     this->army=order.army;
 }
 
-Deploy::Deploy(Player* orderHolder){
+Deploy::Deploy(Player* orderHolder, int army, Territory* target){
     this->setOrderHolder(orderHolder);
+    this->army=army;
+    this->setTargetTerritory(target);
 }
 
 Deploy& Deploy::operator=(const Deploy &order){
@@ -213,8 +215,11 @@ Advance::Advance(const Advance& order){
     this->orderId=order.orderId;
 }
 
-Advance::Advance(Player* orderHolder){
+Advance::Advance(Player* orderHolder, int army, Territory* source, Territory* target){
     this->setOrderHolder(orderHolder);
+    this->army=army;
+    this->setSourceTerritory(source);
+    this->setTargetTerritory(target);
 }
 
 Advance& Advance::operator=(const Advance &order){
@@ -269,8 +274,9 @@ Bomb::Bomb(const Bomb& order){
     this->orderId=order.orderId;
 }
 
-Bomb::Bomb(Player* orderHolder){
+Bomb::Bomb(Player* orderHolder, Territory* target){
     this->setOrderHolder(orderHolder);
+    this->setTargetTerritory(target);
 }
 
 Bomb& Bomb::operator=(const Bomb &order){
@@ -351,8 +357,9 @@ Blockade::Blockade(const Blockade& order){
     this->orderId=order.orderId;
 }
 
-Blockade::Blockade(Player* orderHolder){
+Blockade::Blockade(Player* orderHolder, Territory* target){
     this->setOrderHolder(orderHolder);
+    this->setTargetTerritory(target);
 }
 
 Blockade& Blockade::operator=(const Blockade &order){
@@ -423,8 +430,11 @@ Airlift::Airlift(const Airlift& order){
     this->orderId=order.orderId;
 }
 
-Airlift::Airlift(Player* orderHolder){
+Airlift::Airlift(Player* orderHolder, int army, Territory* source, Territory* target){
     this->setOrderHolder(orderHolder);
+    this->army=army;
+    this->setSourceTerritory(source);
+    this->setTargetTerritory(target);
 }
 
 Airlift& Airlift::operator=(const Airlift &order){
@@ -503,7 +513,7 @@ Negotiate::Negotiate(const Negotiate& order){
     this->orderId=order.orderId;
 }
 
-Negotiate::Negotiate(Player* orderHolder){
+Negotiate::Negotiate(Player* orderHolder, Player* negotiateWith){
     this->setOrderHolder(orderHolder);
 }
 
