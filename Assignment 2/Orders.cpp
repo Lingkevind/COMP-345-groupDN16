@@ -70,18 +70,63 @@ ostream& operator<<(ostream& os, const Order& order){
 ****/
 
 
-OrderList::OrderList(){
-    /*
-    Default constructor
-    Nothing to code for now.
-    */
+OrderList::OrderList(){		//OrderList default constructor
+	
 }
-OrderList::~OrderList(){
+OrderList::~OrderList(){	//OrderList destructor
     for(Order* order: orderList){
-        order=nullptr;
         delete order;
+        order=nullptr;      
     }
     orderList.clear();
+}
+
+OrderList::OrderList(const OrderList& OriginalList){
+    this->orderList=OriginalList.orderList; //OrderList copy constructor	
+}				
+
+OrderList& OrderList::operator=(const OrderList& OriginalList){
+    this->orderList=OriginalList.orderList;	//OrderList assignment operator
+    return *this;
+}
+
+void OrderList::add(Order *order){
+    this->orderList.push_back(order);	//OrderList add function
+    cout<<order->getOrderName()<<"Order added"<<endl;
+}
+
+void OrderList::remove(int position){
+    if(position<0 || position>=getOrderList().size()){
+        cout<<"Invalid remove order"<<endl;	//OrderList remove function
+    }
+    else{
+        Order *removeOrder=getOrderList().at(position);
+        delete removeOrder;
+        removeOrder=nullptr;
+        this->orderList.erase(orderList.begin()+position);
+        cout<<"Order removed"<<endl;
+    }
+}
+
+void OrderList::move(int initialPosition, int finalPosition){
+    if(initialPosition<0 ||  initialPosition>=getOrderList().size() ||
+         finalPosition<0 ||  finalPosition>=getOrderList().size()){
+            cout<<"invalid move Order"<<endl;
+         }			//OrderList execute function
+    else{
+        Order *moveOrder=getOrderList().at(initialPosition);
+        this->orderList.erase(orderList.begin()+initialPosition);
+        this->orderList.insert(orderList.begin()+finalPosition, moveOrder);
+        cout<<"Order moved"<<endl;
+    }
+}
+
+ostream& operator<<(ostream& os, OrderList& OriginalList) {
+    vector<Order*> temp = OriginalList.getOrderList();
+    for (int i = 0; i < temp.size(); i++) {
+        os << temp.at(i)->orderId << temp.at(i)->getOrderName() << endl;
+    }
+    return os;		//OrderList output stream function
 }
 
 
