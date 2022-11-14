@@ -24,9 +24,9 @@ public:
 	virtual ~StateInterface();
 
 
-	virtual void enterState	 (CommandProcessor* cp)	= 0;
+	virtual void enterState(CommandProcessor* cp) = 0;
 	virtual void executeState(CommandProcessor* cp) = 0;
-	virtual void exitState	 (CommandProcessor* cp)	= 0;
+	virtual void exitState(CommandProcessor* cp) = 0;
 };
 
 
@@ -63,10 +63,12 @@ public:
 	void exitState(CommandProcessor* cp);
 
 	void setStateName(std::string s);
-	
+
 	std::string getStateName();
 
-	
+
+
+
 };
 
 
@@ -149,4 +151,3 @@ class WinState : public StateInterface
 
 
 #endif 
-
