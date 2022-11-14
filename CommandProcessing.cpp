@@ -118,7 +118,7 @@ bool CommandProcessor::validate(string currentState)
     {
         return true;
     }
-    else if ((regex_match(latestCommand, regex("(addplayer )(.*)"))) && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
+    else if (((regex_match(latestCommand, regex("(addplayer )(.*)"))) || latestCommand == "validatemap") && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
     {
         return true;
     }
