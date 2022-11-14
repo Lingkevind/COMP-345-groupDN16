@@ -4,3 +4,5 @@ Command's effect : default
 Game engine's new state : StartState
 Game engine's new state : StartState
 Game engine's new state : StartState
+Game engine's new state : StartState
+Game engine's new state : StartState

@@ -16,9 +16,10 @@ inline void testLoggingObserver() {
 
 	map<string, string> expectedKeywordsFromOutput;
 
-	expectedKeywordsFromOutput = { {"Game engine's new state", "StartState"},
-			  {"Command ", "loadmap"},
-			  {"Command's effect", "default"} };
+	expectedKeywordsFromOutput = { 
+			{"Game engine's new state", "StartState"},
+			{"Command ", "loadmap"},
+			{"Command's effect", "default"} };
 
 	LoggingObserver* lg = new LoggingObserver();
 	CommandProcessor* cp = new CommandProcessor();
