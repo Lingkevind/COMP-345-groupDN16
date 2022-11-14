@@ -298,6 +298,10 @@ bool Advance::validate(){
                     while(army>0){
                         if(getTargetTerritory()->getArmySize()<=0){
                             cout<<" Territory conquered. Remaining armies will remove as it is.";
+				
+			    this->getTargetTerritory()->getControllingPlayer()->leaveTerritory(getTargetTerritory());
+                            this->getOrderHolder()->occupy(getTargetTerritory());
+
                             int sourcearmies=getTargetTerritory()->getArmySize();
                             int targetarmies=getSourceTerritory()->getArmySize();
 
