@@ -154,6 +154,7 @@
 		if (true){	//during thegame
 			lostAllTerritory = this->getplayerOccupied().size() == a;
 		}
+		
 		return lostAllTerritory;
 	}
 	/// <summary>
@@ -207,8 +208,7 @@
 	/// testPlayer
 	/// </summary>
 
-	//playerlist 
-	/*PlayerList::PlayerList() {
+	PlayerList::PlayerList() {
 	};
 
 	PlayerList::PlayerList(const PlayerList& pl) {
@@ -221,7 +221,17 @@
 
 	Player PlayerList::findPlayer(int i) {
 		return list[i];
-	};*/
+	};
+
+	Player PlayerList::findPlayerbyName(string name) {
+		for (int i = 0; i < list.size(); i++) {
+			if (findPlayer(i).getPlayerName() == name) {
+				return findPlayer(i);
+			}
+		}
+		cout << "player " << name << " not found";
+		return Player();
+	}
 
 
 
@@ -293,9 +303,6 @@
 		t6->addAjacentTerritory(t3);
 		t6->addAjacentTerritory(t5);
 
-
-
-
 		player.displayOcc(territoriesVptrp);
 		cout << "\ngetAdjacentTerritories\n";
 		vector<Territory*> tAdj1 = t2->getAdjacentTerritories();
@@ -313,16 +320,7 @@
 		player.displayOcc(vToDefend);
 		
 		//cout << "getAdjacentTerritories\n";
-
-
-
-
-
-
-		
-
 		//player.displayOcc(player.toAttack());
-		
 		//player.displayOcc(player.toDefend());
 		//player.issueOrder();
 		//player.issueOrder();
