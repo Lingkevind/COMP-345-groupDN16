@@ -4,6 +4,19 @@
 #include <string>
 #include "CommandProcessing.h";
 
+#include "Territory.h"
+#include "Coord.h"
+#include "MapLoader.h"
+#include <windows.h> 
+
+#include <iostream>
+#include "Territory.h"
+#include "Coord.h"
+#include <map>
+#include <windows.h> 
+
+
+
 
 class StateController;
 class CommandProcessor;
@@ -24,9 +37,9 @@ public:
 	virtual ~StateInterface();
 
 
-	virtual void enterState(CommandProcessor* cp) = 0;
+	virtual void enterState(CommandProcessor* cp)	= 0;
 	virtual void executeState(CommandProcessor* cp) = 0;
-	virtual void exitState(CommandProcessor* cp) = 0;
+	virtual void exitState(CommandProcessor* cp)	= 0;
 };
 
 
@@ -44,6 +57,11 @@ public:
 	StateInterface* currentState;
 
 	std::string currentStateName;
+
+	Map* gameMap = NULL;
+
+	vector <Player*> playerCollection;		//vector of command objects 
+
 
 	//Once a state has completed execution, it will change its state 
 	void TransitionTo(StateInterface* state);
