@@ -93,6 +93,7 @@ OrderList& OrderList::operator=(const OrderList& OriginalList){
 void OrderList::add(Order *order){
     this->orderList.push_back(order);	//OrderList add function
     cout<<order->getOrderName()<<"Order added"<<endl;
+	
 }
 
 void OrderList::remove(int position){
