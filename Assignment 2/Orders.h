@@ -3,6 +3,7 @@
 #include<string>
 #include "Map.h"
 #include "Player.h"
+#include "LoggingObserver.h"
 using namespace std;
 
 #ifndef ORDERS_H
