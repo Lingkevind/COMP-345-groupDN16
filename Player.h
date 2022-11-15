@@ -19,7 +19,9 @@ class Player
 public:
 	friend ostream& operator<<(ostream& os, const Player& d);
 	int pid = -1;
-	Order playerOrderlist;
+	Order playerOrderlist;//old
+	OrderList oList; //new
+	int ArmyUnit;//new
 	Player();
 	Player(std::string newName);
 	Player(const Player& copyPlayer);
