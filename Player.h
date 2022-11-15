@@ -7,7 +7,7 @@
 #include "Orders.h"
 #include "Continent.h"
 
-static int playerNum = 0;
+ static int playerNum = 0;
 class Player
 {
 	std::vector <Territory*> playerOccupied;//get method
@@ -15,6 +15,7 @@ class Player
 	std::vector <Player>* playerOrderVector;
 	Hand* playerHand = nullptr;
 	vector<Order>* playerOrderPtr = nullptr;
+	
 public:
 	friend ostream& operator<<(ostream& os, const Player& d);
 	int pid = -1;
@@ -41,14 +42,15 @@ public:
 	std::string playerName;
 };
 
-//class PlayerList //new
-//{
-//public:
-//	std::vector<Player> list;
-//	PlayerList();
-//	PlayerList(const PlayerList& pl);
-//	void addPlayer(Player p);
-//	Player findPlayer(int i);
-//};
+class PlayerList
+{
+public:
+	std::vector<Player> list;
+	PlayerList();
+	PlayerList(const PlayerList& pl);
+	void addPlayer(Player p);
+	Player findPlayer(int i);
+	Player findPlayerbyName(string name);
+};
 
 void testPlayer();
