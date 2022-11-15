@@ -11,7 +11,7 @@ using namespace std;
 
 void testOrderLists();
 
-class Order{
+class Order: public Subject{
     public:
         int army;
         static int count;
@@ -45,7 +45,7 @@ class Order{
         Territory* targetTerritory;
 };
 
-class OrderList{
+class OrderList: public Subject{
     public:
         OrderList();
         ~OrderList();
