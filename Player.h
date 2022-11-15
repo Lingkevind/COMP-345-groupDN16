@@ -34,7 +34,11 @@ public:
 	string occupy(Territory * t);
 	string occupy(Territory* t, Player defeatedPlayer);
 	string annex( Player*p);
-	int isLosttheGame();
+	bool isLosttheGame();
+	//bool ownTerritory(Territory t); 
+	//Severity	Code	Description	Project	File	Line	Suppression State
+	//	Error	C2679	binary '==': no operator found which takes a right - hand operand of type 'const _Ty' (or there is no acceptable conversion)	
+	//	Community\VC\Tools\MSVC\14.33.31629\include\xutility	5268
 	void displayerOcc();
 	void displayOcc(vector <Territory*> occVector);
 	std::vector <Territory*> getFrontierT();
