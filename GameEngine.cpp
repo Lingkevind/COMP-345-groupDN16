@@ -3,8 +3,19 @@
 #include <cstdlib>;
 #include <string>
 
+
+#include <iostream>
+#include "Territory.h"
+#include "Coord.h"
+#include <map>
+#include "MapLoader.h"
+#include <windows.h> 
+#include "Player.h"S
+
+
 using namespace std;
 #include "GameEngine.h";
+
 
 /*
 ******************SECTION 1******************
@@ -86,58 +97,73 @@ Defining methods for the StartState Class
 **********************************************
 */
 
-/*
-	Each state class, has 3 state methods. enterState, executeState, exitState
-
-	The purpose of enterState is to greet the player with the current state we are in.
-	Afterwards, it will keep asking for a command from the user until it gets the valid command for the state.
-
-	The purpose of executeState is to perform the execution of the command. Some states do not perform any action but transition
-	to the next state. Example, the StartState, it will get the mapload command and just transition to the mapload state(happens in exitState)
-	Once a command has been executed, the effect of it is saved.
-
-	The purpose of exitState is to perform the action that transitions to the next state.
-
-*/
-
-
 
 void StartState::enterState(CommandProcessor* cp)
 {
+	bool validCommand = false;
 	std::cout << "***Welcome To StartState***" << std::endl;
 
-	bool validCommand = false;
-
+	//Loop until we get valid command for the state 
 	while (validCommand == false)
 	{
 		cp->getCommand();
-		validCommand = cp->validate(this->context_->getStateName());
-
-
-
+		validCommand = cp->validate(this->context_->getStateName()); 
 		int size = cp->commandCollection.size();
-
 		if (validCommand == false) {
 			cp->commandCollection.at(size - 1)->saveEffect("error in performing command");
 		}
 		else {
 			cout << "Entered a valid command" << endl;
+			cp->commandCollection.at(size - 1)->saveEffect("SUCCESS IN TRANSITIONING FROM startState");
 		}
 	}
 };
 
-void StartState::executeState(CommandProcessor* cp)
-{
+void StartState::executeState(CommandProcessor* cp){
+
 	cout << "The Valid Command For StartState Is Being executed..." << endl;
+
+
+	int size = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+	string mapName = "default";
+	string effectMessage = "default";
+
+	//Aquire just the map name without the command load
+	char spaceCharacter = ' ';
+	size_t found = commandString.find(spaceCharacter);
+	mapName = commandString.substr(found);
+	mapName.erase(mapName.find_last_not_of(" ") + 1);
+	mapName.erase(0, mapName.find_first_not_of(" "));
+
+	cout << "ATTEMPTING TO LOAD MAP: " << mapName << endl;
+
+	//Load the Map 
+	MapLoader* mapLoader = new MapLoader();
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	this->context_->gameMap = mapLoader->loadMap(mapName);
+
+	//Map SUCCEED to loaded
+	if (this->context_->gameMap != NULL)
+	{
+		cout << "SUCCESSFULLY LOADED MAP: " << mapName << endl;
+		effectMessage = "SUCCESSFULLY LOADED MAP";
+	}
+	//Map FAILED to load
+	else
+	{
+		cout << "FAILED TO LOADED MAP: " << mapName << endl;
+		effectMessage = "FAILED TO LOADED MAP";
+	}
+	delete mapLoader;
+	mapLoader = NULL;
+	size = cp->commandCollection.size();
+	cp->commandCollection.at(size - 1)->saveEffect(effectMessage);
+
 };
 
 void StartState::exitState(CommandProcessor* cp)
 {
-	cout << "The Valid Command For StartState Has Been executed... " << endl;
-
-	int size = cp->commandCollection.size();
-	cp->commandCollection.at(size - 1)->saveEffect("SUCCESSFUL!");
-
 	this->context_->TransitionTo(new MapLoadState);
 };
 
@@ -172,38 +198,33 @@ void MapLoadState::enterState(CommandProcessor* cp)
 void MapLoadState::executeState(CommandProcessor* cp)
 {
 	cout << "The Valid Command For MapLoadState Is Being executed..." << endl;
+	
 
 	int size = cp->commandCollection.size();
 	string commandString = cp->commandCollection.at(size - 1)->getCommand();
-	string mapName = "default";
 
 
-	if ((regex_match(commandString, regex("(loadmap )(.*)"))))
+	if (commandString == "validatemap")
 	{
-		 char spaceCharacter = ' ';
-		 // Find first occurrence of ' '
-		 size_t found = commandString.find(spaceCharacter);
-		 mapName	  = commandString.substr(found);
-		 mapName.erase(mapName.find_last_not_of(" ") + 1);
-		 mapName.erase(0, mapName.find_first_not_of(" "));
+		//Map meets all the validation requirements
+		if (this->context_->gameMap->isMapConnectedSubgraph())
+		{
+			cout << "The Map you loaded is a valid." << endl;
+			cp->commandCollection.at(size - 1)->saveEffect("The Map loaded is valid");
 
-		 cout << mapName << " IS GOING TO BE LOADED " << endl;
-		 
+		}
 
-		 //PART 2 CODE HERE 
-		 //SAVE EFFECT HERE 
-		 //int size = cp->commandCollection.size();
-		 //cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
-		
+		//Map does not meet all the validation requirements 
+		else
+		{
+			cout << "The Map you loaded is not valid." << endl;
+			cp->commandCollection.at(size - 1)->saveEffect("The Map loaded is NOT valid");
+			//go back to load state and load another map
+			this->context_->TransitionTo(new MapLoadState);
+
+
+		}
 	}
-
-	if (commandString == "validatemap") 
-	{
-		cout << "YOU ARE HAPPY WITH THE MAP YOU LOADED " << endl;
-	}
-
-
-
 
 };
 
@@ -211,25 +232,7 @@ void MapLoadState::exitState(CommandProcessor* cp)
 {
 	cout << "The Valid Command For MapLoadState Has Been executed... " << endl;
 
-	//Get last command to see if we are re-entering MapLoadState or entering MapValidatedState
-
-	int size = cp->commandCollection.size();
-	string commandString = cp->commandCollection.at(size - 1)->getCommand();
-
-
-
-	cout << "the latest command was: " << commandString << endl;
-
-	if ((regex_match(commandString, regex("(loadmap )(.*)"))))
-	{
-		this->context_->TransitionTo(new MapLoadState);
-	}
-
-	else if (commandString == "validatemap") {
-		this->context_->TransitionTo(new MapValidatedState);
-	}
-
-
+	this->context_->TransitionTo(new MapValidatedState);
 };
 
 
@@ -265,20 +268,55 @@ void MapValidatedState::executeState(CommandProcessor* cp)
 {
 	cout << "The Valid Command For MapValidateState Is Being executed..." << endl;
 
+
 	int size = cp->commandCollection.size();
 	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+	string playerName = "default";
 
+	//GET THE PLAYER NAME FROM THE COMMAND
+	if ((regex_match(commandString, regex("(addplayer )(.*)"))))
+	{
+		char spaceCharacter = ' ';
+		// Find first occurrence of ' '
+		size_t found = commandString.find(spaceCharacter);
+		playerName = commandString.substr(found);
+		playerName.erase(playerName.find_last_not_of(" \n\r\t") + 1);
+		playerName.erase(0, playerName.find_first_not_of(" \n\r\t"));
 
-	//PART2 CODE GOES HERE TO VALIDATE THE MAP
-	//SAVE EFFECT HERE 
-	//cp->commandCollection.at(size - 1)->saveEffect("YOUR MESSAGE");
+		cout << "The Valid Command(addplayer) For PlayersAdded is being executed..." << endl;
+
+		if (this->context_->playerCollection.size() < 6) 
+		{
+			this->context_->playerCollection.emplace_back(new Player(playerName));
+			cout << playerName << " HAS BEEN ADDED" << endl;
+		}
+	}
+
+	if (commandString == "gamestart" ) 
+	{
 	
+	
+	}
+
+
+
 };
 
 void MapValidatedState::exitState(CommandProcessor* cp)
 {
 	cout << "The Valid Command For MapValidatedState Has Been executed... " << endl;
 	cout << "Transitioning to PlayersAddedState..." << endl;
+
+	
+	int size = cp->commandCollection.size();
+	string latestCommand = cp->commandCollection.at(size - 1)->getCommand();
+	
+	if (latestCommand == "gamestart") 
+	{
+		this->context_->TransitionTo(new AssignReinforcementState);
+
+	}
+
 	this->context_->TransitionTo(new PlayersAddedState());
 
 };
