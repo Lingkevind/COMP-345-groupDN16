@@ -57,8 +57,6 @@ public:
     const std::vector<Order*> getOrderList() {
         return orderList;
     }
-
-private:
     std::vector<Order*> orderList;
 };
 
@@ -126,7 +124,7 @@ public:
     Blockade(Player* orderHolder, Territory* target);
     Blockade& operator=(const Blockade& order);
 
-    void execute();
+    void execute() ;
     bool validate();
     string orderName = "Blockade";
 
@@ -148,7 +146,7 @@ public:
     Airlift(Player* orderHolder, int army, Territory* source, Territory* target);
     Airlift& operator=(const Airlift& order);
 
-    void execute();
+    void execute() override;
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Airlift& order);
@@ -165,7 +163,7 @@ public:
     Negotiate(Player* orderHolder, Player* negotiateWith);
     Negotiate& operator=(const Negotiate& order);
 
-    void execute();
+    void execute() ;
     bool validate();
     string getOrderName() {
         return orderName;

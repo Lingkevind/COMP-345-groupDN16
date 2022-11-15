@@ -488,10 +488,10 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 				int option;
 				cin >> option;
 				endTurnIndicator[i] = option;
-				if (option = 1) {
+				if (option == 1) {
 					IssueAdvance(this->context_->pList->findPlayer(i));
 				}
-				if (option = 2) {
+				if (option == 2) {
 					string card = CardPlayed(this->context_->pList->findPlayer(i));
 					if (card == "Airlift") {
 						IssueAirlift(this->context_->pList->findPlayer(i));
@@ -506,7 +506,7 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 						IssueNegotiate(this->context_->pList->findPlayer(i));
 					}
 				}
-				if (option = 3) {
+				if (option == 3) {
 					cout << "turn end, please wait for other players";
 				}
 			}
@@ -518,7 +518,8 @@ void IssueOrderState::exitState(CommandProcessor* cp)
 {
 	this->context_->TransitionTo(new ExecuteOrderState());
 };
-//create temp. orderlist, 
+
+
 bool ExecuteOrderState::gameEnd() {
 	if (this->context_->pList->list.size()==1) {
 		return true;
@@ -531,19 +532,46 @@ bool ExecuteOrderState::gameEnd() {
 
 void ExecuteOrderState::enterState(CommandProcessor* cp)
 {
-	cout << "***Welcome To ExecuteOrderState***" << std::endl;
-
+	cout << "All players set, begin executing player order in round robin fashion" << endl;
 
 };
+
+bool ExecuteOrderState::finishExecute() {
+	int pAmount = this->context_->pList->list.size();
+	for (int i = 0; i < pAmount; i++) {
+		if (this->context_->pList->findPlayer(i).oList.listSize() != 0) {
+			return false;
+		}
+	}
+	return true;
+}
 
 void ExecuteOrderState::executeState(CommandProcessor* cp)
 {
-	cout << "The Valid Command For ExecuteOrderState Is Being executed...";
+	int pAmount = this->context_->pList->list.size();
+	while (finishExecute() == false) {
+		for (int i = 0; i < pAmount; i++) {
+			if (this->context_->pList->findPlayer(i).oList.listSize() != 0) {
+				this->context_->pList->findPlayer(i).oList.orderList[0]->execute();
+				this->context_->pList->findPlayer(i).oList.remove(0);
+			}
+		}
+	}
 
 };
 
+void ExecuteOrderState::checkFailedPlayer() {
+	int pAmount = this->context_->pList->list.size();
+	for (int i = 0; i < pAmount; i++) {
+		if (this->context_->pList->findPlayer(i).playerOccupied.size() == 0) {
+			this->context_->pList->findPlayer(i).~Player();
+		}
+	}
+}
+
 void ExecuteOrderState::exitState(CommandProcessor* cp)
 {
+	checkFailedPlayer();
 	if (gameEnd()) {
 		this->context_->TransitionTo(new WinState);
 	}

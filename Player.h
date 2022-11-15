@@ -18,15 +18,16 @@ class Player
 	OrderList oList;
 	friend ostream& operator<<(ostream& os, const Player& d);
 	int pid = -1;
-	Order playerOrderlist;
 	int ArmyUnit;
 	Player();
+	~Player();
 	Player(std::string newName);
 	Player(const Player& copyPlayer);
 	Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h, int au);
 	bool ownTerritory(Territory t);
 	std::vector <Territory>toDefend();
 	std::vector <Territory>toAttack();
+	std::vector<Order> playerOrderlist; 
 	void issueOrder();
 	void attack(Player pd); 
 	void leaveTerritory(Territory* t);

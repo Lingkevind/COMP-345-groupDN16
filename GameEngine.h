@@ -157,7 +157,9 @@ class ExecuteOrderState : public StateInterface
 {
 	bool gameEnd();
 	void enterState(CommandProcessor* cp) override;
+	bool finishExecute();
 	void executeState(CommandProcessor* cp) override;
+	void checkFailedPlayer();
 	void exitState(CommandProcessor* cp) override;
 };
 
