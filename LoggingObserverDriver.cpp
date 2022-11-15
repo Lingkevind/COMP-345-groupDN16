@@ -13,21 +13,31 @@ using namespace std;
 
 
 inline void testLoggingObserver() {
+	std::remove("GameLog.txt");
 
 	map<string, string> expectedKeywordsFromOutput;
 
-	expectedKeywordsFromOutput = { 
+	expectedKeywordsFromOutput = {
 			{"Game engine's new state", "StartState"},
 			{"Command ", "loadmap"},
-			{"Command's effect", "default"} };
+			{"Command's effect", "default"},
+			{"Order issued", "unknown order"},
+		    {"Order executed", "Deploy troops"}};
 
 	LoggingObserver* lg = new LoggingObserver();
 	CommandProcessor* cp = new CommandProcessor();
 	FileCommandProcessorAdapter* fcp = new FileCommandProcessorAdapter();
 	StateController* sc = new StateController(new StartState());	
 
+	sc->enterState(fcp);		
+	sc->executeState(fcp); 
+	sc->exitState(fcp);
 
+	OrderList* ol = new OrderList();
+	Deploy* deployOrder = new Deploy();
 
+	ol->add(deployOrder);
+	deployOrder->execute();
 
 	string gameLogContent;
 	string gameLogLine;
@@ -39,7 +49,6 @@ inline void testLoggingObserver() {
 
 	while (getline(gameLogFile, gameLogLine)) {
 		gameLogContent.append(gameLogLine);
-	
 	}
 
 	gameLogFile.close();

@@ -203,7 +203,7 @@ string FileLineReader::readLineFromFile()
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
-    fr = new FileLineReader("C:\\Users\\Roger\\Desktop\\gameTest2.txt");
+    fr = new FileLineReader("gameTest2.txt");
 
 
 }

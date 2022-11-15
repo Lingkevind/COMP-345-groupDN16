@@ -21,6 +21,7 @@ public:
     virtual string getOrderName() {
         return orderName;
     }
+
 private:
     string orderName = "unknown order";
 };
@@ -30,7 +31,7 @@ private:
 /***
  Deploy
  * **/
-class Deploy :public Order {
+class Deploy :public Order, Subject, ILoggable {
 public:
     Deploy();
     Deploy(int orderId);
@@ -42,6 +43,8 @@ public:
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Deploy& order);
+    string StringToLog();
+
 private:
     string orderName = "Deploy";
 };
@@ -50,7 +53,7 @@ private:
 Advance
  * **/
 
-class Advance : public Order {
+class Advance : public Order, Subject, ILoggable {
 public:
     Advance();
     Advance(int orderId);
@@ -62,6 +65,8 @@ public:
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Advance& order);
+    string StringToLog();
+
 private:
     string orderName = "Advance";
 };
@@ -70,7 +75,7 @@ private:
  Bomb
  * **/
 
-class Bomb : public Order {
+class Bomb : public Order, Subject, ILoggable {
 public:
     Bomb();
     Bomb(int orderId);
@@ -82,6 +87,8 @@ public:
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Bomb& order);
+    string StringToLog();
+
 private:
     string orderName = "Bomb";
 };
@@ -90,7 +97,7 @@ private:
  Blockade
  * **/
 
-class Blockade : public Order {
+class Blockade : public Order, Subject, ILoggable {
 public:
     Blockade();
     Blockade(int orderId);
@@ -102,6 +109,8 @@ public:
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Blockade& order);
+    string StringToLog();
+
 private:
     string orderName = "Blockade";
 };
@@ -110,7 +119,7 @@ private:
  Airlift
  * **/
 
-class Airlift : public Order {
+class Airlift : public Order, Subject, ILoggable {
 public:
     Airlift();
     Airlift(int orderId);
@@ -122,6 +131,8 @@ public:
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Airlift& order);
+    string StringToLog();
+
 private:
     string orderName = "Airlift";
 };
@@ -130,7 +141,7 @@ private:
  Negotiate
  * **/
 
-class Negotiate :public Order {
+class Negotiate :public Order, Subject, ILoggable {
 public:
     Negotiate();
     Negotiate(int orderId);
@@ -144,6 +155,8 @@ public:
         return orderName;
     }
     friend ostream& operator<<(ostream& os, const Negotiate& order);
+    string StringToLog();
+
 private:
     string orderName = "Negotiate";
 };

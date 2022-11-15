@@ -1,9 +1,5 @@
 Game engine's new state : StartState
 Command : loadmap
 Command's effect : default
-Game engine's new state : StartState
-Game engine's new state : StartState
-Game engine's new state : StartState
-Game engine's new state : StartState
-Game engine's new state : StartState
-Game engine's new state : StartState
+Order issued : Deploy
+Order executed : Deploy troops

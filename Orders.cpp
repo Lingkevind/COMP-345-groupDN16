@@ -70,11 +70,16 @@ void Deploy::execute() {
     cout << "Execute function of " << this->getOrderName() << endl;
 
     if (canExecute) {
+        this->notify(this);
         cout << "Execution was successful" << endl;
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
+}
+
+string Deploy::StringToLog() {
+    return "Order executed : Deploy troops";
 }
 
 ostream& operator<<(ostream& os, const Deploy& order) {
@@ -118,10 +123,15 @@ void Advance::execute() {
 
     if (canExecute) {
         cout << "Execution was successful" << endl;
+        this->notify(this);
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
+}
+
+string Advance::StringToLog() {
+    return "Order executed : Advance troops";
 }
 
 ostream& operator<<(ostream& os, const Advance& order) {
@@ -166,10 +176,15 @@ void Bomb::execute() {		// Bomb execute function
 
     if (canExecute) {
         cout << "Execution was successful" << endl;
+        this->notify(this);
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
+}
+
+string Bomb::StringToLog() {
+    return "Order executed : Bomb";
 }
 
 ostream& operator<<(ostream& os, const Bomb& order) {
@@ -214,11 +229,17 @@ void Blockade::execute() {	//Blockade execute function
 
     if (canExecute) {
         cout << "Execution was successful" << endl;
+        this->notify(this);
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
 }
+
+string Blockade::StringToLog() {
+    return "Order executed : Blockade";
+}
+
 
 ostream& operator<<(ostream& os, const Blockade& order) {
     os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
@@ -262,11 +283,17 @@ void Airlift::execute() {	//Blockade execute function
 
     if (canExecute) {
         cout << "Execution was successful" << endl;
+        this->notify(this);
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
 }
+
+string Airlift::StringToLog() {
+    return "Order executed : Airlift";
+}
+
 
 ostream& operator<<(ostream& os, const Airlift& order) {
     os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
@@ -310,11 +337,18 @@ void Negotiate::execute() {	//Negotiate execute function
 
     if (canExecute) {
         cout << "Execution was successful" << endl;
+        this->notify(this);
+
     }
     else {
         cout << "Execution cannot be done" << endl;
     }
 }
+
+string Negotiate::StringToLog() {
+    return "Order executed : Negotiate";
+}
+
 
 ostream& operator<<(ostream& os, const Negotiate& order) {
     os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
