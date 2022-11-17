@@ -36,6 +36,7 @@ public:
 	string occupy(Territory* t, Player defeatedPlayer);
 	string annex( Player*p);
 	bool isLosttheGame();
+	bool playerOccupiedHas(Territory* tPtr);
 	//bool ownTerritory(Territory t); 
 	//Severity	Code	Description	Project	File	Line	Suppression State
 	//	Error	C2679	binary '==': no operator found which takes a right - hand operand of type 'const _Ty' (or there is no acceptable conversion)	
