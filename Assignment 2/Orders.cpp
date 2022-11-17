@@ -7,6 +7,8 @@
 Order Class
 ***/
 
+int Order::count=0;
+
 Order::Order(){
     orderId=0;
 }
