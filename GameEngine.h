@@ -168,7 +168,7 @@ class ExecuteOrderState : public StateInterface
 	bool finishExecute();
 	void executeState(CommandProcessor* cp) override;
 	void checkFailedPlayer();
-	void makePlayerFail(string pName);
+	void makePlayerFail(string pName, vector<Player*>& pList);
 	void exitState(CommandProcessor* cp) override;
 };
 

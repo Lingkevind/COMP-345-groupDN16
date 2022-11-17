@@ -7,145 +7,123 @@
 Order Class
 ***/
 
-int Order::count = 0;
 
-Order::Order() {
+int Order::count=0;
 
-    orderId = 0;
+Order::Order(){
+    orderId=0;
 }
 
-Order::Order(int orderId) {
+Order::Order(int orderId){
     count++;
-    this->orderId = orderId;
+    this->orderId=orderId;
 }
 
-Order::Order(Player* orderHolder) {
+Order::Order(Player* orderHolder){
     count++;
-    this->orderId = count;
-    this->orderHolder = orderHolder;
+	this->orderId = count;
+	this->orderHolder = orderHolder;
 }
 
-Order::Order(int orderId, Player* orderHolder) {
-    this->orderId = orderId;
-    this->orderHolder = orderHolder;
+Order::Order(int orderId, Player* orderHolder){
+    this->orderId=orderId;
+    this->orderHolder=orderHolder;
 }
 
-Order::Order(const Order& order) {
-    this->orderId = order.orderId;
+Order::Order(const Order& order){
+    this->orderId=order.orderId;
 }
 
-string Order::toString() {
-    return " ";
-};
-
-Order& Order::operator=(const Order& order) {
-    this->orderId = order.orderId;
+Order& Order::operator=(const Order& order){
+    this->orderId=order.orderId;
     return *this;
 }
-Order::~Order() {
+Order::~Order(){
 }
 
+void Order::execute() {
 
+}
 
-ostream& operator<<(ostream& os, const Order& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Order& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
 
 //Method of Order
 
-Territory* Order::getTargetTerritory() {
-    return targetTerritory;
-}
-Territory* Order::getSourceTerritory() {
-    return sourceTerritory;
-}
-Player* Order::getOrderHolder() {
-    return orderHolder;
-}
-void Order::setTargetTerritory(Territory* target) {
-    this->targetTerritory = target;
-}
-void Order::setSourceTerritory(Territory* source) {
-    this->sourceTerritory = source;
-}
-void Order::setOrderHolder(Player* holder) {
-    this->orderHolder = holder;
-}
-
-void Order::execute() {
-    
-};
+    Territory* Order::getTargetTerritory(){
+            return targetTerritory;
+        }
+    Territory* Order::getSourceTerritory(){
+            return sourceTerritory;
+        }
+    Player* Order::getOrderHolder(){
+            return orderHolder;
+        }
+    void Order::setTargetTerritory(Territory* target){
+        this->targetTerritory=target;
+    }
+    void Order::setSourceTerritory(Territory* source){
+        this->sourceTerritory=source;
+    }
+    void Order::setOrderHolder(Player* holder){
+        this->orderHolder=holder;
+    }
 
 /****
  Order List functions
 ****/
 
 
-OrderList::OrderList() {		//OrderList default constructor
-
+OrderList::OrderList(){		//OrderList default constructor
+    orderList = vector<Order*>(0);
 }
-OrderList::~OrderList() {	//OrderList destructor
-    for (Order* order : orderList) {
+OrderList::~OrderList(){	//OrderList destructor
+    for(Order* order: orderList){
         delete order;
-        order = nullptr;
+        order=nullptr;      
     }
     orderList.clear();
 }
 
-OrderList::OrderList(const OrderList& OriginalList) {
-    this->orderList = OriginalList.orderList; //OrderList copy constructor	
-}
+OrderList::OrderList(const OrderList& OriginalList){
+    this->orderList=OriginalList.orderList; //OrderList copy constructor	
+}				
 
 /*OrderList& OrderList::operator=(const OrderList& OriginalList) {
-    this->orderList = OriginalList.orderList;	//OrderList assignment operator
+    this->orderList=OriginalList.orderList;	//OrderList assignment operator
     return *this;
 }*/
 
-void OrderList::add(Order* order) {
+void OrderList::add(Order *order){
     this->orderList.push_back(order);	//OrderList add function
-    cout << order->getOrderName() << "Order added" << endl;
-
+    cout<<order->getOrderName()<<"Order added"<<endl;
+	
 }
 
-void OrderList::remove(int position) {
-    if (position < 0 || position >= getOrderList().size()) {
-        cout << "Invalid remove order" << endl;	//OrderList remove function
+void OrderList::remove(int position){
+    if(position<0 || position>=getOrderList().size()){
+        cout<<"Invalid remove order"<<endl;	//OrderList remove function
     }
-    else {
-        Order* removeOrder = getOrderList().at(position);
-        delete removeOrder;
-        removeOrder = nullptr;
-        this->orderList.erase(orderList.begin() + position);
-        cout << "Order removed" << endl;
+    else{
+        Order *removeOrder=getOrderList().at(position);
+        this->orderList.erase(orderList.begin()+position);
+        cout<<"Order removed"<<endl;
     }
 }
 
-void OrderList::move(int initialPosition, int finalPosition) {
-    if (initialPosition < 0 || initialPosition >= getOrderList().size() ||
-        finalPosition < 0 || finalPosition >= getOrderList().size()) {
-        cout << "invalid move Order" << endl;
-    }			//OrderList execute function
-    else {
-        Order* moveOrder = getOrderList().at(initialPosition);
-        this->orderList.erase(orderList.begin() + initialPosition);
-        this->orderList.insert(orderList.begin() + finalPosition, moveOrder);
-        cout << "Order moved" << endl;
-    }
-}
-
-int OrderList::listSize() {
-    return orderList.size();
-}
-
-void OrderList::displayList() {
-    cout << "current orders:"<<endl;
-    if (orderList.size() == 0) {
-        cout << "None"<<endl;
-    }
-    for (int i = 0; i < orderList.size(); i++) {
-        cout << orderList[i]->toString()<<endl;
+void OrderList::move(int initialPosition, int finalPosition){
+    if(initialPosition<0 ||  initialPosition>=getOrderList().size() ||
+         finalPosition<0 ||  finalPosition>=getOrderList().size()){
+            cout<<"invalid move Order"<<endl;
+         }			//OrderList execute function
+    else{
+        Order *moveOrder=getOrderList().at(initialPosition);
+        this->orderList.erase(orderList.begin()+initialPosition);
+        this->orderList.insert(orderList.begin()+finalPosition, moveOrder);
+        cout<<"Order moved"<<endl;
     }
 }
 
@@ -162,72 +140,68 @@ ostream& operator<<(ostream& os, OrderList& OriginalList) {
 //     Deploy functions
 // ******/
 
-Deploy::Deploy() :Order() {
+Deploy::Deploy():Order(){ 
+    
+}
+
+Deploy::Deploy(int orderId): Order(orderId){
 
 }
 
-Deploy::Deploy(int orderId) : Order(orderId) {
-
+Deploy::Deploy(const Deploy& order){
+    this->orderId=order.orderId;
+    this->army=order.army;
 }
 
-Deploy::Deploy(const Deploy& order) {
-    this->orderId = order.orderId;
-    this->army = order.army;
-}
-
-Deploy::Deploy(Player* orderHolder, int army, Territory* target) {
+Deploy::Deploy(Player* orderHolder, int army, Territory* target){
     this->setOrderHolder(orderHolder);
-    this->army = army;
+    this->army=army;
     this->setTargetTerritory(target);
 }
 
-string Deploy::toString() {
-    return orderName+" " + to_string(army) +" to "+targetTerritory->getName();
-};
-
-Deploy& Deploy::operator=(const Deploy& order) {
-    this->orderId = order.orderId;
-    this->army = order.army;
+Deploy& Deploy::operator=(const Deploy &order){
+    this->orderId=order.orderId;
+    this->army=order.army;
     return *this;
 }
 
-Deploy::~Deploy() {
+Deploy::~Deploy(){
 }
-bool Deploy::validate() {
+bool Deploy::validate(){
     // logic for validation
-    bool isValid = false;
+    bool isValid=false;
 
-    vector <Territory*> isPresent = getOrderHolder()->getplayerOccupied();
-    for (Territory* t : isPresent) {
-        if (t == getTargetTerritory()) {
-            isValid = true;
-            cout << "The Deploy order is valid." << endl;
-            break;
+    vector <Territory*> isPresent  = getOrderHolder()->getplayerOccupied();
+    for(Territory* t: isPresent){
+        if(t==getTargetTerritory()){
+            isValid=true;
+            cout<<"The Deploy order is valid."<<endl;
+             break;
         }
-    }
+    } 
     return isValid;
 }
 
-void Deploy::execute() {
-    bool isValid = validate();
+void Deploy::execute(){
+    bool isValid=validate();
 
-    cout << "Execute function of " << this->getOrderName() << endl;
+    cout<<"Execute function of "<<this->getOrderName()<<endl;
 
-    if (isValid) {
-        cout << "Deploying armies" << endl;
-        cout << "Target territory:" << getTargetTerritory()->getName();
+    if(isValid){
+        cout<<"Deploying armies"<<endl;
+        cout<<"Target territory:"<<getTargetTerritory()->getName();
 
-        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize() + army);
+        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize()+ army);
 
-        cout << "Execution was successful" << endl;
+        cout<<"Execution was successful"<<endl;
     }
-    else {
-        cout << "Execution cannot be done." << endl;
+    else{
+        cout<<"Execution cannot be done."<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Deploy& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Deploy& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
@@ -235,140 +209,136 @@ ostream& operator<<(ostream& os, const Deploy& order) {
     Advance functions
 ******/
 
-Advance::Advance() :Order() {
-
+Advance::Advance():Order(){ 
+    
 }
 
-Advance::Advance(int orderId) : Order(orderId) {
-
+Advance::Advance(int orderId):Order(orderId){
+    
 }
 
-Advance::Advance(const Advance& order) {
-    this->orderId = order.orderId;
+Advance::Advance(const Advance& order){
+    this->orderId=order.orderId;
 }
 
-Advance::Advance(Player* orderHolder, int army, Territory* source, Territory* target) {
+Advance::Advance(Player* orderHolder, int army, Territory* source, Territory* target){
     this->setOrderHolder(orderHolder);
-    this->army = army;
+    this->army=army;
     this->setSourceTerritory(source);
     this->setTargetTerritory(target);
 }
 
-string Advance::toString() {
-    return orderName + " " + to_string(army) +" From "+sourceTerritory->getName() + " to " + targetTerritory->getName();
-};
-
-Advance& Advance::operator=(const Advance& order) {
-    this->orderId = order.orderId;
+Advance& Advance::operator=(const Advance &order){
+    this->orderId=order.orderId;
     return *this;
 }
 
-Advance::~Advance() {
+Advance::~Advance(){
 }
-bool Advance::validate() {
-    if (getTargetTerritory() == NULL || getSourceTerritory() == NULL) {
-        cout << "Target or source territory is null." << endl;
+bool Advance::validate(){
+     if(getTargetTerritory()==NULL || getSourceTerritory()==NULL){
+        cout<<"Target or source territory is null."<<endl;
         return false;
     }
 
-
+   
 
     //source belongs to player
-    bool sourceBelongsToPlayer = false;
-    vector <Territory*> isPresent = getOrderHolder()->getplayerOccupied();
-    for (Territory* t : isPresent) {
-        if (t == getSourceTerritory()) {
-            sourceBelongsToPlayer = true;
-            break;
+     bool sourceBelongsToPlayer=false;
+    vector <Territory*> isPresent  = getOrderHolder()->getplayerOccupied();
+    for(Territory* t: isPresent){
+        if(t==getSourceTerritory()){
+            sourceBelongsToPlayer=true;
+             break;
         }
-    }
+    } 
 
     //Adjacency test
-    bool isAdjacent = false;
-    vector <Territory* > adjacency = getTargetTerritory()->getAdjacentTerritories();
-    for (Territory* t : adjacency) {
-        if (t == getSourceTerritory())
-            isAdjacent = true;
-        break;
+    bool isAdjacent=false;
+     vector <Territory* > adjacency= getTargetTerritory()->getAdjacentTerritories();
+    for(Territory* t: adjacency){
+        if(t==getSourceTerritory())
+            isAdjacent=true;
+            break;
     }
 
     //Are the armies enough to make an advance.
-    bool ArmiesEnough = (army <= getSourceTerritory()->getArmySize());
-
-    if (!sourceBelongsToPlayer) {
-        cout << "Invalid advance order. Source does not belong to player." << endl;
+    bool ArmiesEnough=(army<=getSourceTerritory()->getArmySize());
+    
+    if(!sourceBelongsToPlayer){
+        cout<<"Invalid advance order. Source does not belong to player."<<endl;
         return false;
     }
 
-    else if (!isAdjacent) {
-        cout << "Invalid advance order. Territories need to be adjacent." << endl;
+    else if(!isAdjacent){
+         cout<<"Invalid advance order. Territories need to be adjacent."<<endl;
         return false;
     }
-    else if (!ArmiesEnough) {
-        cout << "Invalid advance order. Not enough armies." << endl;
+    else if(!ArmiesEnough){
+         cout<<"Invalid advance order. Not enough armies."<<endl;
         return false;
     }
     else {
-        cout << "Valid order." << endl;
+        cout<<"Valid order."<<endl;
         return true;
     }
-}
+  }
 
 
-void Advance::execute() {
-    bool isValid = validate();
+    void Advance::execute(){
+        bool isValid=validate();
 
-    cout << "Execute function of " << this->getOrderName() << endl;
+        cout<<"Execute function of "<<this->getOrderName()<<endl;
 
-    if (isValid) {
-        // If the target territory belongs to the player, you just move armies.
+        if(isValid){
+            // If the target territory belongs to the player, you just move armies.
+            
+            if(getTargetTerritory()->getControllingPlayer()==getOrderHolder()){
+                int sourcearmies=getTargetTerritory()->getArmySize();
+                int targetarmies=getSourceTerritory()->getArmySize();
+                    getTargetTerritory()->setArmySize(targetarmies+ army);
+                    getSourceTerritory()->setArmySize(sourcearmies- army);
+                
+            }
+            else{
+                    while(army>0){
+                        if(getTargetTerritory()->getArmySize()<=0){
+                            cout<<" Territory conquered. Remaining armies will remove as it is.";
+				
+			    this->getTargetTerritory()->getControllingPlayer()->leaveTerritory(getTargetTerritory());
+                            this->getOrderHolder()->occupy(getTargetTerritory());
 
-        if (getTargetTerritory()->getControllingPlayer() == getOrderHolder()) {
-            int sourcearmies = getTargetTerritory()->getArmySize();
-            int targetarmies = getSourceTerritory()->getArmySize();
-            getTargetTerritory()->setArmySize(targetarmies + army);
-            getSourceTerritory()->setArmySize(sourcearmies - army);
+                            int sourcearmies=getTargetTerritory()->getArmySize();
+                            int targetarmies=getSourceTerritory()->getArmySize();
 
+                             getTargetTerritory()->setArmySize(targetarmies+ army);
+                             getSourceTerritory()->setArmySize(sourcearmies- army);
+                             break;
+                        }
+
+                        int attackprobability= rand()%10 +1;
+                        int defendprobability= rand()%10 +1;
+
+                    if(attackprobability<=6)
+                        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize()-1);
+                    if(defendprobability<=7){
+                             army=army-1;
+                        getSourceTerritory()->setArmySize(getSourceTerritory()->getArmySize()-1);
+                    }
+                       
+                   } // while loop closes
+            } // else closses
+            
+
+            cout<<"Execution was successful"<<endl;
         }
-        else {
-            while (army > 0) {
-                if (getTargetTerritory()->getArmySize() <= 0) {
-                    cout << " Territory conquered. Remaining armies will remove as it is.";
-
-                    this->getTargetTerritory()->getControllingPlayer()->leaveTerritory(getTargetTerritory());
-                    this->getOrderHolder()->occupy(getTargetTerritory());
-
-                    int sourcearmies = getTargetTerritory()->getArmySize();
-                    int targetarmies = getSourceTerritory()->getArmySize();
-
-                    getTargetTerritory()->setArmySize(targetarmies + army);
-                    getSourceTerritory()->setArmySize(sourcearmies - army);
-                    break;
-                }
-
-                int attackprobability = rand() % 10 + 1;
-                int defendprobability = rand() % 10 + 1;
-
-                if (attackprobability <= 6)
-                    getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize() - 1);
-                if (defendprobability <= 7) {
-                    army = army - 1;
-                    getSourceTerritory()->setArmySize(getSourceTerritory()->getArmySize() - 1);
-                }
-
-            } // while loop closes
-        } // else closses
-
-
-        cout << "Execution was successful" << endl;
-    }
-    else {
-        cout << "Execution cannot be done" << endl;
+    else{
+        cout<<"Execution cannot be done"<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Advance& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Advance& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
@@ -377,86 +347,82 @@ ostream& operator<<(ostream& os, const Advance& order) {
     Bomb functions
 ******/
 
-Bomb::Bomb() :Order() {
+Bomb::Bomb():Order(){ 
+   
+}
+
+Bomb::Bomb(int orderId):Order(orderId){
 
 }
 
-Bomb::Bomb(int orderId) : Order(orderId) {
-
+Bomb::Bomb(const Bomb& order){
+    this->orderId=order.orderId;
 }
 
-Bomb::Bomb(const Bomb& order) {
-    this->orderId = order.orderId;
-}
-
-Bomb::Bomb(Player* orderHolder, Territory* target) {
+Bomb::Bomb(Player* orderHolder, Territory* target){
     this->setOrderHolder(orderHolder);
     this->setTargetTerritory(target);
 }
 
-string Bomb::toString() {
-    return orderName + " " + targetTerritory->getName();
-};
-
-Bomb& Bomb::operator=(const Bomb& order) {
-    this->orderId = order.orderId;
+Bomb& Bomb::operator=(const Bomb &order){
+    this->orderId=order.orderId;
     return *this;
 }
 
-Bomb::~Bomb() {
+Bomb::~Bomb(){
 }
-bool Bomb::validate() {
+bool Bomb::validate(){
 
-    if (getTargetTerritory() == NULL) {
-        cout << "Target territory is null." << endl;
+     if(getTargetTerritory()==NULL){
+        cout<<"Target territory is null."<<endl;
         return false;
     }
     // logic for validation
-    bool isAdjacent = false;
-    bool belongsToPlayer = false;
+    bool isAdjacent=false;
+    bool belongsToPlayer=false;
 
     //If the territory belongs to the player himself, then they cannot bomb their own territory.
-    vector <Territory*> ownership = getOrderHolder()->getplayerOccupied();
-    for (Territory* t : ownership) {
-        if (t == getTargetTerritory())
-            belongsToPlayer = true;
+    vector <Territory*> ownership= getOrderHolder()->getplayerOccupied();
+    for(Territory* t: ownership){
+        if(t==getTargetTerritory())
+            belongsToPlayer=true;
     }
 
     //If the territory is not adjacent, player cannot bomb the territory.
-    vector <Territory* > adjacency = getTargetTerritory()->getAdjacentTerritories();
-    for (Territory* t : adjacency) {
-        if (t->getControllingPlayer() == getOrderHolder())
-            isAdjacent = true;
+    vector <Territory* > adjacency= getTargetTerritory()->getAdjacentTerritories();
+    for(Territory* t: adjacency){
+        if(t->getControllingPlayer()==getOrderHolder())
+            isAdjacent=true;
     }
-
-    if (belongsToPlayer) {
-        cout << "You cannot bomb your own territory buddy." << endl;
+    
+    if(belongsToPlayer){
+        cout<<"You cannot bomb your own territory buddy."<<endl;
         return false;
     }
-    else if (!isAdjacent) {
-        cout << "You can only bomb adjacent territory." << endl;
+    else if(!isAdjacent){
+        cout<<"You can only bomb adjacent territory."<<endl;
     }
-    else {
-        cout << "Valid order. Bombing the territory." << endl;
-    }
-}
-
-void Bomb::execute() {
-    bool isValid = validate();
-
-    cout << "Execute function of " << this->getOrderName() << endl;
-
-    if (isValid) {
-        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize() / 2);
-        cout << "Execution was successful" << endl;
-    }
-    else {
-        cout << "Execution cannot be done" << endl;
+    else{
+        cout<<"Valid order. Bombing the territory."<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Bomb& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+void Bomb::execute(){
+    bool isValid=validate();
+
+    cout<<"Execute function of "<<this->getOrderName()<<endl;
+
+    if(isValid){
+        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize()/2);
+        cout<<"Execution was successful"<<endl;
+    }
+    else{
+        cout<<"Execution cannot be done"<<endl;
+    }
+}
+
+ostream& operator<<(ostream& os, const Bomb& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
@@ -465,75 +431,70 @@ ostream& operator<<(ostream& os, const Bomb& order) {
     Blockade functions
 ******/
 
-Blockade::Blockade() :Order() {
-
+Blockade::Blockade():Order(){ 
+   
 }
 
-Blockade::Blockade(int orderId) : Order(orderId) {
+Blockade::Blockade(int orderId):Order(orderId){
 }
 
-Blockade::Blockade(const Blockade& order) {
-    this->orderId = order.orderId;
+Blockade::Blockade(const Blockade& order){
+    this->orderId=order.orderId;
 }
 
-Blockade::Blockade(Player* orderHolder, Territory* target) {
+Blockade::Blockade(Player* orderHolder, Territory* target){
     this->setOrderHolder(orderHolder);
     this->setTargetTerritory(target);
 }
 
-string Blockade::toString() {
-    return orderName + " " + targetTerritory->getName();
-};
-
-
-Blockade& Blockade::operator=(const Blockade& order) {
-    this->orderId = order.orderId;
+Blockade& Blockade::operator=(const Blockade &order){
+    this->orderId=order.orderId;
     return *this;
 }
 
-Blockade::~Blockade() {
+Blockade::~Blockade(){
 }
-bool Blockade::validate() {
+bool Blockade::validate(){
     // logic for validation
 
-    if (getTargetTerritory() == NULL) {
-        cout << "Target territory is null." << endl;
+     if(getTargetTerritory()==NULL){
+        cout<<"Target territory is null."<<endl;
         return false;
     }
 
-    if (getTargetTerritory()->getControllingPlayer() != getOrderHolder()) {
-        cout << "Order invalid. You can only blockade your own territory." << endl;
+    if(getTargetTerritory()->getControllingPlayer()!=getOrderHolder()){
+        cout<<"Order invalid. You can only blockade your own territory."<<endl;
         return false;
     }
-    else {
-        cout << "Valid order. Blockading territory" << endl;
+    else{
+        cout<<"Valid order. Blockading territory"<<endl;
         return true;
     }
 }
 
-void Blockade::execute() {
-    bool isValid = validate();
+void Blockade::execute(){
+    bool isValid=validate();
 
-    cout << "Execute function of " << this->getOrderName() << endl;
+    cout<<"Execute function of "<<this->getOrderName()<<endl;
 
-    if (isValid) {
+    if(isValid){
 
-        neutralPlayer = new Player();
+        neutralPlayer= new Player();
         neutralPlayer->setPlayerName("Neutral");
 
-        getTargetTerritory()->setArmySize(2 * getTargetTerritory()->getArmySize());
+        getTargetTerritory()->setArmySize(2*getTargetTerritory()->getArmySize());
         neutralPlayer->occupy(getTargetTerritory());
         //getOrderHolder()->leaveterritory(getTargetTerritory()); this function is yet to be implemented
         getTargetTerritory()->setControllingPlayer(neutralPlayer);
-        cout << "Execution was successful" << endl;
+        cout<<"Execution was successful"<<endl;
     }
-    else {
-        cout << "Execution cannot be done" << endl;
+    else{
+        cout<<"Execution cannot be done"<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Blockade& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Blockade& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
@@ -542,85 +503,81 @@ ostream& operator<<(ostream& os, const Blockade& order) {
     Airlift functions
 ******/
 
-Airlift::Airlift() :Order() {
-
+Airlift::Airlift():Order(){ 
+  
 }
 
-Airlift::Airlift(int orderId) : Order(orderId) {
-
+Airlift::Airlift(int orderId):Order(orderId){
+  
 }
 
-Airlift::Airlift(const Airlift& order) {
-    this->orderId = order.orderId;
+Airlift::Airlift(const Airlift& order){
+    this->orderId=order.orderId;
 }
 
-Airlift::Airlift(Player* orderHolder, int army, Territory* source, Territory* target) {
+Airlift::Airlift(Player* orderHolder, int army, Territory* source, Territory* target){
     this->setOrderHolder(orderHolder);
-    this->army = army;
+    this->army=army;
     this->setSourceTerritory(source);
     this->setTargetTerritory(target);
 }
 
-string Airlift::toString() {
-    return orderName + " " + to_string(army) + " From " + sourceTerritory->getName() + " to " + targetTerritory->getName();
-};
-
-Airlift& Airlift::operator=(const Airlift& order) {
-    this->orderId = order.orderId;
+Airlift& Airlift::operator=(const Airlift &order){
+    this->orderId=order.orderId;
     return *this;
 }
 
-Airlift::~Airlift() {
+Airlift::~Airlift(){
 }
-bool Airlift::validate() {
+bool Airlift::validate(){
     // logic for validation
-
-    if (getTargetTerritory() == NULL || getSourceTerritory() == NULL) {
-        cout << "Target or Source territory is null." << endl;
+    
+     if(getTargetTerritory()==NULL||getSourceTerritory()==NULL){
+        cout<<"Target or Source territory is null."<<endl;
         return false;
     }
 
     //Checking if target territory belongs to OrderHolder
-    if (getTargetTerritory()->getControllingPlayer() != getOrderHolder()) {
-        cout << "Order invalid.Target territory should belong to OrderHolder." << endl;
+    if(getTargetTerritory()->getControllingPlayer()!=getOrderHolder() ){
+        cout<<"Order invalid.Target territory should belong to OrderHolder."<<endl;
         return false;
     }
-
+    
     //Checking if source territory belongs to OrderHolder.
-    else if (getSourceTerritory()->getControllingPlayer() != getOrderHolder()) {
-        cout << "Order invalid.Source territory should belong to OrderHolder." << endl;
+    else if(getSourceTerritory()->getControllingPlayer()!=getOrderHolder() ){
+        cout<<"Order invalid.Source territory should belong to OrderHolder."<<endl;
         return false;
     }
 
     //Checking if source territory has enough armies to Airlift.
-    else if (army > getSourceTerritory()->getArmySize()) {
-        cout << "Order Invalid. You cannot Airlift more armies than you have." << endl;
+    else if(army> getSourceTerritory()->getArmySize()){
+        cout<<"Order Invalid. You cannot Airlift more armies than you have."<<endl;
         return false;
     }
-    else {
-        cout << "Valid order. Airlift armies from source to target territory." << endl;
+    else{
+        cout<<"Valid order. Airlift armies from source to target territory."<<endl;
         return true;
     }
 
 }
 
-void Airlift::execute() {
-    bool isValid = validate();
+void Airlift::execute(){
+    bool isValid=validate();
 
-    cout << "Execute function of " << this->getOrderName() << endl;
+    cout<<"Execute function of "<<this->getOrderName()<<endl;
 
-    if (isValid) {
-        getSourceTerritory()->setArmySize(getSourceTerritory()->getArmySize() - army);
-        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize() + army);
-        cout << "Execution was successful" << endl;
+    if(isValid){
+        getSourceTerritory()->setArmySize(getSourceTerritory()->getArmySize()-army);
+        getTargetTerritory()->setArmySize(getTargetTerritory()->getArmySize()+army);
+        cout<<"Execution was successful"<<endl;
     }
-    else {
-        cout << "Execution cannot be done" << endl;
+    else{
+        cout<<"Execution cannot be done"<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Airlift& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Airlift& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
@@ -629,81 +586,76 @@ ostream& operator<<(ostream& os, const Airlift& order) {
     Negotiate functions
 ******/
 
-Negotiate::Negotiate() :Order() {
+Negotiate::Negotiate():Order() {
+   
+}
+
+Negotiate::Negotiate(int orderId):Order(orderId){
 
 }
 
-Negotiate::Negotiate(int orderId) : Order(orderId) {
-
+Negotiate::Negotiate(const Negotiate& order){
+    this->orderId=order.orderId;
 }
 
-Negotiate::Negotiate(const Negotiate& order) {
-    this->orderId = order.orderId;
-}
-
-Negotiate::Negotiate(Player* orderHolder, Player* negotiateWith) {
+Negotiate::Negotiate(Player* orderHolder, Player* negotiateWith){
     this->setOrderHolder(orderHolder);
-    this->targetPlayer = negotiateWith;
 }
 
-string Negotiate::toString() {
-    return orderName + " with " + targetPlayer->getPlayerName();
-};
-
-Negotiate& Negotiate::operator=(const Negotiate& order) {
-    this->orderId = order.orderId;
+Negotiate& Negotiate::operator=(const Negotiate &order){
+    this->orderId=order.orderId;
     return *this;
 }
 
-Negotiate::~Negotiate() {
-}
-bool Negotiate::validate() {
+ Negotiate::~Negotiate(){
+ }
+bool Negotiate::validate(){
     // logic for validation
-    Player* negotiateWith = this->getTargetTerritory()->getControllingPlayer();
+    Player* negotiateWith= this->getTargetTerritory()->getControllingPlayer();
 
-    if (this->getOrderHolder() == negotiateWith) {
-        cout << "You cannot negotiate with yourself buddy." << endl;
+    if(this->getOrderHolder()==negotiateWith){
+        cout<<"You cannot negotiate with yourself buddy."<<endl;
         return false;
     }
-    else {
-        cout << "The order is valid. We will negotiate." << endl;
+    else{
+        cout<<"The order is valid. We will negotiate."<<endl;
         return true;
     }
 
 }
 
-void Negotiate::execute() {
+void Negotiate::execute(){
 
-    bool isValid = validate();
+    bool isValid=validate();
 
-    cout << "Execute function of " << this->getOrderName() << endl;
+    cout<<"Execute function of "<<this->getOrderName()<<endl;
 
-    if (isValid) {
-        cout << "Execution was successful" << endl;
+    if(isValid){
+        cout<<"Execution was successful"<<endl;
     }
-    else {
-        cout << "Execution cannot be done" << endl;
+    else{
+        cout<<"Execution cannot be done"<<endl;
     }
 }
 
-ostream& operator<<(ostream& os, const Negotiate& order) {
-    os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
+ostream& operator<<(ostream& os, const Negotiate& order){
+    os<<"Order ID:"<<order.orderId<<"\t"<< "Order Name:"<<order.orderName<<endl;
     return os;
 }
 
-void testOrderExecution() {
+void testOrderExecution(){
 
-    Territory* t1 = new Territory();
-    Territory* t2 = new Territory();
-    Territory* t3 = new Territory();
+    Territory* t1= new Territory();
+    Territory* t2= new Territory();
+    Territory* t3= new Territory();
 
     t1->setArmySize(10);
     t2->setArmySize(13);
     t3->setArmySize(28);
 
 
-    Player* p1 = new Player();
-    Player* p2 = new Player();
+    Player *p1=new Player();
+    Player *p2=new Player();
 
     p1->occupy(t1);
     p1->occupy(t2);
@@ -712,11 +664,11 @@ void testOrderExecution() {
     t1->addAjacentTerritory(t2);
     t2->addAjacentTerritory(t3);
 
-    Deploy* d1 = new Deploy(p1, 4, t2);
-    Advance* a1 = new Advance(p2, 25, t3, t1);
-    Bomb* b1 = new Bomb(p1, t3);
-    Blockade* k1 = new Blockade(p1, t2);
-    Airlift* l1 = new Airlift(p1, 2, t2, t1);
+    Deploy *d1=new Deploy(p1, 4, t2);
+    Advance *a1= new Advance(p2, 25, t3, t1);
+    Bomb *b1=new Bomb(p1, t3);
+    Blockade *k1=new Blockade(p1, t2);
+    Airlift *l1=new Airlift(p1, 2, t2, t1);
 
     d1->execute();
     a1->execute();

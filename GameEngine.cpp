@@ -723,14 +723,14 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 	cout << "=====================================================" << endl;
 	cout << "now begins deploying phase"<<endl;
 	for (int i = 0; i < pAmount; i++) {
-		this->context_->playerCollection[i]->oList->displayList();
+		//this->context_->playerCollection[i]->oList->displayList();
 		IssueDeploy(this->context_->playerCollection[i]);
 	}
 	while (allArmyUsed() == false) {
 		for (int i = 0; i < pAmount; i++) {
 			if (this->context_->playerCollection[i]->ArmyUnit > 0) {
 				cout << this->context_->playerCollection[i]->getPlayerName() << " still owns unassigned army unit, please deploy all of them before proceed."<<endl;
-				this->context_->playerCollection[i]->oList->displayList();
+				//this->context_->playerCollection[i]->oList->displayList();
 				IssueDeploy(this->context_->playerCollection[i]);
 			}
 		}
@@ -740,7 +740,7 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 		for (int i = 0; i < pAmount; i++) {
 			if (endTurnIndicator[i] != 3) {
 				cout << "=====================================================" << endl;
-				this->context_->playerCollection[i]->oList->displayList();
+				//this->context_->playerCollection[i]->oList->displayList();
 				cout << this->context_->playerCollection[i]->getPlayerName() << ", please select your action" << endl << "1.advance units" << endl << "2.play cards" << endl << "3.pass turn" << endl;
 				int option;
 				cin >> option;
@@ -800,7 +800,7 @@ void ExecuteOrderState::enterState(CommandProcessor* cp)
 bool ExecuteOrderState::finishExecute() {
 	int pAmount = this->context_->playerCollection.size();
 	for (int i = 0; i < pAmount; i++) {
-		if (this->context_->playerCollection[i]->oList->listSize() != 0) {
+		if (this->context_->playerCollection[i]->oList->getOrderList().size() != 0) {
 			return false;
 		}
 	}
@@ -812,8 +812,9 @@ void ExecuteOrderState::executeState(CommandProcessor* cp)
 	int pAmount = this->context_->playerCollection.size();
 	while (finishExecute() == false) {
 		for (int i = 0; i < pAmount; i++) {
-			if (this->context_->playerCollection[i]->oList->listSize() != 0) {
-				this->context_->playerCollection[i]->oList->orderList[0]->execute();
+			if (this->context_->playerCollection[i]->oList->getOrderList().size() != 0){
+				Order* o=new Order(*this->context_->playerCollection[i]->oList->getOrderList()[0]);
+				o->execute();
 				this->context_->playerCollection[i]->oList->remove(0);
 			}
 		}
@@ -821,24 +822,50 @@ void ExecuteOrderState::executeState(CommandProcessor* cp)
 
 };
 
+void ExecuteOrderState::makePlayerFail(string pName, vector<Player*>& pList) {
+	 int playertodelete;
+	for (int i = 0; i < pList.size(); i++)
+	{
+		if (pName==pList.at(i)->getPlayerName())
+		{
+			playertodelete = i;
+			delete pList.at(playertodelete);
+			pList.erase(pList.begin()+i);
+			cout << "player "<<pName<<" deleted"<<endl;
+			cout << pList.size()<<endl;
+			break;
+		}
+		
+	}
+	
+};
+
 void ExecuteOrderState::checkFailedPlayer() {
 	int pAmount = this->context_->playerCollection.size();
 	for (int i = 0; i < pAmount; i++) {
 		if (this->context_->playerCollection[i]->getplayerOccupiedsize() == 0) {
-			cout << this->context_->playerCollection.size();
-			delete this->context_->playerCollection[i];
-			cout << "player " ;
+			string name = this->context_->playerCollection[i]->getPlayerName();
+			makePlayerFail(name, this->context_->playerCollection);
+			this->context_->playerCollection.erase(this->context_->playerCollection.begin() + i);
+			cout << "player ";
 		}
 	}
 };
 
-void ExecuteOrderState::makePlayerFail(string pName) {
-	//delete this->context_->findPlayerbyName(pName, this->context_->playerCollection);
-	cout << "player " << pName << " destroyed";
-};
-
 void ExecuteOrderState::exitState(CommandProcessor* cp)
 {
+	cout << "main game loop finished, input 1 to delete excess player(to test the win condition)" << endl;
+	int option = 0;
+	cin >> option;
+	while (option == 1) {
+		cout << "input the name of the player to be deleted" << endl;
+		string pName;
+		cin >> pName;
+		makePlayerFail(pName, this->context_->playerCollection);
+		cout << "input 1 to delete another player, input other integer to proceed" << endl;
+		cin >> option;
+	}
+
 	checkFailedPlayer();
 	if (gameEnd()) {
 		cout << "Only 1 player remains, the winner was decided: "<< this->context_->playerCollection[0]->getPlayerName();

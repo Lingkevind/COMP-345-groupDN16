@@ -9,6 +9,7 @@
 		ArmyUnit = 0;
 		pid = -1;
 		playerHand = new Hand();
+		oList = new OrderList();
 	};
 	/// <summary>
 	/// at begin
