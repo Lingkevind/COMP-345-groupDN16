@@ -25,7 +25,7 @@ public:
 	Player();
 	Player(std::string newName);
 	Player(const Player& copyPlayer);
-	Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h);
+	Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand* h);
 	~Player();
 	std::vector <Territory*>toDefend();
 	std::vector <Territory*>toAttack();

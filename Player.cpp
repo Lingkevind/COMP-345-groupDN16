@@ -8,6 +8,7 @@
 		std::string playerName = "default";
 		ArmyUnit = 0;
 		pid = -1;
+		playerHand = new Hand();
 	};
 	/// <summary>
 	/// at begin
@@ -21,6 +22,8 @@
 	Player::Player(std::string newName) {
 		this->playerName = newName;
 		pid+=playerNum;
+		ArmyUnit = 0;
+		playerHand = new Hand();
 	}
 
 	/// <param name="copyPlayer">copy constructer</param>
@@ -39,12 +42,12 @@
 	/// 
 	/// playerHand is a pointer point to player's hand
 	/// 
-	Player::Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h)
+	Player::Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand* h)
 	{
 		playerName = newName;
 		pid = newPid;
 		playerOccupied = newplayerOccupied;
-		*playerHand = h;
+		playerHand = h;
 		Order *playerOrderlist = new Order;
 	}
 

@@ -1,11 +1,16 @@
 #include"Hand.h"
 using namespace std;
 
-	Hand::Hand(string n) {
+Hand::Hand() {
+	cards = vector<Card>();
+	name = "default";
+};
+
+Hand::Hand(string n) {
 		cards = vector<Card>();
 		name = n;
-	}
-	Hand::Hand(vector<Card> c,string n) {
+}
+Hand::Hand(vector<Card> c,string n) {
 		cards = c;
 		name = n;
 	}

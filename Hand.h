@@ -7,6 +7,7 @@ class Hand {
 public:
 	vector<Card> cards;
 	string name;
+	Hand();
 	Hand(string n);
 	Hand(vector<Card> c, string n);
 	Hand(const Hand& h);
