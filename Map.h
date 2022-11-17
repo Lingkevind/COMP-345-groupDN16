@@ -64,6 +64,8 @@ public:
 
 	Territory* findTerritorybyName(string name);
 
+	bool isMapConnectedSubgraph();
+
 private:
 	vector<Continent*> continents;
 	string author;
@@ -73,7 +75,7 @@ private:
 	* Checks if the map is a connected subgraph by using a Depth First Traversal.
 	* The success of this check indicates that both the territories and continents are a connected subgraph.
 	*/
-	bool isMapConnectedSubgraph();
+	//bool isMapConnectedSubgraph();
 
 	/**
 	* Checks if each countries belongs to one an only one continent.

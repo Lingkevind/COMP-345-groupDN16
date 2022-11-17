@@ -7,50 +7,63 @@
 #include "Orders.h"
 #include "Continent.h"
 
-static int playerNum = 0;
+ static int playerNum = 0;
 class Player
 {
- public:
 	std::vector <Territory*> playerOccupied;//get method
 	//pointer
 	std::vector <Player>* playerOrderVector;
-	Hand* playerHand;
-	OrderList oList;
+	Hand* playerHand = nullptr;
+	vector<Order>* playerOrderPtr = nullptr;
+	
+public:
 	friend ostream& operator<<(ostream& os, const Player& d);
 	int pid = -1;
-	int ArmyUnit;
+	Order playerOrderlist;//old
+	OrderList oList; //new
+	int ArmyUnit ;//new
 	Player();
-	~Player();
 	Player(std::string newName);
 	Player(const Player& copyPlayer);
-	Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h, int au);
-	bool ownTerritory(Territory t);
-	std::vector <Territory>toDefend();
-	std::vector <Territory>toAttack();
-	std::vector<Order> playerOrderlist; 
+	Player(std::string newName, int newPid, std::vector <Territory*> newplayerOccupied, Hand h);
+	~Player();
+	std::vector <Territory*>toDefend();
+	std::vector <Territory*>toAttack();
 	void issueOrder();
 	void attack(Player pd); 
 	void leaveTerritory(Territory* t);
 	string occupy(Territory * t);
 	string occupy(Territory* t, Player defeatedPlayer);
 	string annex( Player*p);
+	bool isLosttheGame();
+	//bool ownTerritory(Territory t); 
+	//Severity	Code	Description	Project	File	Line	Suppression State
+	//	Error	C2679	binary '==': no operator found which takes a right - hand operand of type 'const _Ty' (or there is no acceptable conversion)	
+	//	Community\VC\Tools\MSVC\14.33.31629\include\xutility	5268
 	void displayerOcc();
 	void displayOcc(vector <Territory*> occVector);
+	std::vector <Territory*> getFrontierT();
 	void setPlayerName(string newName);
+	void setArmyUnit(int i);
 	std::string getPlayerName();
+	Hand* getplayerHand();
 	std::vector <Territory*> getplayerOccupied();
+	int  getplayerOccupiedsize();
 	std::string playerName;
 };
 
-class PlayerList 
-{public:
+/*class PlayerList
+{
+public:
 	std::vector<Player> list;
 	PlayerList();
+	PlayerList(vector<Player>);
 	PlayerList(const PlayerList& pl);
-	void addPlayer(Player p) ;
-	Player findPlayer(int i) ;
+	void addPlayer(Player p);
+	Player findPlayer(int i);
 	Player findPlayerbyName(string name);
-};
+
+};*/
 
 void testPlayer();
 

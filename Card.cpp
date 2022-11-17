@@ -10,9 +10,8 @@ using namespace std;
 		type = c.type;
 	}
 
-	Card& Card::operator=(const Card &c) {
+	void Card::operator=(const Card &c) {
 		type = c.type;
-		return *this;
 	};
 
 	string Card::play(string target) {

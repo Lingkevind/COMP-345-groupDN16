@@ -9,8 +9,6 @@ using namespace std;
 #ifndef ORDERS_H
 #define ORDERS_H
 
-void testOrderLists();
-
 class Order : public Subject {
 public:
     int army;
@@ -53,8 +51,9 @@ public:
     void add(Order* order);
     void remove(int position);
     void move(int initialPosition, int finalPosition);
+    //OrderList& operator=(const OrderList& OriginalList);
     int listSize();
-    const std::vector<Order*> getOrderList() {
+    std::vector<Order*> getOrderList() {
         return orderList;
     }
     std::vector<Order*> orderList;
@@ -126,7 +125,6 @@ public:
 
     void execute() ;
     bool validate();
-    string orderName = "Blockade";
 
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Blockade& order);

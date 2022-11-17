@@ -7,7 +7,10 @@
 Order Class
 ***/
 
+int Order::count = 0;
+
 Order::Order() {
+
     orderId = 0;
 }
 
@@ -65,6 +68,10 @@ void Order::setOrderHolder(Player* holder) {
     this->orderHolder = holder;
 }
 
+void Order::execute() {
+    
+};
+
 /****
  Order List functions
 ****/
@@ -85,10 +92,10 @@ OrderList::OrderList(const OrderList& OriginalList) {
     this->orderList = OriginalList.orderList; //OrderList copy constructor	
 }
 
-OrderList& OrderList::operator=(const OrderList& OriginalList) {
+/*OrderList& OrderList::operator=(const OrderList& OriginalList) {
     this->orderList = OriginalList.orderList;	//OrderList assignment operator
     return *this;
-}
+}*/
 
 void OrderList::add(Order* order) {
     this->orderList.push_back(order);	//OrderList add function
@@ -120,6 +127,10 @@ void OrderList::move(int initialPosition, int finalPosition) {
         this->orderList.insert(orderList.begin() + finalPosition, moveOrder);
         cout << "Order moved" << endl;
     }
+}
+
+int OrderList::listSize() {
+    return orderList.size();
 }
 
 ostream& operator<<(ostream& os, OrderList& OriginalList) {

@@ -1,19 +1,22 @@
 #include"Hand.h"
 using namespace std;
 
-
-	Hand::Hand() {
+	Hand::Hand(string n) {
 		cards = vector<Card>();
+		name = n;
 	}
-	Hand::Hand(vector<Card> c) {
+	Hand::Hand(vector<Card> c,string n) {
 		cards = c;
+		name = n;
 	}
 	Hand::Hand(const Hand& h) {
 		cards = h.cards;
+		name = h.name;
 	}
 
 	Hand& Hand::operator=(const Hand& h) {
 		cards = h.cards;
+		name = h.name;
 		return *this;
 	};
 
@@ -31,27 +34,26 @@ using namespace std;
 		else {
 			Card c = d.draw();
 			cards.push_back(c);
+			cout << "\nPlayer " << name << " drew card: " << cards[cards.size() - 1].type;
 		}
 	}
 
-
-
-	string Hand::playCards(int i, Deck &d) {
+	string Hand::playCards(int i, Deck& d) {
 		if (i >= cards.size() || i < 0) {
 			cout << "Player does not have card with this index";
 			return " ";
 		}
 		else {
-				Card c = cards[i];
-				d.list.push_back(cards[i]);
-				d.randomShuffle();
-				cards.erase(cards.begin()+i);
-				return c.type;
+			Card c = cards[i];
+			d.list.push_back(cards[i]);
+			d.randomShuffle();
+			cards.erase(cards.begin() + i);
+			return c.type;
 		}
 	}
 
-	ostream& operator<<(ostream& os, Hand& h) {
-		os << "\nCard amount:" << h.cards.size()<<"\n";
+	ostream& operator<<(ostream& os, const Hand& h) {
+		os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
 		return os;
 	}
 

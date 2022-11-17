@@ -176,5 +176,6 @@ Territory* Map::findTerritorybyName(string name) {
             return tList[i];
         }
     }
-    cout << "Territory named "<<name<<" does not exist"<<endl;
+    cout << "didnt found";
+        return NULL; 
 };

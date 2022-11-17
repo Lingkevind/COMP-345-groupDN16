@@ -50,7 +50,6 @@ public:
 	*/
 	void addTerritory(Territory* territory);
 
-	bool OwnedContinent(Player* player);
 
 private:
 	string name;

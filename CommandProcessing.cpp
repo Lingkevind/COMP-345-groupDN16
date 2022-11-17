@@ -1,7 +1,6 @@
 #include <iostream>;
 #include <cctype>;
 #include <cstdlib>;
-
 #include <string>
 #include <sstream>
 #include <memory>
@@ -76,17 +75,20 @@ CommandProcessor::~CommandProcessor() = default;
 
 void CommandProcessor::readCommand() {
     string inputFromReadCommand = "def";
-    cout << "Please input a command." << endl;
-    cin >> inputFromReadCommand;
+  
+    cout << "Please input a command" << endl;
+    //cin.ignore(); //needed to use cin in getline() after using "cin <<" previously
+    getline(cin, inputFromReadCommand); //to include whitespace in string
+    cout << "inputFromReadCommand is: " << inputFromReadCommand << endl;
 
-    cout << "inputFromReadCommand  is: " << inputFromReadCommand << endl;
-   
+
+
     saveCommand(inputFromReadCommand);
 };
 
 
 void CommandProcessor::saveCommand(string s) {
-     //assign command type from input
+    //assign command type from input
 
     commandCollection.emplace_back(new Command(s)); //save the command to collection
 };
@@ -103,29 +105,29 @@ void CommandProcessor::getCommand()
 //if command or state is invalid, returns false
 
 bool CommandProcessor::validate(string currentState)
-{   
+{
     int sizeOfVector = commandCollection.size();
     string latestCommand = commandCollection[sizeOfVector - 1]->getCommand();
 
-    if ((latestCommand == "loadmap") && (currentState == "StartState" || currentState == "MapLoadState"))
+    if ((regex_match(latestCommand, regex("(loadmap )(.*)"))) && (currentState == "StartState" || currentState == "MapLoadState"))
     {
-      return true; 
+        return true;
     }
-    else if ( (latestCommand == "validatemap") && currentState == "MapLoadState")
-    { 
-        return true; 
+    else if ((latestCommand == "validatemap") && currentState == "MapLoadState")
+    {
+        return true;
     }
-    else if (latestCommand == "addplayer" && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
-    { 
-        return true; 
+    else if (((regex_match(latestCommand, regex("(addplayer )(.*)"))) ) && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
+    {
+        return true;
     }
 
-    else if ((latestCommand == "gamestart") && currentState == "PlayersAddedState") 
+    else if ((latestCommand == "gamestart") && currentState == "PlayersAddedState")
     {
-        return true; 
+        return true;
     }
-    else if ((latestCommand == "replay") && currentState == "WinState") 
-    { 
+    else if ((latestCommand == "replay") && currentState == "WinState")
+    {
         return true;
     }
     else if ((latestCommand == "quit") && currentState == "WinState")
@@ -135,8 +137,8 @@ bool CommandProcessor::validate(string currentState)
 
     else
     {
-        return false; 
-    
+        return false;
+
     }
     return false;
 };
@@ -155,7 +157,7 @@ FileLineReader::FileLineReader()
 
 FileLineReader::FileLineReader(string fileName)
 {
-    file = fileName; 
+    file = fileName;
 };
 
 string FileLineReader::readLineFromFile()
@@ -166,18 +168,18 @@ string FileLineReader::readLineFromFile()
     int current_line = 0;
 
 
-    if (!commandFile.is_open()) 
+    if (!commandFile.is_open())
     {
         cout << "FAILURE TO OPEN FILE" << endl;
         return "error";
     }
 
 
-    while (!commandFile.eof()) 
+    while (!commandFile.eof())
     {
         current_line++;
         getline(commandFile, line);
-        if (current_line == lineCount) 
+        if (current_line == lineCount)
         {
             incrementLineCount();
             cout << "COMMAND: " << line << "COUNTER: " << lineCount;
@@ -189,14 +191,14 @@ string FileLineReader::readLineFromFile()
 };
 
 
-FileCommandProcessorAdapter::FileCommandProcessorAdapter() 
+FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
-    fr = new FileLineReader("C:\\Users\\Roger\\Desktop\\gameTest2.txt");
+    fr = new FileLineReader("gameTest3.txt");
 
 
 }
 
-void FileCommandProcessorAdapter::readCommand() 
+void FileCommandProcessorAdapter::readCommand()
 {
     string commandFromFile = "default";
     cout << "Reading Command From File." << endl;
@@ -221,7 +223,6 @@ ostream& operator << (ostream& outputStream,
     return outputStream;
 };
 */
-
 
 
 

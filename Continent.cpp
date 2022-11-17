@@ -42,16 +42,5 @@ Continent& Continent::operator=(const Continent& c) {
 	return *this;
 };
 
-bool Continent::OwnedContinent(Player* player)
-{
-	for (int i = 0; i < territories.size(); i++) {
-		if (territories[i]->getControllingPlayer() != player) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
 
 

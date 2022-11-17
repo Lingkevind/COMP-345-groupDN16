@@ -36,6 +36,7 @@ inline void testCommandProcessor(int n) {
 	}
 
 
+/*
 	
 	int size = cp->commandCollection.size();
 
@@ -48,6 +49,7 @@ inline void testCommandProcessor(int n) {
 
 	int x = 5;
 	cin >> x;
+*/
 
 	
 
@@ -56,8 +58,27 @@ inline void testCommandProcessor(int n) {
 
 int main() {
 
-	testCommandProcessor(1);
+	CommandProcessor* cp = new CommandProcessor();
+	FileCommandProcessorAdapter* fcp = new FileCommandProcessorAdapter();
+	StateController* sc = new StateController(new StartState());
 
+	testCommandProcessor(2);
+	//commands from console
+
+
+	while (sc->startupphase == false)
+	{
+		sc->enterState(cp);							//greetings
+		sc->executeState(cp);							//call the commandProcessor methods until we get the right command, execute command 
+		sc->exitState(cp);							//transition to next state 	
+
+	}
+	while (sc->startupphase == true)
+	{
+		sc->enterState(cp);							//greetings
+	sc->executeState(cp);							//call the commandProcessor methods until we get the right command, execute command 
+	sc->exitState(cp);
+}
 
 }
 
