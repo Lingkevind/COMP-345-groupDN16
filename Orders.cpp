@@ -34,12 +34,18 @@ Order::Order(const Order& order) {
     this->orderId = order.orderId;
 }
 
+string Order::toString() {
+    return " ";
+};
+
 Order& Order::operator=(const Order& order) {
     this->orderId = order.orderId;
     return *this;
 }
 Order::~Order() {
 }
+
+
 
 ostream& operator<<(ostream& os, const Order& order) {
     os << "Order ID:" << order.orderId << "\t" << "Order Name:" << order.orderName << endl;
@@ -133,6 +139,16 @@ int OrderList::listSize() {
     return orderList.size();
 }
 
+void OrderList::displayList() {
+    cout << "current orders:"<<endl;
+    if (orderList.size() == 0) {
+        cout << "None"<<endl;
+    }
+    for (int i = 0; i < orderList.size(); i++) {
+        cout << orderList[i]->toString()<<endl;
+    }
+}
+
 ostream& operator<<(ostream& os, OrderList& OriginalList) {
     vector<Order*> temp = OriginalList.getOrderList();
     for (int i = 0; i < temp.size(); i++) {
@@ -164,6 +180,10 @@ Deploy::Deploy(Player* orderHolder, int army, Territory* target) {
     this->army = army;
     this->setTargetTerritory(target);
 }
+
+string Deploy::toString() {
+    return orderName+" " + to_string(army) +" to "+targetTerritory->getName();
+};
 
 Deploy& Deploy::operator=(const Deploy& order) {
     this->orderId = order.orderId;
@@ -233,6 +253,10 @@ Advance::Advance(Player* orderHolder, int army, Territory* source, Territory* ta
     this->setSourceTerritory(source);
     this->setTargetTerritory(target);
 }
+
+string Advance::toString() {
+    return orderName + " " + to_string(army) +" From "+sourceTerritory->getName() + " to " + targetTerritory->getName();
+};
 
 Advance& Advance::operator=(const Advance& order) {
     this->orderId = order.orderId;
@@ -370,6 +394,10 @@ Bomb::Bomb(Player* orderHolder, Territory* target) {
     this->setTargetTerritory(target);
 }
 
+string Bomb::toString() {
+    return orderName + " " + targetTerritory->getName();
+};
+
 Bomb& Bomb::operator=(const Bomb& order) {
     this->orderId = order.orderId;
     return *this;
@@ -453,6 +481,11 @@ Blockade::Blockade(Player* orderHolder, Territory* target) {
     this->setTargetTerritory(target);
 }
 
+string Blockade::toString() {
+    return orderName + " " + targetTerritory->getName();
+};
+
+
 Blockade& Blockade::operator=(const Blockade& order) {
     this->orderId = order.orderId;
     return *this;
@@ -527,6 +560,10 @@ Airlift::Airlift(Player* orderHolder, int army, Territory* source, Territory* ta
     this->setSourceTerritory(source);
     this->setTargetTerritory(target);
 }
+
+string Airlift::toString() {
+    return orderName + " " + to_string(army) + " From " + sourceTerritory->getName() + " to " + targetTerritory->getName();
+};
 
 Airlift& Airlift::operator=(const Airlift& order) {
     this->orderId = order.orderId;
@@ -606,7 +643,12 @@ Negotiate::Negotiate(const Negotiate& order) {
 
 Negotiate::Negotiate(Player* orderHolder, Player* negotiateWith) {
     this->setOrderHolder(orderHolder);
+    this->targetPlayer = negotiateWith;
 }
+
+string Negotiate::toString() {
+    return orderName + " with " + targetPlayer->getPlayerName();
+};
 
 Negotiate& Negotiate::operator=(const Negotiate& order) {
     this->orderId = order.orderId;

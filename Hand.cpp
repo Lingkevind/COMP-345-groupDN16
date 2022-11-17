@@ -26,9 +26,9 @@ Hand::Hand(vector<Card> c,string n) {
 	};
 
 	void Hand::display() {
-		cout << "\ncards amount:" << cards.size();
+		cout << "cards in your hand:" << cards.size()<<endl;
 		for (int i = 0; i < cards.size(); i++) {
-			cout<<"\n"<< i+1 << " " << cards[i].type;
+			cout<< i+1 << "." << cards[i].type<<endl;
 		}
 	}
 

@@ -592,7 +592,6 @@ void ReinforcementState::reinforcement(Player* p) {
 
 void ReinforcementState::executeState(CommandProcessor* cp)
 {
-	cout << this->context_->playerCollection[0]->ArmyUnit;
 	int pAmount = this->context_->playerCollection.size();
 	for (int i = 0; i < pAmount; i++) {
 		reinforcement(this->context_->playerCollection[i]);
@@ -622,7 +621,7 @@ void IssueOrderState::IssueDeploy(Player *p) {
 	Territory* t = this->context_->gameMap->findTerritorybyName(tName);
 	Deploy d = Deploy(p, army, t);
 	p->ArmyUnit -= army;
-	p->oList.add(&d);
+	p->oList->add(&d);
 };
 
 void IssueOrderState::IssueAdvance(Player *p) {
@@ -637,21 +636,22 @@ void IssueOrderState::IssueAdvance(Player *p) {
 	cin >> tName;
 	Territory* to = this->context_->gameMap->findTerritorybyName(tName);
 	Advance a = Advance(p, army, from, to);
-	p->oList.add(&a);
+	p->oList->add(&a);
 	p->ArmyUnit-=army;
 };
 
 string IssueOrderState::CardPlayed(Player *p) {
-	cout << p->getPlayerName() << ", please enter the index of the card you wanna play, enter 0 to skip.";
-	int index;
-	cin >> index;
-	if (index == 0) {
-		return NULL;
-	}
-	else {
+	cout << "please enter the index of the card you wanna play, enter 0 to skip.";
+	p->getplayerHand()->display();
+	if (p->getplayerHand()->cards.size() != 0) {
+		int index;
+		cin >> index;
 		Hand *h = p->getplayerHand();
 		string card = h->playCards(index - 1, this->context_->deck);
 		return card;
+	}
+	else {
+		return "";
 	}
 };
 
@@ -667,31 +667,34 @@ void IssueOrderState::IssueAirlift(Player *p) {
 	cin >> tName;
 	Territory* to = this->context_->gameMap->findTerritorybyName(tName);
 	Airlift a = Airlift(p, army, from, to);
-	p->oList.add(&a);
+	p->oList->add(&a);
 };
 
 void IssueOrderState::IssueBomb(Player *p) {
 	cout << p->getPlayerName() << ", please enter the territory you want to place tha bomb." << endl;
 	string tName;
+	cin >> tName;
 	Territory* target = this->context_->gameMap->findTerritorybyName(tName);
 	Bomb b = Bomb(p, target);
-	p->oList.add(&b);
+	p->oList->add(&b);
 };
 
 void IssueOrderState::IssueBlockade(Player *p) {
 	cout << p->getPlayerName() << ", please enter the territory you want to place tha blockade." << endl;
 	string tName;
+	cin >> tName;
 	Territory* target = this->context_->gameMap->findTerritorybyName(tName);
 	Blockade b = Blockade(p, target);
-	p->oList.add(&b);
+	p->oList->add(&b);
 };
 
 void IssueOrderState::IssueNegotiate(Player *p) {
 	cout << p->getPlayerName() << ", please enter the player you want to negotiate with." << endl;
 	string pName;
+	cin >> pName;
 	Player targetPlayer = this->context_->findPlayerbyName(pName, this->context_->playerCollection);
 	Negotiate n = Negotiate(p, &targetPlayer);
-	p->oList.add(&n);
+	p->oList->add(&n);
 };
 
 bool IssueOrderState::allArmyUsed() {
@@ -717,14 +720,17 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 	int pAmount = this->context_->playerCollection.size();
 	vector<int> endTurnIndicator(pAmount);
 	fill(endTurnIndicator.begin(), endTurnIndicator.end(), 0);
+	cout << "=====================================================" << endl;
 	cout << "now begins deploying phase"<<endl;
 	for (int i = 0; i < pAmount; i++) {
+		this->context_->playerCollection[i]->oList->displayList();
 		IssueDeploy(this->context_->playerCollection[i]);
 	}
 	while (allArmyUsed() == false) {
 		for (int i = 0; i < pAmount; i++) {
 			if (this->context_->playerCollection[i]->ArmyUnit > 0) {
 				cout << this->context_->playerCollection[i]->getPlayerName() << " still owns unassigned army unit, please deploy all of them before proceed."<<endl;
+				this->context_->playerCollection[i]->oList->displayList();
 				IssueDeploy(this->context_->playerCollection[i]);
 			}
 		}
@@ -733,6 +739,8 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 	while (turnEnd(endTurnIndicator) == false) {
 		for (int i = 0; i < pAmount; i++) {
 			if (endTurnIndicator[i] != 3) {
+				cout << "=====================================================" << endl;
+				this->context_->playerCollection[i]->oList->displayList();
 				cout << this->context_->playerCollection[i]->getPlayerName() << ", please select your action" << endl << "1.advance units" << endl << "2.play cards" << endl << "3.pass turn" << endl;
 				int option;
 				cin >> option;
@@ -742,17 +750,22 @@ void IssueOrderState::executeState(CommandProcessor* cp)
 				}
 				if (option == 2) {
 					string card = CardPlayed(this->context_->playerCollection[i]);
-					if (card == "Airlift") {
-						IssueAirlift(this->context_->playerCollection[i]);
+					if (card != "") {
+						if (card == "Airlift") {
+							IssueAirlift(this->context_->playerCollection[i]);
+						}
+						if (card == "Bomb") {
+							IssueBomb(this->context_->playerCollection[i]);
+						}
+						if (card == "Blockade") {
+							IssueBlockade(this->context_->playerCollection[i]);
+						}
+						if (card == "Diplomacy") {
+							IssueNegotiate(this->context_->playerCollection[i]);
+						}
 					}
-					if (card == "Bomb") {
-						IssueBomb(this->context_->playerCollection[i]);
-					}
-					if (card == "Blockade") {
-						IssueBlockade(this->context_->playerCollection[i]);
-					}
-					if (card == "Negotiate") {
-						IssueNegotiate(this->context_->playerCollection[i]);
+					else {
+						cout << "There is no card in your hand.";
 					}
 				}
 				if (option == 3) {
@@ -787,7 +800,7 @@ void ExecuteOrderState::enterState(CommandProcessor* cp)
 bool ExecuteOrderState::finishExecute() {
 	int pAmount = this->context_->playerCollection.size();
 	for (int i = 0; i < pAmount; i++) {
-		if (this->context_->playerCollection[i]->oList.listSize() != 0) {
+		if (this->context_->playerCollection[i]->oList->listSize() != 0) {
 			return false;
 		}
 	}
@@ -799,9 +812,9 @@ void ExecuteOrderState::executeState(CommandProcessor* cp)
 	int pAmount = this->context_->playerCollection.size();
 	while (finishExecute() == false) {
 		for (int i = 0; i < pAmount; i++) {
-			if (this->context_->playerCollection[i]->oList.listSize() != 0) {
-				this->context_->playerCollection[i]->oList.orderList[0]->execute();
-				this->context_->playerCollection[i]->oList.remove(0);
+			if (this->context_->playerCollection[i]->oList->listSize() != 0) {
+				this->context_->playerCollection[i]->oList->orderList[0]->execute();
+				this->context_->playerCollection[i]->oList->remove(0);
 			}
 		}
 	}
@@ -812,9 +825,16 @@ void ExecuteOrderState::checkFailedPlayer() {
 	int pAmount = this->context_->playerCollection.size();
 	for (int i = 0; i < pAmount; i++) {
 		if (this->context_->playerCollection[i]->getplayerOccupiedsize() == 0) {
-			this->context_->playerCollection[i]->~Player();
+			cout << this->context_->playerCollection.size();
+			delete this->context_->playerCollection[i];
+			cout << "player " ;
 		}
 	}
+};
+
+void ExecuteOrderState::makePlayerFail(string pName) {
+	//delete this->context_->findPlayerbyName(pName, this->context_->playerCollection);
+	cout << "player " << pName << " destroyed";
 };
 
 void ExecuteOrderState::exitState(CommandProcessor* cp)

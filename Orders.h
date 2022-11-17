@@ -27,6 +27,7 @@ public:
 
     virtual bool validate() { return false; }
     virtual void execute();
+    virtual string toString();
 
     virtual string getOrderName() { return orderName; }
     Territory* getTargetTerritory();
@@ -35,8 +36,6 @@ public:
     void setTargetTerritory(Territory* target);
     void setSourceTerritory(Territory* source);
     void setOrderHolder(Player* OrderHolder);
-
-private:
     string orderName = "unknown order";
     Player* orderHolder;
     Territory* sourceTerritory;
@@ -53,6 +52,7 @@ public:
     void move(int initialPosition, int finalPosition);
     //OrderList& operator=(const OrderList& OriginalList);
     int listSize();
+    void displayList();
     std::vector<Order*> getOrderList() {
         return orderList;
     }
@@ -64,19 +64,19 @@ public:
 
 class Deploy :public Order {
 public:
+    string orderName = "Deploy";
     Deploy();
     Deploy(int orderId);
     Deploy(const Deploy& order);
     ~Deploy();
     Deploy(Player* orderHolder, int army, Territory* target);
     Deploy& operator=(const Deploy& order);
+    string toString();
 
     void execute();
     bool validate();
     string getOrderName() { return orderName; }
     friend ostream& operator<<(ostream& os, const Deploy& order);
-    string orderName = "Deploy";
-private:
 
 };
 
@@ -88,6 +88,7 @@ public:
     ~Advance();
     Advance(Player* orderHolder, int army, Territory* source, Territory* target);
     Advance& operator=(const Advance& order);
+    string toString();
 
     void execute();
     bool validate();
@@ -105,6 +106,7 @@ public:
     ~Bomb();
     Bomb(Player* orderHolder, Territory* target);
     Bomb& operator=(const Bomb& order);
+    string toString();
 
     void execute();
     bool validate();
@@ -122,6 +124,7 @@ public:
     ~Blockade();
     Blockade(Player* orderHolder, Territory* target);
     Blockade& operator=(const Blockade& order);
+    string toString();
 
     void execute() ;
     bool validate();
@@ -143,6 +146,7 @@ public:
     ~Airlift();
     Airlift(Player* orderHolder, int army, Territory* source, Territory* target);
     Airlift& operator=(const Airlift& order);
+    string toString();
 
     void execute() override;
     bool validate();
@@ -154,13 +158,14 @@ private:
 
 class Negotiate :public Order {
 public:
+    Player* targetPlayer;
     Negotiate();
     Negotiate(int orderId);
     Negotiate(const Negotiate& order);
     ~Negotiate();
     Negotiate(Player* orderHolder, Player* negotiateWith);
     Negotiate& operator=(const Negotiate& order);
-
+    string toString();
     void execute() ;
     bool validate();
     string getOrderName() {

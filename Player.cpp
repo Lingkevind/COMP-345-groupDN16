@@ -24,6 +24,7 @@
 		pid+=playerNum;
 		ArmyUnit = 0;
 		playerHand = new Hand();
+		oList = new OrderList();
 	}
 
 	/// <param name="copyPlayer">copy constructer</param>
@@ -77,31 +78,27 @@
 	/// </summary>
 	/// <returns>a list of Territory player can attack</returns>
 	vector <Territory*>Player::toAttack () {
-		std::vector <Territory*> toAttackVector;
-		std::vector <Territory*> frontierV  = getFrontierT();
-		//for (vector<Territory*>::iterator it= toAttackVector.begin(); it!=toAttackVector.end(); it++)
-		for (int i = 0; i < frontierV.size(); i++) {
-			if (!this->playerOccupiedHas(frontierV.at(i))) {
-				toAttackVector.push_back(frontierV.at(i));
-			}
-		}
+		std::vector <Territory*> toAttackVector  = getFrontierT();
+		//std::vector <Territory> toAttackVector;
+		/*for each (Territory* var in toAttackVectorP)
+		{
+			toAttackVector.push_back(*var);
+		}*/
+		
+		//sort(toAttackVector.begin(), toAttackVector.end());
+		//toAttackVector.erase(unique(toAttackVector.begin(), toAttackVector.end()));
+
+
 		return toAttackVector;
 	}
 
-	vector<Territory*> Player::getFrontierT() {
+	vector<Territory*> Player::getFrontierT()
+	{
 		std::vector<Territory*> v;
-		for each (Territory * t1 in playerOccupied) {
-			std::vector<Territory*> tPla = t1->getAdjacentTerritories();
-			for each (Territory * t2 in tPla){
-				bool flag = true;
-				for each (Territory* v1 in v) {
-					if (v1 == t2) {
-						flag = false;
-						break;
-					}
-				}
-				//do while
-				if (flag)v.insert(v.end(), t2);
+		for each (Territory * t in playerOccupied) {
+			std::vector<Territory*> tPla = t->getAdjacentTerritories();
+			for each (Territory * t1 in tPla){
+				v.insert(v.end(), t1);
 			}
 		}
 		return v;
@@ -167,14 +164,7 @@
 		
 		return lostAllTerritory;
 	}
-	bool Player::playerOccupiedHas(Territory* tPtr)
-	{
-		for each (Territory * t1 in playerOccupied) {
-			if (tPtr==t1){
-				return true;
-			}
-		} return false;
-	}
+
 	//bool Player::ownTerritory(Territory t) {
 	//	if (find(playerOccupied.begin(), playerOccupied.end(), t) != playerOccupied.end()) {
 	//		return true;
@@ -331,18 +321,15 @@
 		t1->addAjacentTerritory(t3);
 		t2->addAjacentTerritory(t1);
 		t2->addAjacentTerritory(t3);
-		t2->addAjacentTerritory(t5);
+		t2->addAjacentTerritory(t4);
 		t3->addAjacentTerritory(t1);
-		t3->addAjacentTerritory(t2);
-		t3->addAjacentTerritory(t4);
-		t4->addAjacentTerritory(t3);
+		t3->addAjacentTerritory(t6);
+		t4->addAjacentTerritory(t2);
 		t4->addAjacentTerritory(t5);
-		t4->addAjacentTerritory(t7);
-		t5->addAjacentTerritory(t2);
 		t5->addAjacentTerritory(t4);
-		t5->addAjacentTerritory(t6);
-		t6->addAjacentTerritory(t4);
-		t6->addAjacentTerritory(t7);
+		t5->addAjacentTerritory(t7);
+		t6->addAjacentTerritory(t3);
+		t6->addAjacentTerritory(t5);
 
 		player.displayOcc(territoriesVptrp);
 		cout << "\ngetAdjacentTerritories\n";
@@ -359,7 +346,6 @@
 		player.displayOcc(vToAttack);
 		cout << "\nplayer.toDefend()" << "\n";
 		player.displayOcc(vToDefend);
-		player.getplayerOccupied();
 		
 		//cout << "getAdjacentTerritories\n";
 		//player.displayOcc(player.toAttack());

@@ -25,12 +25,6 @@ using namespace std;
 		}
 		i = 0;
 		while (i < 5) {
-			Card New = Card("Reinforcement");
-			newList.push_back(New);
-			i++;
-		}
-		i = 0;
-		while (i < 5) {
 			Card New = Card("Blockade");
 			newList.push_back(New);
 			i++;
