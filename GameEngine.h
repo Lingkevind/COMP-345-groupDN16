@@ -180,7 +180,31 @@ class WinState : public StateInterface
 	void exitState(CommandProcessor* cp) override;
 };
 
+class TournamentState : public StateInterface {
+	void enterState(CommandProcessor* cp) override;
+	void executeState(CommandProcessor* cp) override;
+	void exitState(CommandProcessor* cp) override;
+};
 
+class Tournament {
+private:
+	vector<Map*> mapList;
+	vector<Player*> playerList;
+	int gameCount;
+	int turnCount;
+public:
+	Tournament();
+	Tournament(vector<Map*> m,vector<Player*>p,int g, int d);
+	Tournament(const Tournament &t);
+	vector<Map*> getMaps();
+	vector<Player*> getPlayers();
+	void addPlayer();
+	void removePlayer();
+	void setGameCount(int count);
+	void setTurnCount(int count);
+	int getGameCount();
+	int getTurnCount();
 
+};
 
 #endif 

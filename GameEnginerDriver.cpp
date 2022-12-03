@@ -16,9 +16,9 @@ inline void testCommandProcessor(int n) {
 	{
 		while (true)
 		{
-			sc->enterState(cp);							//greetings
-			sc->executeState(cp);							//call the commandProcessor methods until we get the right command, execute command 
-			sc->exitState(cp);							//transition to next state 	
+			sc->enterState(fcp);							//greetings
+			sc->executeState(fcp);							//call the commandProcessor methods until we get the right command, execute command 
+			sc->exitState(fcp);							//transition to next state 	
 
 		}	
 	}

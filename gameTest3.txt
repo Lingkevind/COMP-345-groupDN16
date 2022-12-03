@@ -6,4 +6,4 @@ addplayer a
 addplayer b
 gamestart
 run
-replay 
+quit

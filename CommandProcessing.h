@@ -55,7 +55,11 @@ public:
 	virtual ~CommandProcessor();		//destructor	
 	CommandProcessor();							//constructor
 	bool validate(string currentState);			//checks if command is valid in state
-	void saveEffectOfLatestCommand(string e);
+	bool validateTournament(string currentCommand);	
+	bool validM(string M);
+	bool validP(string P);
+	bool validG(int G);
+	bool validD(int D);
 };
 
 

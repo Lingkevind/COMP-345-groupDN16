@@ -132,61 +132,73 @@ void StartState::executeState(CommandProcessor* cp){
 
 	int size = cp->commandCollection.size();
 	string commandString = cp->commandCollection.at(size - 1)->getCommand();
-	string mapName = "default";
-	string effectMessage = "default";
-
-	//Aquire just the map name without the command load
-	char spaceCharacter = ' ';
-	size_t found = commandString.find(spaceCharacter);
-	mapName = commandString.substr(found);
-	mapName.erase(mapName.find_last_not_of(" ") + 1);
-	mapName.erase(0, mapName.find_first_not_of(" "));
-
-	cout << "ATTEMPTING TO LOAD MAP: " << mapName << endl;
-
-	//Load the Map 
-	MapLoader* mapLoader = new MapLoader();
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	this->context_->gameMap = mapLoader->loadMap(mapName);
-
-	//Map SUCCEED to loaded
-	if (this->context_->gameMap != NULL)
+	if (!regex_match(commandString, regex("(tournament )(.*)")))
 	{
-		cout << "SUCCESSFULLY LOAD MAP: " << mapName << endl;
-		effectMessage = "SUCCESSFULLY LOAD MAP";
-	}
-	//Map FAILED to load
-	else
-	{
-		cout << "FAILED TO LOAD MAP: " << mapName << endl;
-		effectMessage = "FAILED TO LOAD MAP";
-	}
-	delete mapLoader;
-	mapLoader = NULL;
+		string mapName = "default";
+		string effectMessage = "default";
 
-	
-	size = cp->commandCollection.size();
-	cp->commandCollection.at(size - 1)->saveEffect(effectMessage);
+		//Aquire just the map name without the command load
+		char spaceCharacter = ' ';
+		size_t found = commandString.find(spaceCharacter);
+		mapName = commandString.substr(found);
+		mapName.erase(mapName.find_last_not_of(" ") + 1);
+		mapName.erase(0, mapName.find_first_not_of(" "));
 
+		cout << "ATTEMPTING TO LOAD MAP: " << mapName << endl;
+
+		//Load the Map 
+		MapLoader* mapLoader = new MapLoader();
+		HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+		this->context_->gameMap = mapLoader->loadMap(mapName);
+
+		//Map SUCCEED to loaded
+		if (this->context_->gameMap != NULL)
+		{
+			cout << "SUCCESSFULLY LOAD MAP: " << mapName << endl;
+			effectMessage = "SUCCESSFULLY LOAD MAP";
+		}
+		//Map FAILED to load
+		else
+		{
+			cout << "FAILED TO LOAD MAP: " << mapName << endl;
+			effectMessage = "FAILED TO LOAD MAP";
+		}
+		delete mapLoader;
+		mapLoader = NULL;
+
+
+		size = cp->commandCollection.size();
+		cp->commandCollection.at(size - 1)->saveEffect(effectMessage);
+
+	}
+	else {
+		cout << "";
+	}
 };
 
 void StartState::exitState(CommandProcessor* cp)
 {
 	int size = cp->commandCollection.size();
-	string determineTransition = cp->commandCollection.at(size - 1)->getEffect();
+	string commandString = cp->commandCollection.at(size - 1)->getCommand();
+	if (!regex_match(commandString, regex("(tournament )(.*)"))) {
+		int size = cp->commandCollection.size();
+		string determineTransition = cp->commandCollection.at(size - 1)->getEffect();
 
-	//If map is not loadeable, we go back to the StartState
-	if (determineTransition == "FAILED TO LOAD MAP") 
-	{
-		cout << "That Map Cannot Be Loaded, Enter Another Map..." << endl;
-		this->context_->TransitionTo(new StartState);
+		//If map is not loadeable, we go back to the StartState
+		if (determineTransition == "FAILED TO LOAD MAP")
+		{
+			cout << "That Map Cannot Be Loaded, Enter Another Map..." << endl;
+			this->context_->TransitionTo(new StartState);
+		}
+		else if (determineTransition == "SUCCESSFULLY LOAD MAP")
+		{
+			//Map was loadable, will now validate it in the next state
+			this->context_->TransitionTo(new MapLoadState);
+		}
 	}
-	else if(determineTransition == "SUCCESSFULLY LOAD MAP")
-	{
-		//Map was loadable, will now validate it in the next state
-		this->context_->TransitionTo(new MapLoadState);
+	else {
+		this->context_->TransitionTo(new TournamentState);
 	}
-
 };
 
 
