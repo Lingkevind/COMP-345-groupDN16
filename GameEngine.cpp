@@ -171,9 +171,6 @@ void StartState::executeState(CommandProcessor* cp){
 		cp->commandCollection.at(size - 1)->saveEffect(effectMessage);
 
 	}
-	else {
-		cout << "";
-	}
 };
 
 void StartState::exitState(CommandProcessor* cp)
@@ -946,5 +943,135 @@ void WinState::exitState(CommandProcessor* cp)
 	}
 
 };
+
+void TournamentState::convertM(string m) {
+	MapLoader maploader;
+	vector<string> collection;
+	string subM = m;
+	int x = subM.find(",");
+	while (x != -1) {
+		string content = subM.substr(0, x - 1);
+		collection.push_back(content);
+		subM = subM.substr(x + 1, subM.length());
+		x = subM.find(",");
+	}
+	for (int i = 0; i < collection.size(); i++) {
+		Map* map = maploader.loadMap(collection[i]);
+		if (map->validate()) {
+			cout << "Map " << map->getImageFile() << " validated" << endl;
+			this->context_->t.addMap(map);
+		}
+		else {
+			cout << "Map " << collection[i] << " is invalid" << endl;
+		}
+	}
+}
+
+void TournamentState::convertP(string p){
+	vector<string> collection;
+	string subP = p;
+	int x = subP.find(",");
+	while (x != -1) {
+		string content = subP.substr(0, x - 1);
+		collection.push_back(content);
+		subP = subP.substr(x + 1, subP.length());
+		x = subP.find(",");
+	}
+	for (int i = 0; i < collection.size(); i++) {
+		Player* player = &Player(p);
+		cout << "Player strategy " << player << " added"<<endl;
+		this->context_->t.addPlayer(player);
+	}
+}
+
+void  TournamentState::enterState(CommandProcessor* cp) 
+{
+	int size = cp->commandCollection.size();
+	string commandString = cp->commandCollection.at(size-1)->getCommand();
+	int x = commandString.find("-M<");
+	int y = commandString.find(">");
+	string M = commandString.substr(x + 3, y - x - 4);
+	x = commandString.substr(y, commandString.length()).find("-P<");
+	y = commandString.substr(x, commandString.length()).find(">");
+	string P = commandString.substr(x + 3, y - x - 4);
+	x = commandString.substr(y, commandString.length()).find("-G<");
+	y = commandString.substr(x, commandString.length()).find(">");
+	string G = commandString.substr(x + 3, y - x - 4);
+	x = commandString.substr(y, commandString.length()).find("-D<");
+	y = commandString.substr(x, commandString.length()).find(">");
+	string D = commandString.substr(x + 3, y - x - 4);
+	convertM(M);
+	convertP(P);
+	int gameCount = stoi(G);
+	this->context_->t.setGameCount(gameCount);
+	int turnCount = stoi(D);
+	this->context_->t.setTurnCount(turnCount);
+}
+
+bool TournamentState::checkWin() 
+{
+	if (this->context_->t.getCopyPlayerList().size() == 1)
+	{
+		return true;
+	}
+	return false;
+}
+
+void TournamentState::play()
+{
+	int roll;
+	roll = rand() % 10;
+	if (roll == 0) 
+	{
+		int kill = rand() % this->context_->t.getCopyPlayerList().size();
+		cout << "Player " << this->context_->t.getCopyPlayerList()[kill]->getPlayerName() << " eliminated"<<endl;
+		this->context_->t.removePlayer(kill);
+	}
+	else 
+	{
+		cout << "Stalemate" << endl;
+	}
+}
+
+void TournamentState::run(int gameCount) {
+	int turnCount = this->context_->t.getTurnCount();
+	this->context_->t.copyPlayer();
+	for (int i = 0; i < turnCount; i++) {
+		if (checkWin()) 
+		{
+			break;
+		}
+		else 
+		{
+			cout << "game " << gameCount << ", turn " << i << ", result: ";
+			play();
+		}
+	}
+	if (checkWin()) 
+	{
+		cout << "Game end, the winner is: " << this->context_->t.getCopyPlayerList()[0]->getPlayerName() << endl;
+	}
+	else 
+	{
+		cout << "Game end, the game draws"<<endl;
+	}
+}
+
+void  TournamentState::executeState(CommandProcessor* cp) 
+{
+	for (int i = 0; i < this->context_->t.getMapList().size(); i++) {
+		cout << "==================================================" << endl;
+		cout << "Map " << i << " Games:" << endl;
+		for (int j = 0; j < this->context_->t.getGameCount(); j++) {
+			run(j);
+		}
+	}
+}
+void  TournamentState::exitState(CommandProcessor* cp) 
+{
+
+}
+
+
 
 

@@ -12,6 +12,7 @@
 #include <iostream>
 #include "Territory.h"
 #include "Coord.h"
+#include "Tournament.h"
 #include <map>
 #include <windows.h> 
 
@@ -52,14 +53,13 @@ class StateController
 {
 
 public:
-
+	Tournament t;
 
 	StateInterface* currentState;
 	Deck deck = Deck();
 	std::string currentStateName;
 
 	Map* gameMap = NULL;
-	//Deck* deak = NULL; required by ling
 
 	vector <Player*> playerCollection;		//vector of command objects 
 
@@ -181,30 +181,14 @@ class WinState : public StateInterface
 };
 
 class TournamentState : public StateInterface {
+	void convertM(string m);
+	void convertP(string p);
 	void enterState(CommandProcessor* cp) override;
+	bool checkWin();
+	void play();
+	void run(int gameCount);
 	void executeState(CommandProcessor* cp) override;
 	void exitState(CommandProcessor* cp) override;
-};
-
-class Tournament {
-private:
-	vector<Map*> mapList;
-	vector<Player*> playerList;
-	int gameCount;
-	int turnCount;
-public:
-	Tournament();
-	Tournament(vector<Map*> m,vector<Player*>p,int g, int d);
-	Tournament(const Tournament &t);
-	vector<Map*> getMaps();
-	vector<Player*> getPlayers();
-	void addPlayer();
-	void removePlayer();
-	void setGameCount(int count);
-	void setTurnCount(int count);
-	int getGameCount();
-	int getTurnCount();
-
 };
 
 #endif 

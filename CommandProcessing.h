@@ -56,10 +56,6 @@ public:
 	CommandProcessor();							//constructor
 	bool validate(string currentState);			//checks if command is valid in state
 	bool validateTournament(string currentCommand);	
-	bool validM(string M);
-	bool validP(string P);
-	bool validG(int G);
-	bool validD(int D);
 };
 
 

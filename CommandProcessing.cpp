@@ -148,7 +148,11 @@ bool CommandProcessor::validate(string currentState)
     return false;
 };
 
-bool CommandProcessor::validateTournament(string currentCommand) {
+bool CommandProcessor::validateTournament(string currentCommand){
+    return regex_match(currentCommand, (regex("(tournament-M<([a - zA - Z0-9] + [.map\s] + ) { 1, 5 }>-P<((Aggressive | Benevolent | Neutral | Cheater) + [\s]) { 2, 4 }>-G<[1 - 4]>-D<([1 - 4][0 - 9] | 50)")));
+}
+
+/*bool CommandProcessor::validateTournament(string currentCommand) {
     int x = currentCommand.find("-");
     string subCommand = currentCommand.substr(x, currentCommand.length());
     if (regex_match(subCommand, regex("(-M<)(.*)")))
@@ -217,76 +221,7 @@ bool CommandProcessor::validateTournament(string currentCommand) {
     {
         return false;
     }
-};
-
-bool CommandProcessor::validM(string M) {
-    vector<string> collection;
-    string subM = M;
-    int x = subM.find(",");
-    while (x != -1)
-    {
-        string content=subM.substr(0,x-1);
-        collection.push_back(content);
-        subM = subM.substr(x + 1, subM.length());
-        x = subM.find(",");
-    }
-    if (collection.size() == 0||collection.size() > 5) {
-        cout << "Map amount has exceeded the limit range from 1 to 5";
-        return false;
-    }
-    for (int i = 0; i < collection.size(); i++) 
-    {
-        if (!regex_match(collection[i], regex("(.*)(.map)")))
-        {
-            cout << collection[i]<<" has the invalid format";
-            return false;
-        }
-    }
-    return true;
-}
-
-bool CommandProcessor::validP(string P) {
-    vector<string> collection;
-    string subP = P;
-    int x = subP.find(",");
-    while (x != -1)
-    {
-        string content = subP.substr(0, x - 1);
-        collection.push_back(content);
-        subP = subP.substr(x + 1, subP.length());
-        x = subP.find(",");
-    }
-    if (collection.size()<2 || collection.size() > 4) {
-        cout << "Player amount has exceeded the limit range from 2 to 4";
-        return false;
-    }
-    string strats = "Aggressive Benevolent Neutral Cheater";
-    for (int i = 0; i < collection.size(); i++)
-    {
-        if (strats.find(collection[i])==string::npos)
-        {
-            cout << collection[i] << " is an invalid strategy";
-            return false;
-        }
-    }
-    return true;
-}
-
-bool CommandProcessor::validG(int G) {
-    if (G < 1 || G > 5) {
-        cout << "Game amount set has exceeded the limit range from 1 to 5";
-        return false;
-    }
-    return true;
-}
-
-bool CommandProcessor::validD(int D) {
-    if (D < 10 || D > 50) {
-        cout << "Turn amount set has exceeded the limit range from 10 to 50";
-        return false;
-    }
-    return true;
-}
+};*/
 
 int FileLineReader::lineCount = 1;
 void FileLineReader::incrementLineCount()
