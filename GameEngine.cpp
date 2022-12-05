@@ -959,7 +959,7 @@ void TournamentState::convertM(string m) {
 		Map* map = maploader.loadMap(collection[i]);
 		if (map->validate()) {
 			cout << "Map " << map->getImageFile() << " validated" << endl;
-			this->context_->t.addMap(map);
+			this->context_->t->addMap(map);
 		}
 		else {
 			cout << "Map " << collection[i] << " is invalid" << endl;
@@ -980,7 +980,7 @@ void TournamentState::convertP(string p){
 	for (int i = 0; i < collection.size(); i++) {
 		Player* player = &Player(p);
 		cout << "Player strategy " << player << " added"<<endl;
-		this->context_->t.addPlayer(player);
+		this->context_->t->addPlayer(player);
 	}
 }
 
@@ -1003,14 +1003,14 @@ void  TournamentState::enterState(CommandProcessor* cp)
 	convertM(M);
 	convertP(P);
 	int gameCount = stoi(G);
-	this->context_->t.setGameCount(gameCount);
+	this->context_->t->setGameCount(gameCount);
 	int turnCount = stoi(D);
-	this->context_->t.setTurnCount(turnCount);
+	this->context_->t->setTurnCount(turnCount);
 }
 
 bool TournamentState::checkWin() 
 {
-	if (this->context_->t.getCopyPlayerList().size() == 1)
+	if (this->context_->t->getCopyPlayerList().size() == 1)
 	{
 		return true;
 	}
@@ -1023,9 +1023,9 @@ void TournamentState::play()
 	roll = rand() % 10;
 	if (roll == 0) 
 	{
-		int kill = rand() % this->context_->t.getCopyPlayerList().size();
-		cout << "Player " << this->context_->t.getCopyPlayerList()[kill]->getPlayerName() << " eliminated"<<endl;
-		this->context_->t.removePlayer(kill);
+		int kill = rand() % this->context_->t->getCopyPlayerList().size();
+		cout << "Player " << this->context_->t->getCopyPlayerList()[kill]->getPlayerName() << " eliminated"<<endl;
+		this->context_->t->removePlayer(kill);
 	}
 	else 
 	{
@@ -1034,8 +1034,8 @@ void TournamentState::play()
 }
 
 void TournamentState::run(int gameCount) {
-	int turnCount = this->context_->t.getTurnCount();
-	this->context_->t.copyPlayer();
+	int turnCount = this->context_->t->getTurnCount();
+	this->context_->t->copyPlayer();
 	for (int i = 0; i < turnCount; i++) {
 		if (checkWin()) 
 		{
@@ -1049,7 +1049,7 @@ void TournamentState::run(int gameCount) {
 	}
 	if (checkWin()) 
 	{
-		cout << "Game end, the winner is: " << this->context_->t.getCopyPlayerList()[0]->getPlayerName() << endl;
+		cout << "Game end, the winner is: " << this->context_->t->getCopyPlayerList()[0]->getPlayerName() << endl;
 	}
 	else 
 	{
@@ -1059,10 +1059,10 @@ void TournamentState::run(int gameCount) {
 
 void  TournamentState::executeState(CommandProcessor* cp) 
 {
-	for (int i = 0; i < this->context_->t.getMapList().size(); i++) {
+	for (int i = 0; i < this->context_->t->getMapList().size(); i++) {
 		cout << "==================================================" << endl;
 		cout << "Map " << i << " Games:" << endl;
-		for (int j = 0; j < this->context_->t.getGameCount(); j++) {
+		for (int j = 0; j < this->context_->t->getGameCount(); j++) {
 			run(j);
 		}
 	}

@@ -18,7 +18,7 @@
 
 
 
-
+class Tournament;
 class StateController;
 class CommandProcessor;
 
@@ -53,7 +53,7 @@ class StateController
 {
 
 public:
-	Tournament t;
+	Tournament* t=NULL;
 
 	StateInterface* currentState;
 	Deck deck = Deck();
