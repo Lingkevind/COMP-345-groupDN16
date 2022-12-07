@@ -152,77 +152,6 @@ bool CommandProcessor::validateTournament(string currentCommand){
     return regex_match(currentCommand, (regex("tournament-M<([a-zA-Z0-9,\\s]+.map){1,5}>-P<((Aggressive|Benevolent|Neutral|Cheater|,|\\s)+){2,4}>-G<[1-5]>-D<([1-4][0-9]|50)>")));
 }
 
-/*bool CommandProcessor::validateTournament(string currentCommand) {
-    int x = currentCommand.find("-");
-    string subCommand = currentCommand.substr(x, currentCommand.length());
-    if (regex_match(subCommand, regex("(-M<)(.*)")))
-    {
-        int z = currentCommand.find(">")-4;
-        string content = subCommand.substr(3, z);
-        if (!validM(content)) 
-        {
-            return false;
-        }
-        x = currentCommand.find(">");
-        subCommand = subCommand.substr(x, currentCommand.length());
-        if (regex_match(subCommand, regex("(>-P<)(.*)"))) 
-        {
-            z = currentCommand.find(">") - 5;
-            content = subCommand.substr(4, z);
-            if (!validP(content)) 
-            {
-                return false;
-            }
-            subCommand = subCommand.substr(1,subCommand.length());
-            x = currentCommand.find(">");
-            subCommand = subCommand.substr(x, currentCommand.length());
-            if (regex_match(subCommand, regex("(>-G<)(.*)"))) 
-            {
-                z = currentCommand.find(">") - 5;
-                content = subCommand.substr(4, z);
-                int count = stoi(content);
-                if (!validG(count)) 
-                {
-                    return false;
-                }
-                subCommand = subCommand.substr(1, subCommand.length());
-                x = currentCommand.find(">");
-                subCommand = subCommand.substr(x, currentCommand.length());
-                if (regex_match(subCommand, regex("(>-D<)(.*)"))) 
-                {
-                    z = currentCommand.find(">") - 5;
-                    content = subCommand.substr(4, z);
-                    int count = stoi(content);
-                    if (!validD(count)) 
-                    {
-                        return false;
-                    }
-                    if (&subCommand.back() == ">") 
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
-};*/
-
 int FileLineReader::lineCount = 1;
 void FileLineReader::incrementLineCount()
 {
@@ -272,7 +201,10 @@ string FileLineReader::readLineFromFile()
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
-    fr = new FileLineReader("testTournament.txt");
+    cout << "Please enter the file to read from:" << endl;
+    string fileName;
+    cin >> fileName;
+    fr = new FileLineReader(fileName);
 
 
 }

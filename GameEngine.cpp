@@ -195,6 +195,7 @@ void StartState::exitState(CommandProcessor* cp)
 	}
 	else {
 		this->context_->tournamentMode = true;
+		this->context_->startupphase = 1;
 		this->context_->TransitionTo(new TournamentState);
 	}
 };
@@ -567,7 +568,7 @@ void PlayersAddedState::exitState(CommandProcessor* cp)
 	}
 
 	else if (commandString == "gamestart") {
-		this->context_->startupphase = true;
+		this->context_->startupphase = 1;
 		this->context_->TransitionTo(new ReinforcementState);
 		cout << "Game start!" << endl;
 	}
@@ -947,6 +948,8 @@ void WinState::exitState(CommandProcessor* cp)
 };
 
 void TournamentState::convertM(string m) {
+	cout << "==================================================" << endl;
+	cout << "loading maps"<<endl;
 	MapLoader maploader;
 	vector<string> collection;
 	string subM = m;
@@ -963,10 +966,11 @@ void TournamentState::convertM(string m) {
 		collection.push_back(content);
 		subM = subM.substr(x + 1, subM.length());
 	}
+	//Here validates the map and push the valid one into the list
 	for (int i = 0; i < collection.size(); i++) {
 		Map* map = maploader.loadMap(collection[i]);
-		if (map->validate()) {
-			cout << "Map " << map->getImageFile() << " validated" << endl;
+		if (map!=NULL&&map->validate()) {
+			cout << "Map " << map->getImageFile() << " validated and added to the list as MAP"<< this->context_->t->getMapList().size()+1<< endl<<endl;
 			this->context_->t->addMap(map);
 		}
 		else {
@@ -976,6 +980,8 @@ void TournamentState::convertM(string m) {
 }
 
 void TournamentState::convertP(string p){
+	cout << "==================================================" << endl;
+	cout << "loading players"<<endl;
 	vector<string> collection;
 	string subP = p;
 	int x =0;
@@ -1000,8 +1006,11 @@ void TournamentState::convertP(string p){
 
 void  TournamentState::enterState(CommandProcessor* cp) 
 {
+	cout << "=================================================="<<endl;
+	cout << "***welcome to tournament mode***" << endl;
 	int size = cp->commandCollection.size();
 	string commandString = cp->commandCollection.at(size-1)->getCommand();
+	//recognize and abstract the substring inside every <> brackets of the command
 	int x = commandString.find("-M<");
 	int y = commandString.find(">");
 	string M = commandString.substr(x + 3, y - x - 3);
@@ -1019,6 +1028,7 @@ void  TournamentState::enterState(CommandProcessor* cp)
 	string D = commandString.substr(3, y - 3);
 	convertM(M);
 	convertP(P);
+	//convert the Game amount and turn amount from string to int and stores
 	int gameCount = stoi(G);
 	this->context_->t->setGameCount(gameCount);
 	int turnCount = stoi(D);
@@ -1050,10 +1060,12 @@ void TournamentState::play()
 	}
 }
 
-void TournamentState::run(int gameCount) {
+string TournamentState::run(int gameCount) {
+	cout << endl;
 	int turnCount = this->context_->t->getTurnCount();
 	this->context_->t->copyPlayer();
 	for (int i = 0; i < turnCount; i++) {
+		//The game loop will break if only one players exist
 		if (checkWin()) 
 		{
 			break;
@@ -1066,15 +1078,21 @@ void TournamentState::run(int gameCount) {
 	}
 	if (checkWin()) 
 	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 		cout << "Game end, the winner is: " << this->context_->t->getCopyPlayerList()[0]->getPlayerName() << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+		return this->context_->t->getCopyPlayerList()[0]->getPlayerName();
 	}
 	else 
-	{
+	{//If no one wins, the console will print remain players as well as push "Draw" into results
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 		cout << "Game end, the game draws, remaining player: ";
 		for (int i = 0; i < this->context_->t->getCopyPlayerList().size(); i++) {
 			cout << this->context_->t->getCopyPlayerList().at(i)->getPlayerName()<<" ";
 		}
 		cout << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+		return "Draw";
 	}
 }
 
@@ -1082,14 +1100,38 @@ void  TournamentState::executeState(CommandProcessor* cp)
 {
 	for (int i = 0; i < this->context_->t->getMapList().size(); i++) {
 		cout << "==================================================" << endl;
-		cout << "Map " << i+1 << " Games:" << endl;
+		cout << "Playing MAP" << i+1 <<":" << endl;
+		vector<string> mapResult = vector<string>();
 		for (int j = 0; j < this->context_->t->getGameCount(); j++) {
-			run(j);
+			string result=run(j);
+			mapResult.push_back(result);
 		}
+		this->context_->t->result.push_back(mapResult);
 	}
 }
+
+void TournamentState::displayResult() 
+{
+	cout <<left<<setw(15)<< "Map\\Game";
+	for (int i = 0; i < this->context_->t->getGameCount(); i++) {
+		cout << "Game" <<left<<setw(10)<<i + 1;
+	}
+	cout <<endl;
+	for (int i = 0; i < this->context_->t->result.size(); i++) {
+		cout << "MAP" << left << setw(12) << i + 1;
+		for (int j = 0; j < this->context_->t->result.at(i).size(); j++) {
+			cout <<left<<setw(14) << this->context_->t->result.at(i).at(j);
+		}
+		cout << endl;
+	}
+}
+
 void  TournamentState::exitState(CommandProcessor* cp) 
 {
+	cout << "==================================================" << endl;
+	cout << "All game completed, printing result:"<<endl;
+	displayResult();
+	this->context_->startupphase =2;
 	this->context_->tournamentMode = false;
 }
 

@@ -6,6 +6,7 @@ Tournament::Tournament() {
 	playerList = vector<Player*>();
 	gameCount = 0;
 	turnCount = 0;
+	result = vector<vector<string>>();
 }
 
 

@@ -1,1 +1,1 @@
-tournament-M<USA.map, World 2007.map>-P<Aggressive,Benevolent,Neutral,Cheater>-G<2>-D<10>
+tournament-M<USA.map,World2007.map,error.map>-P<Benevolent,Cheater,Aggressive,Neutral>-G<3>-D<10>

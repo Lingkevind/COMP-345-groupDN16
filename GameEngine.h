@@ -15,6 +15,7 @@
 #include "Tournament.h"
 #include <map>
 #include <windows.h> 
+#include <iomanip>
 
 class StateController;
 class CommandProcessor;
@@ -82,7 +83,7 @@ public:
 
 	std::string getStateName();
 
-	bool startupphase = false;
+	int startupphase = 0;
 
 
 };
@@ -178,13 +179,19 @@ class WinState : public StateInterface
 };
 
 class TournamentState : public StateInterface {
+	//get the substring inside the M bracket convert the string into map list 
 	void convertM(string m);
+	//get the substring inside the P bracket convert the string into player list 
 	void convertP(string p);
 	void enterState(CommandProcessor* cp) override;
+	//The win ends if only one player left
 	bool checkWin();
 	void play();
-	void run(int gameCount);
+	//runs multiple time of plays() and returns the game result as string
+	string run(int gameCount);
 	void executeState(CommandProcessor* cp) override;
+	//print the result table 
+	void displayResult();
 	void exitState(CommandProcessor* cp) override;
 };
 

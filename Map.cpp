@@ -35,9 +35,9 @@ bool Map::validate() {
     // handle that helps manipulate the console properties, such as the color.
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     
-    // Setting the console color to green.
+    /* Setting the console color to green.
     SetConsoleTextAttribute(hConsole, 10);
-    cout << "SUCCESS" << endl;
+    cout << "SUCCESS" << endl;*/
 
     // Setting the console color to red.
     SetConsoleTextAttribute(hConsole, 15);
@@ -81,7 +81,6 @@ bool Map::validate() {
         return false;
     }
     SetConsoleTextAttribute(hConsole, 15);
-    cout << endl;
     return true;
 }
 
