@@ -1,6 +1,9 @@
 #ifndef TOURNAMENT_H
 #define TOURNAMENT_H
-#include "GameEngine.h"
+#include "Player.h"
+#include "Territory.h"
+#include "Coord.h"
+#include "MapLoader.h"
 
 class Tournament {
 private:

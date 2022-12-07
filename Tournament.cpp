@@ -52,7 +52,7 @@ void Tournament::addPlayer(Player* p) {
 }
 
 void Tournament::removePlayer(int index) {
-	delete copyPlayerList[index];
+	copyPlayerList.erase(copyPlayerList.begin() + index);
 }
 
 void Tournament::copyPlayer() {

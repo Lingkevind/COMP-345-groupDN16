@@ -114,9 +114,9 @@ bool CommandProcessor::validate(string currentState)
         return true;
     }
 
-    else if ((regex_match(latestCommand, regex("(tournament )(.*)"))) && (currentState == "StartState"))
+    else if ((regex_match(latestCommand, regex("(tournament-M<([a-zA-Z0-9,\s]+.map){1,5}>-P<((Aggressive|Benevolent|Neutral|Cheater|,|\s)+){2,4}>-G<[1-5]>-D<([1-4][0-9]|50)>)"))) && currentState == "StartState")
     {
-        return validateTournament(latestCommand);
+        return true;
     }
     else if ((latestCommand == "validatemap") && currentState == "MapLoadState")
     {
@@ -149,7 +149,7 @@ bool CommandProcessor::validate(string currentState)
 };
 
 bool CommandProcessor::validateTournament(string currentCommand){
-    return regex_match(currentCommand, (regex("(tournament-M<([a - zA - Z0-9] + [.map\s] + ) { 1, 5 }>-P<((Aggressive | Benevolent | Neutral | Cheater) + [\s]) { 2, 4 }>-G<[1 - 4]>-D<([1 - 4][0 - 9] | 50)")));
+    return regex_match(currentCommand, (regex("tournament-M<([a-zA-Z0-9,\\s]+.map){1,5}>-P<((Aggressive|Benevolent|Neutral|Cheater|,|\\s)+){2,4}>-G<[1-5]>-D<([1-4][0-9]|50)>")));
 }
 
 /*bool CommandProcessor::validateTournament(string currentCommand) {
@@ -272,7 +272,7 @@ string FileLineReader::readLineFromFile()
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
-    fr = new FileLineReader("gameTest3.txt");
+    fr = new FileLineReader("testTournament.txt");
 
 
 }

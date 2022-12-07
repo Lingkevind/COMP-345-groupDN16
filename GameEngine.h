@@ -16,9 +16,6 @@
 #include <map>
 #include <windows.h> 
 
-
-
-class Tournament;
 class StateController;
 class CommandProcessor;
 
@@ -53,8 +50,8 @@ class StateController
 {
 
 public:
-	Tournament* t=NULL;
-
+	Tournament* t= new Tournament();
+	bool tournamentMode = false;
 	StateInterface* currentState;
 	Deck deck = Deck();
 	std::string currentStateName;

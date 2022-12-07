@@ -1,0 +1,1 @@
+tournament-M<USA.map, World 2007.map>-P<Aggressive,Benevolent,Neutral,Cheater>-G<2>-D<10>
