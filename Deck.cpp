@@ -1,5 +1,5 @@
 #include"Deck.h"
-
+using namespace std;
 	Deck::Deck() {
 		list = vector<Card>();
 	}
@@ -20,12 +20,6 @@
 		int i = 0;
 		while (i < 5) {
 			Card New = Card("Bomb");
-			newList.push_back(New);
-			i++;
-		}
-		i = 0;
-		while (i < 5) {
-			Card New = Card("Reinforcement");
 			newList.push_back(New);
 			i++;
 		}
@@ -88,7 +82,7 @@
 		}
 	}
 
-	/*ostream& operator<<(ostream& os, const Deck& d) {
+	ostream& operator<<(ostream& os, const Deck& d) {
 		os << typeid(d).name()<<", Card remain:"<<d.list.size();
 		return os;
-	}*/
+	}

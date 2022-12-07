@@ -10,7 +10,6 @@ Map::Map() : continents() { }
 
 void Map::addContinent(Continent* continent) {
 	this->continents.push_back(continent);
-    this->notify(this);
 }
 
 vector<Continent*>  Map::getContinents() {
@@ -156,6 +155,27 @@ bool Map::eachCountryBelongsToOneAndOnlyContinent() {
     }
 }
 
-string Map::StringToLog() {
-    return "Added continent.";
+vector<Territory*> Map::getTerritories() {
+    vector<Territory*> territories;;
+
+    for (size_t i = 0; i < this->getContinents().size(); i++)
+    {
+        for (size_t j = 0; j < this->getContinents()[i]->getTerritories().size(); j++)
+        {
+            territories.push_back(this->getContinents()[i]->getTerritories()[j]);
+        }
+    }
+
+    return territories;
 }
+
+Territory* Map::findTerritorybyName(string name) {
+    vector<Territory*> tList=getTerritories();
+    for (int i = 0; i < getTerritories().size(); i++) {
+        if (tList[i]->getName() == name) {
+            return tList[i];
+        }
+    }
+    cout << "didnt found";
+        return NULL; 
+};

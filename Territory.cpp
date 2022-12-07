@@ -3,7 +3,7 @@
 #include "Territory.h"
 #include "Coord.h"
 #include <vector>
-#include "Player.h"
+//#include "Player.h"
 
 Territory::Territory(string name) : name(name), adjacentTerritories()  { 
 	this->coordinates = new Coord(-1, -1);

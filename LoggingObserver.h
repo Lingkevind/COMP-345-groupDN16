@@ -1,5 +1,3 @@
-
-
 #pragma once
 #include <iostream>
 #include <string>
@@ -11,12 +9,12 @@ class Observer;
 
 class ILoggable
 {
-    public:
-        /// <summary>
-        /// Retrieves the string to log from the object
-        /// </summary>
-        /// <returns></returns>
-        virtual string StringToLog() = 0;
+public:
+    /// <summary>
+    /// Retrieves the string to log from the object
+    /// </summary>
+    /// <returns></returns>
+    virtual string StringToLog() = 0;
 };
 
 class Observer {
@@ -90,7 +88,3 @@ public:
 private:
     vector<Observer*> observers; //  The list of observers to notify 
 };
-
-
-
-

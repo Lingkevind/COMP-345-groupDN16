@@ -1,10 +1,16 @@
 #include"Hand.h"
+using namespace std;
 
-	Hand::Hand(string n) {
+Hand::Hand() {
+	cards = vector<Card>();
+	name = "default";
+};
+
+Hand::Hand(string n) {
 		cards = vector<Card>();
 		name = n;
-	}
-	Hand::Hand(vector<Card> c,string n) {
+}
+Hand::Hand(vector<Card> c,string n) {
 		cards = c;
 		name = n;
 	}
@@ -20,9 +26,9 @@
 	};
 
 	void Hand::display() {
-		cout << "\ncards amount:" << cards.size();
+		cout << "cards in your hand:" << cards.size()<<endl;
 		for (int i = 0; i < cards.size(); i++) {
-			cout<<"\n"<< i+1 << " " << cards[i].type;
+			cout<< i+1 << "." << cards[i].type<<endl;
 		}
 	}
 
@@ -37,25 +43,26 @@
 		}
 	}
 
-	void Hand::playCards(int i, string target, Deck& d) {
+	string Hand::playCards(int i, Deck& d) {
 		if (i >= cards.size() || i < 0) {
-			cout << "Player " << name << " does not have card with this index";
+			cout << "Player does not have card with this index";
+			return " ";
 		}
 		else {
-				string s = name + " played " + cards[i].play(target);
-				d.list.push_back(cards[i]);
-				d.randomShuffle();
-				cards.erase(cards.begin()+i);
-				cout << s<<"\n";
+			Card c = cards[i];
+			d.list.push_back(cards[i]);
+			d.randomShuffle();
+			cards.erase(cards.begin() + i);
+			return c.type;
 		}
 	}
 
-	//ostream& operator<<(ostream& os, const Hand& h) {
-	//	os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
-	//	return os;
-	//}
+	ostream& operator<<(ostream& os, const Hand& h) {
+		os << "Player name: " << h.name << "\nCard amount:" << h.cards.size()<<"\n";
+		return os;
+	}
 
-	void testCards() {
+	/*void testCards() {
 		cout << "Welcome to Warzone card system tester 1.1!\n=========================================";
 		int option = 0;
 		while (option == 0) {
@@ -80,7 +87,7 @@
 			}
 			Hand player = Hand("AI");
 			cout << "\nHand created\n";
-			cout << player.name;
+			cout << player;
 			cout <<"\n=========================================";
 			cout << "\nInput the amount of cards to draw ";
 			cin >> option;
@@ -104,4 +111,4 @@
 		}
 
 		cout << "Terminating the program, thanks for using.";
-	};
+	};*/

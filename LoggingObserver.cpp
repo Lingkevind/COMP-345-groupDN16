@@ -17,7 +17,7 @@ void Observer::update(ILoggable* loggableObject) {
 	ofstream logFile;
 	logFile.open("GameLog.txt", std::ios_base::app);
 	// Logs the string to log into the GameLog file
-	logFile << loggableObject->StringToLog() << endl; 
+	logFile << loggableObject->StringToLog() << endl;
 	logFile.close();
 
 }
@@ -28,12 +28,12 @@ Observer& Observer::operator=(const Observer& observer) {
 
 ostream& operator<<(ostream& os, const Observer& observer) {
 	os << observer << endl;
-	return os;			
+	return os;
 }
 
 
 Subject::Subject(const Subject& subject) {
-	this->observers = subject.observers;	
+	this->observers = subject.observers;
 	this->attach(new LoggingObserver());
 }
 
@@ -58,7 +58,7 @@ Subject& Subject::operator=(const Subject& subject) {
 
 ostream& operator<<(ostream& os, const Subject& subject) {
 	os << "Total number of observer for the subject : " << subject.observers.size() << endl;
-	return os;	
+	return os;
 }
 
 LoggingObserver::LoggingObserver() {}

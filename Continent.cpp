@@ -28,10 +28,10 @@ void Continent::addTerritory(Territory* territory) {
 }
 
 ostream& operator<<(ostream& os, Continent& continent) {
-	os << continent.getName() << " : owned territories are : " << endl;
+	os << continent.getName() << " : owned territories are : " << "\n";
 	for (Territory* t : continent.getTerritories())
 		os << t;
-	cout << endl;
+	std::cout << "\n";
 	return os;
 }
 

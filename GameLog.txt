@@ -1,5 +1,0 @@
-Game engine's new state : StartState
-Command : loadmap
-Command's effect : default
-Order issued : Deploy
-Order executed : Deploy troops

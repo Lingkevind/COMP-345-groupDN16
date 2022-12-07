@@ -1,0 +1,7 @@
+loadmap simple.map
+validatemap
+addplayer a
+addplayer b
+gamestart
+run
+replay 

@@ -84,6 +84,7 @@ void MapLoader::parseMapLine(string line) {
 	else if (key == "image") {
 		this->map->setImageFile(value);
 	}
+	// @TODO parse map info if needed
 }
 void MapLoader::parseContinentsLine(string line) {
 	string name = line.substr(0, line.find('='));

@@ -7,7 +7,8 @@
 #ifndef   CommandProcessing
 #define   CommandProcessing
 #include "GameEngine.h";
-#include "LoggingObserver.h"
+#include <regex>
+
 
 
 
@@ -19,17 +20,17 @@ using namespace std;
 class Command {
 public:
 
-	//data memebers
+//data memebers
 	string effectName;
 	string commandName;
 
-	//setters and getters
+//setters and getters
 	void setEffect(string e);
 	void setCommand(string c);
 	string getEffect();
 	string getCommand();
 
-	//construcs and destructor
+//construcs and destructor
 	Command();
 	Command(string newCommand);
 	Command(const Command& copyCommand);
@@ -43,7 +44,7 @@ public:
 
 
 //SECTION 2 - HEADER OF CommandProcessor (TARGET)
-class CommandProcessor : Subject, ILoggable
+class CommandProcessor
 {
 protected:
 	virtual void readCommand();	 //get command from console
@@ -55,22 +56,21 @@ public:
 	CommandProcessor();							//constructor
 	bool validate(string currentState);			//checks if command is valid in state
 	void saveEffectOfLatestCommand(string e);
-	string StringToLog();
 };
 
 
 
 //ADAPTEE 
-class FileLineReader
+class FileLineReader 
 {
-public:
-	static int lineCount;
-	string readLineFromFile();
-	~FileLineReader();
-	static void incrementLineCount();
-	string file;
-	FileLineReader();
-	FileLineReader(string fileName);
+	public:
+		static int lineCount;
+		string readLineFromFile();
+		~FileLineReader();
+		static void incrementLineCount();
+		string file; 
+		FileLineReader();
+		FileLineReader(string fileName);
 
 };
 
@@ -81,12 +81,12 @@ public:
 
 class FileCommandProcessorAdapter : public CommandProcessor
 {
-private:
-	FileLineReader* fr;
+	private:
+		FileLineReader *fr;
 
-public:
-	void readCommand() override;
-	FileCommandProcessorAdapter();
+	public:
+		void readCommand() override;
+		FileCommandProcessorAdapter();
 };
 
 

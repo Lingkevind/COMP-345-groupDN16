@@ -1,7 +1,7 @@
-//#include "Hand.h"
-//#include<stdexcept>
-//using namespace std;
-//
+#include "Hand.h"
+#include<stdexcept>
+using namespace std;
+
 //int main() {
 //	srand(time(NULL));
 //	testCards();

@@ -1,0 +1,14 @@
+[Map]
+author=ruks
+warn=yes
+image=USA.bmp
+wrap=no
+scroll=horizontal
+
+[Continents]
+arctica=3
+
+[Territories]
+Listanbourg,105,385,arctica,Patagonia,Quebec
+Patagonia,104,200,arctica,Listanbourg,Quebec
+Quebec,111,111,arctica,Listanbourg,Patagonia

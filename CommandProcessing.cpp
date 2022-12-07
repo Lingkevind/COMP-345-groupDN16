@@ -1,7 +1,6 @@
 #include <iostream>;
 #include <cctype>;
 #include <cstdlib>;
-
 #include <string>
 #include <sstream>
 #include <memory>
@@ -76,10 +75,13 @@ CommandProcessor::~CommandProcessor() = default;
 
 void CommandProcessor::readCommand() {
     string inputFromReadCommand = "def";
-    cout << "Please input a command." << endl;
-    cin >> inputFromReadCommand;
+  
+    cout << "Please input a command" << endl;
+    //cin.ignore(); //needed to use cin in getline() after using "cin <<" previously
+    getline(cin, inputFromReadCommand); //to include whitespace in string
+    cout << "inputFromReadCommand is: " << inputFromReadCommand << endl;
 
-    cout << "inputFromReadCommand  is: " << inputFromReadCommand << endl;
+
 
     saveCommand(inputFromReadCommand);
 };
@@ -89,7 +91,6 @@ void CommandProcessor::saveCommand(string s) {
     //assign command type from input
 
     commandCollection.emplace_back(new Command(s)); //save the command to collection
-    this->notify(this);
 };
 
 
@@ -108,7 +109,7 @@ bool CommandProcessor::validate(string currentState)
     int sizeOfVector = commandCollection.size();
     string latestCommand = commandCollection[sizeOfVector - 1]->getCommand();
 
-    if ((latestCommand == "loadmap") && (currentState == "StartState" || currentState == "MapLoadState"))
+    if ((regex_match(latestCommand, regex("(loadmap )(.*)"))) && (currentState == "StartState" || currentState == "MapLoadState"))
     {
         return true;
     }
@@ -116,7 +117,7 @@ bool CommandProcessor::validate(string currentState)
     {
         return true;
     }
-    else if (latestCommand == "addplayer" && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
+    else if (((regex_match(latestCommand, regex("(addplayer )(.*)"))) ) && (currentState == "MapValidatedState" || currentState == "PlayersAddedState"))
     {
         return true;
     }
@@ -141,17 +142,6 @@ bool CommandProcessor::validate(string currentState)
     }
     return false;
 };
-
-string CommandProcessor::StringToLog() {
-    Command* latestCommand = this->commandCollection[this->commandCollection.size() - 1];
-    return "Command : " + latestCommand->commandName
-        + "\nCommand's effect : " + latestCommand->effectName;
-}
-
-string StateController::StringToLog() {
-    return "Game engine's new state : " + this->currentStateName;
-}
-
 
 
 int FileLineReader::lineCount = 1;
@@ -203,7 +193,7 @@ string FileLineReader::readLineFromFile()
 
 FileCommandProcessorAdapter::FileCommandProcessorAdapter()
 {
-    fr = new FileLineReader("gameTest2.txt");
+    fr = new FileLineReader("gameTest3.txt");
 
 
 }

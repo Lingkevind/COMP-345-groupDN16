@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d58f7754-3dbe-4392-9409-318b0d7d1525}</ProjectGuid>
-    <RootNamespace>COMP345Assignment1</RootNamespace>
+    <ProjectGuid>{88247c10-c7e3-4662-af97-ee7d49c7105e}</ProjectGuid>
+    <RootNamespace>Part1PlayerStrategyPattern</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>COMP 345 - Assignment 2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,11 +100,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,13 +112,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,7 +127,33 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AggressivePlayerStrategy.h" />
+    <ClInclude Include="BenevolentPlayerStrategy.h" />
+    <ClInclude Include="Card.h" />
+    <ClInclude Include="CheaterPlayerStrategy.h" />
+    <ClInclude Include="CommandProcessing.h" />
+    <ClInclude Include="Continent.h" />
+    <ClInclude Include="Coord.h" />
+    <ClInclude Include="Deck.h" />
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Hand.h" />
+    <ClInclude Include="HumanPlayerStrategy.h" />
+    <ClInclude Include="LoggingObserver.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapDriver.h" />
+    <ClInclude Include="MapLoader.h" />
+    <ClInclude Include="NeutralPlayerStrategy.h" />
+    <ClInclude Include="Orders.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerStrategy.h" />
+    <ClInclude Include="PlayerStrategyDriver.h" />
+    <ClInclude Include="Territory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AggressivePlayerStrategy.cpp" />
+    <ClCompile Include="BenevolentPlayerStrategy.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="CheaterPlayerStrategy.cpp" />
     <ClCompile Include="CommandProcessing.cpp" />
     <ClCompile Include="Continent.cpp" />
     <ClCompile Include="Coord.cpp" />
@@ -138,33 +161,21 @@
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameEnginerDriver.cpp" />
     <ClCompile Include="Hand.cpp" />
+    <ClCompile Include="HumanPlayerStrategy.cpp" />
     <ClCompile Include="LoggingObserver.cpp" />
-    <ClCompile Include="LoggingObserverDriver.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapDriver.cpp" />
     <ClCompile Include="MapLoader.cpp" />
+    <ClCompile Include="NeutralPlayerStrategy.cpp" />
     <ClCompile Include="Orders.cpp" />
     <ClCompile Include="OrdersDriver.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerStrategy.cpp" />
+    <ClCompile Include="PlayerStrategyDriver.cpp" />
     <ClCompile Include="Territory.cpp" />
     <ClCompile Include="testCards.cpp" />
+    <ClCompile Include="testOrder.cpp" />
     <ClCompile Include="testPlayer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Card.h" />
-    <ClInclude Include="CommandProcessing.h" />
-    <ClInclude Include="Continent.h" />
-    <ClInclude Include="Coord.h" />
-    <ClInclude Include="Deck.h" />
-    <ClInclude Include="GameEngine.h" />
-    <ClInclude Include="Hand.h" />
-    <ClInclude Include="LoggingObserver.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapDriver.h" />
-    <ClInclude Include="MapLoader.h" />
-    <ClInclude Include="Orders.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Territory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
